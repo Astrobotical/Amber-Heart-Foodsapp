@@ -47,14 +47,14 @@
             android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/TRN"
+            android:id="@+id/STUDID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/rounded"
             android:ems="10"
-            android:hint="Enter your TRN"
+            android:hint="Enter your StudentID"
             android:inputType="textPersonName"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
@@ -62,24 +62,6 @@
             android:paddingBottom="10dp"
             android:textColor="#FBFBFB"
             android:textColorHint="#FAF6F6"
-            android:textSize="24sp" />
-
-        <EditText
-            android:id="@+id/DOB"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/rounded"
-            android:ems="10"
-            android:hint="Date of Birth"
-            android:inputType="date"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="10dp"
-            android:textColor="#FDFDFD"
-            android:textColorHint="#FFFFFF"
             android:textSize="24sp" />
 
         <EditText
@@ -127,7 +109,7 @@
             android:background="@drawable/rounded"
             android:ems="10"
             android:hint="Confirm your password"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
             android:paddingRight="10dp"
@@ -136,9 +118,9 @@
             android:textSize="24sp" />
 
         <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/Register"
+            android:layout_width="331dp"
+            android:layout_height="67dp"
             android:text="Register" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
