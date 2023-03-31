@@ -11,8 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -23,7 +21,7 @@ public class register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_activity);
         Button Onregister = findViewById(R.id.Register);
-        EditText Name = findViewById(R.id.Name);
+        EditText Name = findViewById(R.id.Username);
         EditText Email = findViewById(R.id.Email);
         EditText StudentID = findViewById(R.id.STUDID);
         EditText Password = findViewById(R.id.Password);
@@ -90,5 +88,15 @@ public class register extends AppCompatActivity {
                 }
             }
         });
+        Button returning = findViewById(R.id.returning);
+        returning.setOnClickListener((view)->{
+            Intent loginpage = new Intent(getApplicationContext(),login.class);
+            startActivity(loginpage);
+        });
+    }
+    @Override
+    protected void onStart(){
+        super.onStart();
+
     }
 }

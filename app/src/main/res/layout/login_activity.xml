@@ -16,9 +16,11 @@
         android:text="Login"
         android:textColor="#FAFAFA"
         android:textSize="39sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        />
 
     <EditText
+        android:elevation="2dp"
         android:id="@+id/Password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,7 +50,7 @@
         app:useMaterialThemeColors="false" />
 
     <Button
-        android:id="@+id/Login"
+        android:id="@+id/Login12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="90dp"
