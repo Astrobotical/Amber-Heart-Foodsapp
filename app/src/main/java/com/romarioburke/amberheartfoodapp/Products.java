@@ -87,8 +87,12 @@ public class Products extends Fragment {
         Img.add("https://hips.hearstapps.com/hmg-prod/images/delish-230119-footballspinach-artichokedipbreadsticks-kj-9356-1674525329.jpg");
         name.add("Fish");
         desc.add("Fish Cake");
+        Img.add("https://gardengrubblog.com/wp-content/uploads/2021/08/Untitled-design-2021-08-08T212255.120.jpg");
+        name.add("Patty");
+        desc.add("Patty description");
+
         Breakfast.setOnClickListener((view)->{
-            Toast.makeText(getActivity(),"This works, it is breakfast",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),"This many"+Img.size(),Toast.LENGTH_SHORT).show();
             Header.setText("Breakfast");
             griditems Grid = new griditems(this.getActivity().getApplicationContext(),name,Img,desc);
             gridView.setAdapter(Grid);
@@ -102,4 +106,5 @@ public class Products extends Fragment {
             Header.setText("Dinner");
         });
     }
+
 }

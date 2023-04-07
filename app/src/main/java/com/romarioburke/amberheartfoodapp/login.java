@@ -33,16 +33,26 @@ public class login extends AppCompatActivity {
                     Data obj = new Data(login.this);
                     PreparedStatement statement = null;
                     try {
-                        statement = obj.ConnectionString.prepareStatement("Select StudentID, Password FROM users WHERE StudentID = ? AND Password = ?");
+                        statement = obj.ConnectionString.prepareStatement("Select StudentID, Password, STATUS,Name FROM users WHERE StudentID = ? AND Password = ?");
                         statement.setString(1, StudentID.getText().toString());
                         statement.setString(2, Password.getText().toString());
                         Log.i("Queryresult", "Up to here");
                         ResultSet result = statement.executeQuery();
                         if(result.next())
                         {
-                            Log.i("Queryresult", "Logged in");
-                            Intent activity = new Intent(login.this,MainActivity.class);
-                            startActivity(activity);
+                            if (result.getString(3).equals("Student")) {
+                                Log.i("Queryresult", "Logged in");
+                                Intent activity = new Intent(login.this, MainActivity.class);
+                                String prebroken = result.getString(4);
+                                String[]total_String = prebroken.split("\\s");
+                                String Usernamebuilder = total_String[0]+" "+total_String[1].substring(0,1).toUpperCase()+".";
+                                activity.putExtra("Username",Usernamebuilder);
+                                startActivity(activity);
+                            }else{
+                                Log.i("Queryresult", "Logged in");
+                                Intent activity = new Intent(login.this, cooks_main.class);
+                                startActivity(activity);
+                            }
                         }
                     } catch (SQLException e) {
                         throw new RuntimeException(e);

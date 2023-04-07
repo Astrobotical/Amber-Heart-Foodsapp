@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <item android:id="@+id/cooks_home"
+        android:title="Home"
+        android:icon="@drawable/icon_home"/>
+    <item android:id="@+id/cooks_item_add"
+        android:title="Menu"
+        android:icon="@drawable/lunch_icon"/>
+    <item android:id="@+id/products"
+        android:title="Menu"
+        android:icon="@drawable/icon_items"/>
+    <item android:id="@+id/cooks_menu_maker"
+        android:title="Search"
+        android:icon="@drawable/icon_search"/>
+    <item android:id="@+id/adding"
+        android:title="add" />
 </menu>

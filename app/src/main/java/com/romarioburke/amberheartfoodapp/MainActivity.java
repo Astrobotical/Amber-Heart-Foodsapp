@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_home:
                         frag = new Main();
                         break;
-                    case R.id.products:
+                    case R.id.currentmenu:
                         frag = new Products();
                         break;
                 }

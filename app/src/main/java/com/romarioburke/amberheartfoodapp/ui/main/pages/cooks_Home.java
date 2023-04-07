@@ -1,22 +1,22 @@
-package com.romarioburke.amberheartfoodapp;
+
+package com.romarioburke.amberheartfoodapp.ui.main.pages;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
+
+import com.romarioburke.amberheartfoodapp.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Main#newInstance} factory method to
+ * Use the {@link cooks_Home#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Main extends Fragment {
+public class cooks_Home extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,7 +27,7 @@ public class Main extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Main() {
+    public cooks_Home() {
         // Required empty public constructor
     }
 
@@ -37,11 +37,11 @@ public class Main extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Main.
+     * @return A new instance of fragment cooks_Home.
      */
     // TODO: Rename and change types and number of parameters
-    public static Main newInstance(String param1, String param2) {
-        Main fragment = new Main();
+    public static cooks_Home newInstance(String param1, String param2) {
+        cooks_Home fragment = new cooks_Home();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -62,26 +62,6 @@ public class Main extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false);
-    }
-    @Override
-    public void onStart(){
-        super.onStart();
-        Bundle bundler = getActivity().getIntent().getExtras();
-        TextView Username = getActivity().findViewById(R.id.Username);
-        Username.setText("Hi "+bundler.getString("Username"));
-        EditText Feedback = getActivity().findViewById(R.id.Feedbackinfo);
-        Feedback.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                view.getParent().requestDisallowInterceptTouchEvent(true);
-                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK){
-                    case MotionEvent.ACTION_UP:
-                        view.getParent().requestDisallowInterceptTouchEvent(false);
-                        break;
-                }
-                return false;
-            }
-        });
+        return inflater.inflate(R.layout.fragment_cooks__home, container, false);
     }
 }

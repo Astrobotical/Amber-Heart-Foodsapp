@@ -3,18 +3,138 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Main">
 
-    <RelativeLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:elevation="5dp"
+        app:cardCornerRadius="5dp">
 
-        <TextView
-            android:id="@+id/Username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15sp"
-            android:layout_marginTop="20sp"
-            android:text="TextView" />
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15sp"
+                android:layout_marginTop="60sp"
+                android:text="Welcome- {Username}" />
+
+            <TextView
+                android:id="@+id/Header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="75dp"
+                android:text="Welcome Back!"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="125dp"
+                android:text="Most Popular Menu item"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="330dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/fullyrounded"
+                android:src="@drawable/rounded" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="370dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="150dp"
+                android:layout_marginRight="15dp"
+                app:cardBackgroundColor="#0BDD9C"
+                app:cardCornerRadius="25dp" >
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="151dp"
+                    android:layout_height="133dp"
+                    android:layout_marginStart="200dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@android:drawable/ic_menu_add" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="149dp"
+                    android:layout_height="81dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="60dp"
+                    android:text="Food Name"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="46dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="130sp" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="370dp"
+                android:layout_height="220dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="360dp"
+                android:layout_marginRight="15dp"
+                app:cardBackgroundColor="#08B0FA"
+                app:cardCornerRadius="25dp">
+
+                <TextView
+                    android:id="@+id/Support"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text="Send us your Feedback!"
+                    android:textSize="30sp" />
+
+                <EditText
+                    android:id="@+id/Feedbackinfo"
+                    android:layout_width="340dp"
+                    android:layout_height="125dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    android:lines="5"
+                    android:minLines="5"
+                    android:padding="10dp"
+                    android:scrollbars="vertical" />
+
+                <Button
+                    android:id="@+id/Form_submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="170dp"
+                    android:layout_marginTop="162dp"
+                    android:background="@drawable/fullyrounded"
+                    android:backgroundTint="#08B0FA"
+                    android:text="Submit response" />
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
 </FrameLayout>
