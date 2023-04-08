@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,19 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.StringBufferInputStream;
 import java.util.ArrayList;
@@ -81,6 +95,9 @@ public class Products extends Fragment {
         ArrayList<String> Img = new ArrayList<>();
         ArrayList<String> name = new ArrayList<>();
         ArrayList<String> desc = new ArrayList<>();
+        ArrayList<String> category = new ArrayList<>();
+        String RequestURL = "https://api.romarioburke.com/api/v1/catalogs";
+        /*
         Img.add("https://a.cdn-hotels.com/gdcs/production0/d1513/35c1c89e-408c-4449-9abe-f109068f40c0.jpg");
         name.add("Burger");
         desc.add("Burger King is an American-based multinational chain of hamburger fast food restaurants. Headquartered in Miami-Dade County, Florida, the company was founded in 1953 as Insta-Burger King ");
@@ -90,11 +107,46 @@ public class Products extends Fragment {
         Img.add("https://gardengrubblog.com/wp-content/uploads/2021/08/Untitled-design-2021-08-08T212255.120.jpg");
         name.add("Patty");
         desc.add("Patty description");
-
+         */
         Breakfast.setOnClickListener((view)->{
-            Toast.makeText(getActivity(),"This many"+Img.size(),Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getActivity(),"This many 123" ,Toast.LENGTH_SHORT).show();
             Header.setText("Breakfast");
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(),name,Img,desc);
+            RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, RequestURL,null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    try {
+                        Toast.makeText(getActivity().getApplicationContext(), "Response :" +response.toString(), Toast.LENGTH_LONG).show();
+                        //JSONArray Array = Productdata.getJSONArray("data");
+                        for (int i = 0; i < response.length(); i++) {
+
+                            JSONObject Productdata = response.getJSONObject(i);
+                         //   String names = Productdata.getString("Item_name");
+                            //Toast.makeText(getActivity().getApplicationContext(),name,Toast.LENGTH_SHORT).show();
+                            // Log.i("Butler", Array.getString("name"));
+                            Toast.makeText(getActivity().getApplicationContext(), Productdata.getString("Item_name"), Toast.LENGTH_SHORT).show();
+                            Img.add(Productdata.getString("Item_image"));
+                            name.add(Productdata.getString("Item_name"));
+                            desc.add(Productdata.getString("Item_description"));
+                            category.add(Productdata.getString("Item_category"));
+                        }
+
+                        // }
+                    } catch (JSONException EX) {
+                        Toast.makeText(getActivity(), "ERROR", Toast.LENGTH_SHORT).show();
+                        Log.i("CustomError", EX.toString());
+                    }
+                }
+            },
+
+                    new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.i("CustomError", error.toString());
+                }
+            });
+            queue.add(request);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(),name,Img,desc,category);
             gridView.setAdapter(Grid);
         });
         Lunch.setOnClickListener((view)->{
