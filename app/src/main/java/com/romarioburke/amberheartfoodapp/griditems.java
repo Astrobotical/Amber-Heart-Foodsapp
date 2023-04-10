@@ -1,60 +1,46 @@
 package com.romarioburke.amberheartfoodapp;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class griditems extends BaseAdapter {
     Context context;
     int counter;
-    //RequestQueue Queue = Volley.newRequestQueue(context.getApplicationContext());
-    String RequestURL = "localhost:8000/api/v1/catalogs";
-    public griditems(Context context, ArrayList<String> name, ArrayList<String> img, ArrayList<String> Desc, ArrayList<String> Cat) {
+    public griditems(Context context, ArrayList<String> FoodName, ArrayList<String> FoodImage, ArrayList<String> Description, ArrayList<String> Category,ArrayList<String>FoodUID) {
 
         this.context = context;
-        this.name = name;
-        this.desc = Desc;
-        this.Img = img;
-        this.Category = Cat;
-        //
+        this.FoodName = FoodName;
+        this.FoodDescription = Description;
+        this.FoodImage = FoodImage;
+        this.FoodCategory = Category;
+        this.FoodUID = FoodUID;
     }
-    ArrayList<String> Img = new ArrayList<>();
-    ArrayList<String> name = new ArrayList<>();
-    ArrayList<String> desc = new ArrayList<>();
-    ArrayList<String> Category = new ArrayList<>();
+    ArrayList<String> FoodImage = new ArrayList<>();
+    ArrayList<String> FoodName = new ArrayList<>();
+    ArrayList<String> FoodDescription = new ArrayList<>();
+    ArrayList<String> FoodCategory = new ArrayList<>();
+    ArrayList<String>FoodUID = new ArrayList<>();
 
     @Override
     public int getCount() {
-        return name.size();
+        return FoodName.size();
     }
 
     @Override
@@ -72,19 +58,43 @@ public class griditems extends BaseAdapter {
         views = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_griditems,viewGroup,false);
         ImageView img = views.findViewById(R.id.imageView);
         TextView itemname = views.findViewById(R.id.Itemname);
-        TextView item_description =  views.findViewById(R.id.Item_Description);
+      //  TextView item_description =  views.findViewById(R.id.Item_Description);
         CardView cards = views.findViewById(R.id.card);
         TextView CategoryElement = views.findViewById(R.id.category);
+        Button btnclicked = views.findViewById(R.id.add);
+        btnclicked.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder prompt = new AlertDialog.Builder(view.getContext());
+                prompt.setTitle(FoodName.get(i));
+                prompt.setView(R.layout.item_selector_order);
+
+                AlertDialog  alertDialog = prompt.create();
+
+                alertDialog.show();
+                ImageButton Exitbutton = (ImageButton) alertDialog.findViewById(R.id.Exitbutton);
+                Exitbutton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(views.getContext(), "I worked? 123", Toast.LENGTH_SHORT).show();
+                        alertDialog.onBackPressed();
+                    }
+                });
+
+                alertDialog.getWindow().setLayout(1300, 2300);
+
+                //alertDialog.setContentView(R.layout.item_selector_order);
 
 
-        Glide.with(views.getContext()).load(Img.get(i)).centerCrop().placeholder(R.drawable.loadingplaceholder).into(img);
+                Toast.makeText(context.getApplicationContext(), FoodName.get(i)+"- was clicked",Toast.LENGTH_SHORT).show();
+            }
+        });
+        Glide.with(views.getContext()).load(FoodImage.get(i)).apply(RequestOptions.circleCropTransform()).placeholder(R.drawable.loadingplaceholder).into(img);
         cards.setCardBackgroundColor(45322);
-        itemname.setText(name.get(i));
-        item_description.setText(desc.get(i));
-        CategoryElement.setText(Category.get(i));
-        //img.setImageBitmap(getBitmapFromURL(Img.get(i)));
+        itemname.setText(FoodName.get(i));
+       // item_description.setText(FoodDescription.get(i));
+        CategoryElement.setText(FoodCategory.get(i));
         counter++;
         return views;
     }
-
 }

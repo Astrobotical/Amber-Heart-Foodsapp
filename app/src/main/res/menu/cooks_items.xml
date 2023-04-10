@@ -6,12 +6,11 @@
     <item android:id="@+id/cooks_item_add"
         android:title="Menu"
         android:icon="@drawable/lunch_icon"/>
-    <item android:id="@+id/products"
+    <item
         android:title="Menu"
         android:icon="@drawable/icon_items"/>
-    <item android:id="@+id/cooks_menu_maker"
+    <item
         android:title="Search"
         android:icon="@drawable/icon_search"/>
-    <item android:id="@+id/adding"
-        android:title="add" />
+    <item android:title="add" />
 </menu>

@@ -8,7 +8,6 @@
     tools:context=".login">
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="65dp"
@@ -39,7 +38,6 @@
         android:textSize="24sp" />
 
     <CheckBox
-        android:id="@+id/Rememberme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="65sp"
