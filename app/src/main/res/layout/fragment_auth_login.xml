@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".auth_login">
+
+    <TextView
+        android:id="@+id/head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="10dp"
+        android:text="Login"
+        android:textColor="#252424"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/PasswordL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="65sp"
+        android:layout_marginTop="220dp"
+        android:background="@drawable/rounded"
+        android:elevation="2dp"
+        android:ems="10"
+        android:hint="Enter your password"
+        android:inputType="textPassword"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="#FFFEFE"
+        android:textColorHint="#FBFBFB"
+        android:textSize="24sp" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="65sp"
+        android:layout_marginTop="290dp"
+        android:text="Remember me"
+        android:textColor="#000000"
+        android:textSize="19sp" />
+
+    <Button
+        android:id="@+id/Loginbtn"
+        android:layout_width="281dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="350dp"
+        android:background="@drawable/loginreg"
+        android:backgroundTint="#0AAFF8"
+        android:paddingLeft="80dp"
+        android:paddingTop="12dp"
+        android:paddingRight="80dp"
+        android:paddingBottom="12dp"
+        android:text="Login"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/SID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="65dp"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/rounded"
+        android:backgroundTint="#6A87FF"
+        android:ems="10"
+        android:hint="Enter your SID"
+        android:inputType="textPersonName"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="#FFFDFD"
+        android:textColorHint="#FAFAFA"
+        android:textSize="24sp" />
+
+</RelativeLayout>

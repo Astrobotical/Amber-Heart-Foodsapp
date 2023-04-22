@@ -24,7 +24,7 @@ public class register extends AppCompatActivity {
         EditText Name = findViewById(R.id.Username);
         EditText Email = findViewById(R.id.Email);
         EditText StudentID = findViewById(R.id.STUDID);
-        EditText Password = findViewById(R.id.Password);
+        EditText Password = findViewById(R.id.PasswordL);
         EditText Confirmed_Password = findViewById(R.id.ConfirmPassword);
         Onregister.setOnClickListener(new View.OnClickListener() {
             @Override

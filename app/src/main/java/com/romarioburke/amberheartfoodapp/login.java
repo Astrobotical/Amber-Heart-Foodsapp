@@ -15,14 +15,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class login extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
-        EditText Password = findViewById(R.id.Password);
+        EditText Password = findViewById(R.id.PasswordL);
         EditText StudentID = findViewById(R.id.SID);
-        Button Login = findViewById(R.id.Login12);
+        Button Login = findViewById(R.id.Loginbtn);
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,10 +56,8 @@ public class login extends AppCompatActivity {
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
-
                 }
             }
         });
-
     }
 }

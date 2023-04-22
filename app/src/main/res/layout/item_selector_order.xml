@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ItemSelector_order">
+    tools:context=".ItemSelector_order"
+    app:circularflow_radiusInDP="25"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,10 +15,102 @@
 
         <ImageButton
             android:id="@+id/Exitbutton"
+            android:layout_width="87dp"
+            android:layout_height="84dp"
+            android:layout_marginStart="295dp"
+            android:background="@drawable/round_corners"
+            android:src="@drawable/exit_foreground" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/modalimage"
+            android:layout_width="154dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="90sp"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+        <TextView
+            android:id="@+id/modalname"
+            android:layout_width="224dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="150dp"
+            android:layout_marginTop="100sp"
+            android:textAlignment="viewStart"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RatingBar
+            android:id="@+id/modalrating"
+            style="@style/Widget.AppCompat.RatingBar.Indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="290dp"
-            android:src="@drawable/exit_foreground" />
+            android:layout_marginStart="150dp"
+            android:layout_marginTop="135dp"
+            android:numStars="5" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="230dp"
+            android:text="1. Choose lunch size"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/modalnormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="270dp"
+            android:text="Normal" />
+
+        <Button
+            android:id="@+id/modalLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="115dp"
+            android:layout_marginTop="270dp"
+            android:text="Large only" />
+
+        <Button
+            android:id="@+id/modalcombo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="250dp"
+            android:layout_marginTop="270dp"
+            android:text="Large Combo" />
+
+        <TextView
+            android:id="@+id/ModalLabelOP1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="360dp"
+            android:text="2. Choose a drink"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/ModalOPDropdown"
+            android:layout_width="230dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="162dp"
+            android:layout_marginTop="348dp" />
+
+        <Button
+            android:id="@+id/additembtn"
+            android:layout_width="382dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="430dp"
+            android:text="Choose {Category item }->Item"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 </FrameLayout>
