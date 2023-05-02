@@ -1,16 +1,14 @@
-package com.romarioburke.amberheartfoodapp;
+package com.romarioburke.amberheartfoodapp.Authenticator;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
+import com.romarioburke.amberheartfoodapp.Adapters.NavViewAuther;
+import com.romarioburke.amberheartfoodapp.R;
 
 public class Auth extends AppCompatActivity {
 

@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.romarioburke.amberheartfoodapp.Adapters.griditems;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -145,8 +145,8 @@ public class Products extends Fragment {
                     });
                     queue.add(request);
                 }
-            }).start();
 
+            }).start();
         }
         catch(Exception ex){
 

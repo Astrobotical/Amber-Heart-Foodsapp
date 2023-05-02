@@ -10,12 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import com.romarioburke.amberheartfoodapp.Database.Data;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class register extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

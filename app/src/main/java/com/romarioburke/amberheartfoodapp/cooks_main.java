@@ -12,6 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.romarioburke.amberheartfoodapp.ui.main.CooksMainFragment;
 import com.romarioburke.amberheartfoodapp.ui.main.pages.cooks_Home;
 import com.romarioburke.amberheartfoodapp.ui.main.pages.cooks_Menu;
+import com.romarioburke.amberheartfoodapp.ui.main.pages.cooks_current_menu;
 
 public class cooks_main extends AppCompatActivity {
 
@@ -37,6 +38,9 @@ public class cooks_main extends AppCompatActivity {
                         frag = new cooks_Home();
                         break;
                     case R.id.cooks_item_add:
+                        frag = new cooks_current_menu();
+                        break;
+                    case R.id.resources:
                         frag = new cooks_Menu();
                         break;
                 }

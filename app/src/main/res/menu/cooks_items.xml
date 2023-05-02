@@ -7,7 +7,8 @@
         android:title="Menu"
         android:icon="@drawable/lunch_icon"/>
     <item
-        android:title="Menu"
+        android:id="@+id/resources"
+        android:title="Categories"
         android:icon="@drawable/icon_items"/>
     <item
         android:title="Search"

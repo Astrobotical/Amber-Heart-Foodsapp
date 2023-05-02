@@ -1,11 +1,14 @@
-package com.romarioburke.amberheartfoodapp;
+package com.romarioburke.amberheartfoodapp.Database;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
+
+import com.romarioburke.amberheartfoodapp.BuildConfig;
+
 import java.sql.*;
-class Data {
+public class Data {
  Context Contextural;
  public Connection ConnectionString = null;
 

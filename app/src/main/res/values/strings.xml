@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">AmberHeartFoodApp</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="idk">idk</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="authid">9515544885-cr4btusln68k4mvutpg5914plgj22pkk.apps.googleusercontent.com</string>
 </resources>

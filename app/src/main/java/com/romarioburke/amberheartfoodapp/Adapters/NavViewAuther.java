@@ -1,10 +1,13 @@
-package com.romarioburke.amberheartfoodapp;
+package com.romarioburke.amberheartfoodapp.Adapters;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.romarioburke.amberheartfoodapp.Authenticator.auth_login;
+import com.romarioburke.amberheartfoodapp.Authenticator.auth_register;
 
 public class NavViewAuther extends FragmentStateAdapter {
     public NavViewAuther(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {

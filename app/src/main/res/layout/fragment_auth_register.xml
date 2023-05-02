@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".auth_register">
+    tools:context=".Authenticator.auth_register">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#0A71C9"
+        android:background="#FFFFFF"
         android:foregroundTint="#F6F5F5"
         android:orientation="vertical"
         android:paddingLeft="40sp"
@@ -24,7 +24,7 @@
             android:layout_marginBottom="15sp"
             android:foregroundTint="#F8F8F8"
             android:text="Signup"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:textSize="30sp" />
 
         <EditText
@@ -95,7 +95,6 @@
             android:paddingTop="10dp"
             android:paddingRight="10dp"
             android:paddingBottom="10dp"
-            android:textColor="#FAF7F7"
             android:textColorHint="#FAF8F8"
             android:textSize="24sp" />
 
@@ -107,7 +106,7 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/rounded"
             android:ems="10"
-            android:hint="Confirm your password"
+            android:hint="Confirm  password"
             android:inputType="textPassword"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
@@ -118,10 +117,19 @@
 
         <Button
             android:id="@+id/Register"
-            android:layout_width="331dp"
-            android:layout_height="67dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/round_corners"
             android:text="Register" />
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="280dp"
+        android:max="3"
+        android:progress="100" />
 </RelativeLayout>

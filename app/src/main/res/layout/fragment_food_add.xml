@@ -121,15 +121,20 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
-                android:layout_marginTop="400dp"
-                android:text="Food value options:"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/food_description" />
+                android:layout_marginTop="410dp"
+                android:text="Student Target"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/Options_StudentTarget"
+                android:layout_width="209dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="165dp"
+                android:layout_marginTop="410dp" />
 
             <Spinner
                 android:id="@+id/Category_list"
@@ -140,34 +145,12 @@
                 app:layout_constraintStart_toEndOf="@+id/Category"
                 tools:layout_editor_absoluteY="320dp" />
 
-            <CheckBox
-                android:id="@+id/Premiumcheckbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="190dp"
-                android:layout_marginTop="390dp"
-                android:checked="false"
-                android:text="Premium"
-                app:layout_constraintStart_toEndOf="@+id/textView7"
-                app:layout_constraintTop_toBottomOf="@+id/food_description" />
-
-            <CheckBox
-                android:id="@+id/Ultracheckbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="290dp"
-                android:layout_marginTop="390dp"
-                android:layout_marginEnd="17dp"
-                android:text="Ultra"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/food_description" />
-
             <Button
                 android:id="@+id/addbtn"
                 android:layout_width="159dp"
                 android:layout_height="64dp"
                 android:layout_marginStart="210dp"
-                android:layout_marginTop="480dp"
+                android:layout_marginTop="550dp"
                 android:layout_marginEnd="32dp"
                 android:background="@drawable/rounded"
                 android:text="Add Food item"

@@ -25,7 +25,7 @@
         android:theme="@style/Theme.AmberHeartFoodApp"
         tools:targetApi="31">
         <activity
-            android:name=".Auth"
+            android:name=".Authenticator.Auth"
             android:exported="true" />
 
         <provider
@@ -45,7 +45,7 @@
             android:name=".cooks_main"
             android:exported="true" />
         <activity
-            android:name=".griditems"
+            android:name=".Adapters.griditems"
             android:exported="false" />
         <activity
             android:name=".splashscreen"

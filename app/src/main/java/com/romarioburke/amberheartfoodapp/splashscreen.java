@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.romarioburke.amberheartfoodapp.Authenticator.Auth;
+
 public class splashscreen extends AppCompatActivity {
 
     @Override
@@ -16,7 +18,7 @@ public class splashscreen extends AppCompatActivity {
             public void run() {
                 try {
                     Thread.sleep(5000);
-                    Intent loginscreen = new Intent(getApplicationContext(),Auth.class);
+                    Intent loginscreen = new Intent(getApplicationContext(), Auth.class);
                     startActivity(loginscreen);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
