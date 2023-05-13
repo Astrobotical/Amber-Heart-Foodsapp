@@ -12,8 +12,6 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="android:textViewStyle">@color/black</item>
-        <item name="android:editTextStyle">@font/wigglye</item>
-        <item name="android:fontFamily">@font/wigglye</item>
+        <item name="android:fontFamily">@font/dxb</item>
     </style>
 </resources>

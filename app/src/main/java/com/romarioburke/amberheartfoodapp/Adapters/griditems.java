@@ -16,8 +16,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -41,6 +43,7 @@ import com.romarioburke.amberheartfoodapp.R;
 import com.romarioburke.amberheartfoodapp.SavedData;
 
 import org.json.JSONArray;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -111,13 +114,9 @@ public class griditems extends BaseAdapter {
 
                             ImageButton Exitbutton = alertDialog.findViewById(R.id.Exitbutton);
                             TextView Modalproductname = alertDialog.findViewById(R.id.modalname);
+                            TextView ModalDiscription = alertDialog.findViewById(R.id.modaldescription);
                             RatingBar ratingBar = alertDialog.findViewById(R.id.modalrating);
                             ImageView Modalproductimage = alertDialog.findViewById(R.id.modalimage);
-                            Button NormalLunch = alertDialog.findViewById(R.id.modalnormal);
-                            Button LargeOnlyLunch = alertDialog.findViewById(R.id.modalLarge);
-                            Button LargeComboLunch = alertDialog.findViewById(R.id.modalcombo);
-                            TextView Label2 = alertDialog.findViewById(R.id.ModalLabelOP1);
-                            Spinner Dropdowndrinks = alertDialog.findViewById(R.id.ModalOPDropdown);
                             Button ModalBtnAdd = alertDialog.findViewById(R.id.additembtn);
                             ModalBtnAdd.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -129,27 +128,9 @@ public class griditems extends BaseAdapter {
                                     alertDialog.onBackPressed();
                                 }
                             });
-                            NormalLunch.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                }
-                            });
-                            LargeOnlyLunch.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Label2.setVisibility(View.GONE);
-                                    Dropdowndrinks.setVisibility(View.GONE);
-                                }
-                            });
-                            LargeComboLunch.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Label2.setVisibility(View.VISIBLE);
-                                    Dropdowndrinks.setVisibility(View.VISIBLE);
-                                }
-                            });
                             ModalBtnAdd.setText("Choose " + FoodCategory.get(i) + " item");
                             Modalproductname.setText(FoodName.get(i));
+                            ModalDiscription.setText(FoodDescription.get(i));
                             String Imagealtered = "https://api.romarioburke.com/"+FoodImage.get(i);
 
                             Glide.with(views.getContext()).load(Imagealtered).apply(RequestOptions.circleCropTransform()).placeholder(R.drawable.loadingplaceholder).into(Modalproductimage);
@@ -161,9 +142,12 @@ public class griditems extends BaseAdapter {
                                 }
                             });
                             alertDialog.getWindow().setBackgroundDrawable(getDrawableWithRadius());
-                            alertDialog.getWindow().setLayout(1400, 2300);
+                            alertDialog.getWindow().setLayout(1400, 1900);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            }
 
-                         //   Toast.makeText(context.getApplicationContext(), FoodName.get(i) + "- was clicked", Toast.LENGTH_SHORT).show();
+                            //   Toast.makeText(context.getApplicationContext(), FoodName.get(i) + "- was clicked", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

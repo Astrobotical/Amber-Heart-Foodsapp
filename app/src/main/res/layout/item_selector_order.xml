@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ItemSelector_order"
+    android:background="@drawable/dialog"
     app:circularflow_radiusInDP="25"
     >
 
@@ -37,9 +38,27 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="150dp"
             android:layout_marginTop="100sp"
+            android:fontFamily="@font/dxssemi"
             android:textAlignment="viewStart"
-            android:textSize="18sp"
+            android:textColor="#000000"
+            android:textSize="20sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/modaldescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30sp"
+            android:layout_marginTop="205sp"
+            android:fontFamily="@font/dxssemi"
+            android:textColor="#191919"
+            android:textSize="14sp" />
 
         <RatingBar
             android:id="@+id/modalrating"
@@ -47,59 +66,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="150dp"
-            android:layout_marginTop="135dp"
+            android:layout_marginTop="145dp"
             android:numStars="5" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="230dp"
-            android:text="1. Choose lunch size"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="343dp"
+            android:text="Available sides"
+            android:textColor="#020202"
             android:textSize="18sp"
             android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/modalnormal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="270dp"
-            android:text="Normal" />
-
-        <Button
-            android:id="@+id/modalLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="115dp"
-            android:layout_marginTop="270dp"
-            android:text="Large only" />
-
-        <Button
-            android:id="@+id/modalcombo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="250dp"
-            android:layout_marginTop="270dp"
-            android:text="Large Combo" />
-
-        <TextView
-            android:id="@+id/ModalLabelOP1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="360dp"
-            android:text="2. Choose a drink"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/ModalOPDropdown"
-            android:layout_width="230dp"
-            android:layout_height="41dp"
-            android:layout_marginStart="162dp"
-            android:layout_marginTop="348dp" />
 
         <Button
             android:id="@+id/additembtn"
@@ -111,6 +90,14 @@
             android:textAlignment="center"
             android:textSize="15sp"
             android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="171dp"
+            android:layout_height="37dp"
+            android:layout_marginStart="182dp"
+            android:layout_marginTop="338dp" />
+
     </RelativeLayout>
 
 </FrameLayout>
