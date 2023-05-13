@@ -4,21 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Products">
+    tools:context=".studentviews.Products">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/MainOuterContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp"
             android:elevation="5dp"
-            app:cardCornerRadius="5dp">
+            app:cardCornerRadius="5dp"
+            tools:layout_editor_absoluteX="5dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -26,6 +24,7 @@
                 android:background="@drawable/round_corners">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/HeaderContainer"
                     android:layout_width="match_parent"
                     android:layout_height="223dp"
                     app:cardBackgroundColor="#0AFEEF">

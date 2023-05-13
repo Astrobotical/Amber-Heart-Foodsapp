@@ -41,7 +41,7 @@
         </provider>
 
         <activity
-            android:name=".Products"
+            android:name=".studentviews.Products"
             android:exported="true" />
         <activity
             android:name=".cooks_main"

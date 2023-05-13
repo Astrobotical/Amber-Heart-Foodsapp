@@ -24,12 +24,13 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/modalimage"
-            android:layout_width="154dp"
-            android:layout_height="100dp"
+            android:layout_width="148dp"
+            android:layout_height="107dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="90sp"
             app:civ_border_color="#FF000000"
             app:civ_border_width="2dp"
+            tools:src="@drawable/loadingplaceholder"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <TextView
@@ -38,17 +39,21 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="150dp"
             android:layout_marginTop="100sp"
-            android:fontFamily="@font/dxssemi"
+            android:fontFamily="@font/dxb"
             android:textAlignment="viewStart"
             android:textColor="#000000"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="Food Name" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/modaltarget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_marginStart="30sp"
+            android:layout_marginTop="280sp"
+            android:textSize="18sp"
+            tools:text="Student Target" />
 
         <TextView
             android:id="@+id/modaldescription"
@@ -58,7 +63,8 @@
             android:layout_marginTop="205sp"
             android:fontFamily="@font/dxssemi"
             android:textColor="#191919"
-            android:textSize="14sp" />
+            android:textSize="18sp"
+            tools:text="Food Description" />
 
         <RatingBar
             android:id="@+id/modalrating"
@@ -66,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="150dp"
-            android:layout_marginTop="145dp"
+            android:layout_marginTop="160dp"
             android:numStars="5" />
 
         <TextView
@@ -82,9 +88,10 @@
 
         <Button
             android:id="@+id/additembtn"
-            android:layout_width="382dp"
+            style="@style/Widget.Material3.Button.IconButton.Filled"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="430dp"
             android:text="Choose {Category item }->Item"
             android:textAlignment="center"

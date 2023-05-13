@@ -1,10 +1,12 @@
-package com.romarioburke.amberheartfoodapp;
+package com.romarioburke.amberheartfoodapp.studentviews;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -24,6 +26,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.romarioburke.amberheartfoodapp.Adapters.griditems;
+import com.romarioburke.amberheartfoodapp.R;
+import com.romarioburke.amberheartfoodapp.SavedData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,27 +52,33 @@ public class Products extends Fragment {
     ArrayList<String> Defaultdesc = new ArrayList<>();
     ArrayList<String> Defaultcategory = new ArrayList<>();
     ArrayList<String> DefaultFoodUID = new ArrayList<>();
+    ArrayList<String> DefaultTarget = new ArrayList<>();
+
 
     ArrayList<String> BImg = new ArrayList<>();
     ArrayList<String> Bname = new ArrayList<>();
     ArrayList<String> Bdesc = new ArrayList<>();
     ArrayList<String> Bcategory = new ArrayList<>();
     ArrayList<String> BFoodUID = new ArrayList<>();
+    ArrayList<String> BTarget = new ArrayList<>();
 
     ArrayList<String> LImg = new ArrayList<>();
     ArrayList<String> Lname = new ArrayList<>();
     ArrayList<String> Ldesc = new ArrayList<>();
     ArrayList<String> Lcategory = new ArrayList<>();
     ArrayList<String> LFoodUID = new ArrayList<>();
-
+    ArrayList<String> LTarget = new ArrayList<>();
     ArrayList<String> DImg = new ArrayList<>();
     ArrayList<String> Dname = new ArrayList<>();
     ArrayList<String> Ddesc = new ArrayList<>();
     ArrayList<String> Dcategory = new ArrayList<>();
     ArrayList<String> DFoodUID = new ArrayList<>();
+    ArrayList<String> DTarget = new ArrayList<>();
     Bundle bundler;
     HashMap<String, String> Selecteditems = new HashMap<String, String>();
     SavedData Datathatwassaved;
+    CardView OuterContainer,HeadingContainer;
+    Button PreviouslyClicked;
 
     public Products() {
         // Required empty public constructor
@@ -111,24 +121,28 @@ public class Products extends Fragment {
                                     Defaultdesc.add(Productdata.getString("ItemDescription"));
                                     Defaultcategory.add(Productdata.getString("ItemCategory"));
                                     DefaultFoodUID.add(Productdata.getString("ItemID"));
+                                    DefaultTarget.add(Productdata.getString("ItemTarget"));
                                     if (Productdata.getString("ItemCategory").equals("Breakfast")) {
                                         BImg.add(Productdata.getString("ItemImage"));
                                         Bname.add(Productdata.getString("ItemName"));
                                         Bdesc.add(Productdata.getString("ItemDescription"));
                                         Bcategory.add(Productdata.getString("ItemCategory"));
                                         BFoodUID.add(Productdata.getString("ItemID"));
+                                        BTarget.add(Productdata.getString("ItemTarget"));
                                     } else if (Productdata.getString("ItemCategory").equals("Lunch")) {
                                         LImg.add(Productdata.getString("ItemImage"));
                                         Lname.add(Productdata.getString("ItemName"));
                                         Ldesc.add(Productdata.getString("ItemDescription"));
                                         Lcategory.add(Productdata.getString("ItemCategory"));
                                         LFoodUID.add(Productdata.getString("ItemID"));
+                                        LTarget.add(Productdata.getString("ItemTarget"));
                                     } else if (Productdata.getString("ItemCategory").equals("Dinner")) {
                                         DImg.add(Productdata.getString("ItemImage"));
                                         Dname.add(Productdata.getString("ItemName"));
                                         Ddesc.add(Productdata.getString("ItemDescription"));
                                         Dcategory.add(Productdata.getString("ItemCategory"));
                                         DFoodUID.add(Productdata.getString("ItemID"));
+                                        DTarget.add(Productdata.getString("ItemTarget"));
                                     }
                                 }
                                 pulldata("All");
@@ -157,12 +171,7 @@ public class Products extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            String Test = getArguments().getString("Test");
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-            Toast.makeText(getContext(), "It got it see -> " + Test, Toast.LENGTH_SHORT);
-        }
+
         //ViewModel Logic
 
 
@@ -181,16 +190,16 @@ public class Products extends Fragment {
     void pulldata(String RequestType) {
         GridView gridView = this.getActivity().findViewById(R.id.grids);
         if (RequestType.equals("All")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Defaultname, DefaultImg, Defaultdesc, Defaultcategory, DefaultFoodUID, bundler, Selecteditems, this);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Defaultname, DefaultImg, Defaultdesc, Defaultcategory, DefaultFoodUID, bundler, Selecteditems,DefaultTarget, this);
             gridView.setAdapter(Grid);
         } else if (RequestType.equals("Breakfast")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Bname, BImg, Bdesc, Bcategory, BFoodUID, bundler, Selecteditems, this);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Bname, BImg, Bdesc, Bcategory, BFoodUID, bundler, Selecteditems,BTarget, this);
             gridView.setAdapter(Grid);
         } else if (RequestType.equals("Lunch")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Lname, LImg, Ldesc, Lcategory, LFoodUID, bundler, Selecteditems, this);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Lname, LImg, Ldesc, Lcategory, LFoodUID, bundler, Selecteditems,LTarget, this);
             gridView.setAdapter(Grid);
         } else if (RequestType.equals("Dinner")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Dname, DImg, Ddesc, Dcategory, DFoodUID, bundler, Selecteditems, this);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Dname, DImg, Ddesc, Dcategory, DFoodUID, bundler, Selecteditems,DTarget, this);
             gridView.setAdapter(Grid);
         }
     }
@@ -198,31 +207,87 @@ public class Products extends Fragment {
     @SuppressLint("ResourceAsColor")
     @Override
     public void onStart() {
+        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (nightModeFlags) {
+            case Configuration.UI_MODE_NIGHT_YES-> Day();
+
+            case Configuration.UI_MODE_NIGHT_NO -> Night();
+
+            case Configuration.UI_MODE_NIGHT_UNDEFINED-> Day();
+        }
         super.onStart();
         Button Breakfast = this.getActivity().findViewById(R.id.Breakfast);
         Button Lunch = this.getActivity().findViewById(R.id.lunch);
         Button Dinner = this.getActivity().findViewById(R.id.dinner);
         GridView gridView = this.getActivity().findViewById(R.id.grids);
         Button All = this.getActivity().findViewById(R.id.all);
+        OuterContainer = this.getActivity().findViewById(R.id.MainOuterContainer);
+        HeadingContainer = this.getActivity().findViewById(R.id.HeaderContainer);
         TextView featured = this.getActivity().findViewById(R.id.ViewModelELEMENET);
+        if(PreviouslyClicked == null) {
+            All.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menubtn)));
+            PreviouslyClicked = All;
+        }
+        else{
+            All.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple_500)));
+        }
         Datathatwassaved = new ViewModelProvider(this).get(SavedData.class);
         Datathatwassaved.TotalItems().observe(this, item -> {
             featured.setText(Integer.toString(item));
         });
         All.setOnClickListener((view) -> {
             pulldata("All");
+            ActiveButton(All);
+
         });
         Breakfast.setOnClickListener((view) -> {
             pulldata("Breakfast");
+            ActiveButton(Breakfast);
         });
         Lunch.setOnClickListener((view) -> {
             Toast.makeText(getActivity(), "This works, it is lunch", Toast.LENGTH_SHORT).show();
             pulldata("Lunch");
+            ActiveButton(Lunch);
         });
         Dinner.setOnClickListener((view) -> {
             Toast.makeText(getActivity(), "This works, it is Dinner", Toast.LENGTH_SHORT).show();
             pulldata("Dinner");
-            Dinner.setBackgroundTintList(ColorStateList.valueOf(R.color.menubtn));
+            ActiveButton(Dinner);
+            //Dinner.setBackgroundTintList(ColorStateList.valueOf(R.color.menubtn));
         });
+    }
+    private void Day(){
+
+    }
+    private void Night(){
+
+    }
+    private void ActiveButton(Button current)
+    {
+        if(PreviouslyClicked == null)
+        {
+
+        }else{
+            PreviouslyClicked.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple_500)));
+        }
+        switch (current.getText().toString())
+        {
+            case "All":
+                current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menubtn)));
+                PreviouslyClicked = current;
+                break;
+            case "Breakfast":
+                current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menubtn)));
+                PreviouslyClicked = current;
+                break;
+            case "Lunch":
+                current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menubtn)));
+                PreviouslyClicked = current;
+                break;
+            case "Dinner":
+                current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menubtn)));
+                PreviouslyClicked = current;
+                break;
+        }
     }
 }

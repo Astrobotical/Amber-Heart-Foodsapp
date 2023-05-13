@@ -1,27 +1,17 @@
 package com.romarioburke.amberheartfoodapp.Adapters;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.ContentFrameLayout;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStore;
-import androidx.lifecycle.ViewModelStoreOwner;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,29 +21,26 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.romarioburke.amberheartfoodapp.Products;
+import com.romarioburke.amberheartfoodapp.studentviews.Products;
 import com.romarioburke.amberheartfoodapp.R;
 import com.romarioburke.amberheartfoodapp.SavedData;
 
 import org.json.JSONArray;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 
 public class griditems extends BaseAdapter {
     Context context;
     private Products product;
     int counter;
-    public griditems(Context context, ArrayList<String> FoodName, ArrayList<String> FoodImage, ArrayList<String> Description, ArrayList<String> Category,ArrayList<String>FoodUID, Bundle bundler,   HashMap<String, String> Selecteditem,Fragment trying) {
+    public griditems(Context context, ArrayList<String> FoodName, ArrayList<String> FoodImage, ArrayList<String> Description, ArrayList<String> Category,ArrayList<String>FoodUID, Bundle bundler,   HashMap<String, String> Selecteditem,ArrayList<String>Target,Fragment trying) {
         this.context = context;
         this.FoodName = FoodName;
         this.FoodDescription = Description;
@@ -62,8 +49,10 @@ public class griditems extends BaseAdapter {
         this.FoodUID = FoodUID;
         this.bundle = bundler;
         this.Selecteditems = Selecteditem;
+        this.FoodTarget = Target;
         this.main = trying;
     }
+    ArrayList<String>FoodTarget = new ArrayList<>();
     ArrayList<String> FoodImage = new ArrayList<>();
     ArrayList<String> FoodName = new ArrayList<>();
     ArrayList<String> FoodDescription = new ArrayList<>();
@@ -117,6 +106,7 @@ public class griditems extends BaseAdapter {
                             TextView ModalDiscription = alertDialog.findViewById(R.id.modaldescription);
                             RatingBar ratingBar = alertDialog.findViewById(R.id.modalrating);
                             ImageView Modalproductimage = alertDialog.findViewById(R.id.modalimage);
+                            TextView ModalTarget = alertDialog.findViewById(R.id.modaltarget);
                             Button ModalBtnAdd = alertDialog.findViewById(R.id.additembtn);
                             ModalBtnAdd.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -128,6 +118,7 @@ public class griditems extends BaseAdapter {
                                     alertDialog.onBackPressed();
                                 }
                             });
+                          ModalTarget.setText("Food Base Type -"+FoodTarget.get(i));
                             ModalBtnAdd.setText("Choose " + FoodCategory.get(i) + " item");
                             Modalproductname.setText(FoodName.get(i));
                             ModalDiscription.setText(FoodDescription.get(i));
@@ -142,7 +133,7 @@ public class griditems extends BaseAdapter {
                                 }
                             });
                             alertDialog.getWindow().setBackgroundDrawable(getDrawableWithRadius());
-                            alertDialog.getWindow().setLayout(1400, 1900);
+                           // alertDialog.getWindow().setLayout(1000, 1900);
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                                 alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                             }

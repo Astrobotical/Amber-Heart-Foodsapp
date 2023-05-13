@@ -12,7 +12,7 @@
     <item
         android:title="Search"
         android:icon="@drawable/icon_search"/>
-    <item
+    <item android:id="@+id/Logout"
         android:title="Logout"
         android:icon="@drawable/logouticon_foreground"/>
 </menu>

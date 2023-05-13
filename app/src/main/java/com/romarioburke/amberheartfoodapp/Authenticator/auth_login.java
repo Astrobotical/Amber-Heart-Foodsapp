@@ -173,8 +173,8 @@ public class auth_login extends Fragment {
         CheckBox Rememberme = getActivity().findViewById(R.id.rememberme);
         TextView Header = getActivity().findViewById(R.id.head);
         Button Submit = getActivity().findViewById(R.id.Loginbtn);
-        Rememberme.setTextColor(ColorStateList.valueOf(colorInt));
-        Submit.setTextColor(Color.parseColor("#FFFFFF"));
+       // Rememberme.setTextColor(ColorStateList.valueOf(colorInt));
+        //Submit.setTextColor(Color.parseColor("#FFFFFF"));
         //Submit.setTextColor(ColorStateList.valueOf(colorInt));
        // Submit.setLinkTextColor(ColorStateList.valueOf(colorInt));
         //Submit.setColor
