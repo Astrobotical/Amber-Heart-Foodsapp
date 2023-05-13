@@ -1,6 +1,9 @@
 package com.romarioburke.amberheartfoodapp.Authenticator;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.util.Log;
@@ -8,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
@@ -17,6 +20,7 @@ import com.google.android.gms.auth.api.identity.SignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 import com.romarioburke.amberheartfoodapp.Database.Data;
 import com.romarioburke.amberheartfoodapp.MainActivity;
 import com.romarioburke.amberheartfoodapp.R;
@@ -49,8 +53,16 @@ public class auth_login extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        EditText StudentIDElement = this.getActivity().findViewById(R.id.SID);
-        EditText PasswordElement = this.getActivity().findViewById(R.id.PasswordL);
+        int nightModeFlags = getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (nightModeFlags) {
+            case Configuration.UI_MODE_NIGHT_YES-> Day();
+
+            case Configuration.UI_MODE_NIGHT_NO -> Night();
+
+            case Configuration.UI_MODE_NIGHT_UNDEFINED-> Day();
+        }
+        TextInputEditText StudentIDElement = this.getActivity().findViewById(R.id.SID);
+        TextInputEditText PasswordElement = this.getActivity().findViewById(R.id.PasswordL);
         TextView top = this.getActivity().findViewById(R.id.head);
         Button Login = this.getActivity().findViewById(R.id.Loginbtn);
         SignInButton signInButton = this.getActivity().findViewById(R.id.sign_in_button);
@@ -146,5 +158,27 @@ public class auth_login extends Fragment {
     }
 
     */
+    private void Day()
+    {
+        int Black_color = getResources().getColor(R.color.black);
+        int colorInt = getResources().getColor(R.color.white);
+        TextView Header = getActivity().findViewById(R.id.head);
+        Button Submit = getActivity().findViewById(R.id.Loginbtn);
+        Submit.setTextColor(ColorStateList.valueOf(Black_color));
+        Header.setTextColor(ColorStateList.valueOf(colorInt));
+    }
+    private void Night(){
+        int Black_color = getResources().getColor(R.color.black);
+        int colorInt = getResources().getColor(R.color.white);
+        CheckBox Rememberme = getActivity().findViewById(R.id.rememberme);
+        TextView Header = getActivity().findViewById(R.id.head);
+        Button Submit = getActivity().findViewById(R.id.Loginbtn);
+        Rememberme.setTextColor(ColorStateList.valueOf(colorInt));
+        Submit.setTextColor(Color.parseColor("#FFFFFF"));
+        //Submit.setTextColor(ColorStateList.valueOf(colorInt));
+       // Submit.setLinkTextColor(ColorStateList.valueOf(colorInt));
+        //Submit.setColor
+        Header.setTextColor(ColorStateList.valueOf(colorInt));
+    }
 
 }

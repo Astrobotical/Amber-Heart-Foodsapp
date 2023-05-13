@@ -1,8 +1,8 @@
-package com.romarioburke.amberheartfoodapp.Threads;
+package font.Threads;
 
 import android.app.Activity;
 
-class SetItemDataforProducts  {}
+class qSetItemDataforProducts  {}
 
   /*  Activity activity;
     public SetItemDataforProducts(Activity activity)

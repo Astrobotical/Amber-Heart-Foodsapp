@@ -18,7 +18,7 @@ public class SavedData extends ViewModel {
     HashMap<String, JSONArray> Data =  new HashMap<>();
     //private final MutableLiveData<HashMap<String,String>> StoredItemObject = new MutableLiveData<>();
     private final MutableLiveData<HashMap<String, JSONArray>> Storeditems = new MutableLiveData<>();
-    private MediatorLiveData<Integer> counter = new MediatorLiveData<Integer>();
+    private final MediatorLiveData<Integer> counter = new MediatorLiveData<Integer>();
     private int count = 0;
 
     public void increment(){

@@ -57,6 +57,7 @@
 
             <EditText
                 android:id="@+id/food_name"
+                style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="170dp"
@@ -84,15 +85,16 @@
 
             <EditText
                 android:id="@+id/food_description"
+                style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="170dp"
                 android:layout_marginTop="278dp"
                 android:layout_marginEnd="16dp"
                 android:ems="10"
-                android:hint="Enter the food Description"
-                android:inputType="textPersonName"
+                android:hint="Enter -"
 
+                android:inputType="textPersonName"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/Category_list" />

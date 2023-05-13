@@ -24,6 +24,7 @@
             app:cardElevation="5dp">
 
             <RelativeLayout
+                android:id="@+id/itemscontainer"
                 android:layout_width="wrap_content"
                 android:layout_height="158dp"
                 android:background="#FFFFFF"
@@ -45,15 +46,16 @@
                     android:layout_marginStart="150dp"
                     android:layout_marginTop="20sp"
                     android:textAlignment="viewStart"
-                    android:textSize="16sp"
+                    android:textColor="#0E0E0E"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <RatingBar
-                    style="@android:style/Widget.Holo.Light.RatingBar.Indicator"
+                    style="@android:style/Widget.Holo.RatingBar.Indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="150dp"
-                    android:layout_marginTop="70dp"
+                    android:layout_marginStart="170dp"
+                    android:layout_marginTop="100dp"
                     android:numStars="5" />
 
                 <TextView
@@ -61,23 +63,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="150dp"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="60dp"
                     android:text="text"
-                    android:textSize="12sp"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/add"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_alignParentBottom="true"
-
-                    android:layout_marginStart="265sp"
-                    android:background="#0AFEB3"
-                    android:backgroundTint="#0AFEB3"
-                    app:icon="@drawable/addtocart_foreground"
-                    app:iconPadding="3dp"
-                    app:iconSize="100sp" />
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>

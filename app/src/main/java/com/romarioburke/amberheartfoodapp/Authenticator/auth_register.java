@@ -1,11 +1,7 @@
 package com.romarioburke.amberheartfoodapp.Authenticator;
-
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +11,10 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.romarioburke.amberheartfoodapp.Database.Data;
+import com.romarioburke.amberheartfoodapp.Dataclasses.Register;
 import com.romarioburke.amberheartfoodapp.R;
 
 import java.sql.PreparedStatement;
@@ -40,10 +39,10 @@ public class auth_register extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_auth_register, container, false);
     }
-    private Boolean Inputs(EditText StudentID ,EditText Name,EditText Email, EditText Password,EditText Confirm_Password)
+    private Boolean Inputs(EditText StudentID ,EditText Name,EditText Email, TextInputEditText Password,EditText Confirm_Password)
     {
         Data obj = new Data(getContext());
-        boolean Response = true;
+        boolean Response;
         //Checking if Name was entered and if the name contains a space which would mean it has 2 words
         if(Name.getText().toString().equals(""))
         {
@@ -53,9 +52,8 @@ public class auth_register extends Fragment {
         {
             if(!Name.getText().toString().contains(" "))
             {
-                Name.setError("Please enter your first and last name and sperate it with a space");
+                Name.setError("Please enter your first and last name and separate it with a space");
                 Response = false;
-                if(!Response){return Response;}
             }
             else{
                 Response = true;
@@ -76,7 +74,7 @@ public class auth_register extends Fragment {
                 Statement.setString(1,ID);
                 ResultSet Result = Statement.executeQuery();
                 if(Result.next()){
-                    StudentID.setError("This Student ID already exsists");
+                    StudentID.setError("This Student ID already exists");
                     Response = false;
                 }
                 else{
@@ -102,7 +100,7 @@ public class auth_register extends Fragment {
                     Statement.setString(1,StudentID.getText().toString());
                     ResultSet Result = Statement.executeQuery();
                     if(Result.next()){
-                        Email.setError("This Email already exsists");
+                        Email.setError("This Email already exists");
                         Response = false;
                     }
                     else{
@@ -119,7 +117,7 @@ public class auth_register extends Fragment {
         if(Password.getText().toString().equals(""))
         {
             Toast.makeText(getContext(),"Up here",Toast.LENGTH_SHORT).show();
-            Password.setError("Ensure that it has atleast 6 or more letters with 2 numbers");
+            Password.setError("Ensure that it has at least 6 or more letters with 2 numbers");
             Response = false;
         }
         else if(!Password.getText().toString().equals(""))
@@ -151,7 +149,7 @@ public class auth_register extends Fragment {
                 }
             }
         }
-        //Checking if Confirm Password isnt null and equals to the Password
+        //Checking if Confirm Password isn't null and equals to the Password
         if(Confirm_Password.getText().toString().equals(""))
         {
             Confirm_Password.setError("Please rewrite the password");
@@ -171,66 +169,41 @@ public class auth_register extends Fragment {
         EditText Name = getActivity().findViewById(R.id.Username);
         EditText StudentID = getActivity().findViewById(R.id.STUDID);
         EditText Email = getActivity().findViewById(R.id.Email);
-        EditText Password = (EditText) getActivity().findViewById(R.id.PasswordL);
-        EditText Confirmed_Password = (EditText)  getActivity().findViewById(R.id.ConfirmPassword);
+        TextInputLayout passwordlayout = getActivity().findViewById(R.id.Textinputlayout);
+        TextInputEditText passwordtext = getActivity().findViewById(R.id.Password);
+        EditText Confirmed_Password = (EditText) getActivity().findViewById(R.id.ConfirmPassword);
         ProgressBar bar = getActivity().findViewById(R.id.progressBar);
         bar.setVisibility(View.GONE);
+        Confirmed_Password.requestFocus();
         Register.setOnClickListener((view) -> {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (Inputs(StudentID, Name, Email, Password, Confirmed_Password)) {
-                        Data obj = new Data(getContext());
-                        try {
-                            PreparedStatement statement = obj.ConnectionString.prepareStatement("INSERT into students (Name,StudentID,Email,Password,Email_verified,Status,Account_verified)VALUES(?,?,?,?,?,?,?)");
-                            statement.setString(1, Name.getText().toString());
-                            statement.setString(2, StudentID.getText().toString());
-                            statement.setString(3, Email.getText().toString());
-                            statement.setString(4, Password.getText().toString());
-                            statement.setInt(5, 0);
-                            statement.setString(6, "Student");
-                            statement.setInt(7, 0);
-                                int results = statement.executeUpdate();
-                                if (results > 0) {
-                                    // boolean y = false;
-                                    Log.i("Queryresult", "Record has been inserted");
-                                    //Toast.makeText(getApplicationContext(), "You've been registered sucessfully ", Toast.LENGTH_SHORT).show();
-                                    new CountDownTimer(3000, 1000) {
-                                        public void onTick(long millisUntilFinished) {
-                                            bar.setVisibility(View.VISIBLE);
-                                        }
-
-                                        public void onFinish() {
-                                            bar.setVisibility(View.GONE);
-                                            Intent Loginscreen = new Intent(getContext(), Auth.class);
-                                            startActivity(Loginscreen);
-                                        }
-                                    }.start();
-                                    obj.ConnectionString.close();
-                                }
-                            } catch (SQLException e) {
-                           Log.i("Queryresult","Error at registeration");
+                    if (Inputs(StudentID, Name, Email, passwordtext, Confirmed_Password)) {
+                        com.romarioburke.amberheartfoodapp.Dataclasses.Register regis = new Register(StudentID.getText().toString(), Name.getText().toString(), Email.getText().toString(), passwordtext.getText().toString(), getActivity());
+                        if (regis.IsRegistered()) {
+                            Log.i("Queryresult", "Record has been inserted");
+                            bar.setVisibility(View.GONE);
+                            Toast.makeText(getContext(), "Successful registration", Toast.LENGTH_LONG).show();
+                            Intent Loginscreen = new Intent(getContext(), Auth.class);
+                            startActivity(Loginscreen);
                         }
+                    } else {
+                        Log.i("Queryresult", "Record was not inserted");
                     }
-                }
-            });
-        });
+                    //Toast.makeText(getApplicationContext(), "You've been registered sucessfully ", Toast.LENGTH_SHORT).show();
+                });
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
-        Button Register = getActivity().findViewById(R.id.Register);
         EditText Name = getActivity().findViewById(R.id.Username);
         EditText StudentID = getActivity().findViewById(R.id.STUDID);
         EditText Email = getActivity().findViewById(R.id.Email);
-        EditText Password = getActivity().findViewById(R.id.PasswordL);
+        TextInputEditText Password = getActivity().findViewById(R.id.PasswordL);
         EditText Confirmed_Password = getActivity().findViewById(R.id.ConfirmPassword);
         Name.setText("");
         StudentID.setText("");
         Email.setText("");
-        Password.setText("");
         Confirmed_Password.setText("");
     }
 }

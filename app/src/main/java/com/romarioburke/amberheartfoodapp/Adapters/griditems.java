@@ -97,8 +97,8 @@ public class griditems extends BaseAdapter {
             TextView itemname = views.findViewById(R.id.modalname);
             CardView cards = views.findViewById(R.id.card);
             TextView CategoryElement = views.findViewById(R.id.category);
-            Button btnclicked = views.findViewById(R.id.add);
-            btnclicked.setOnClickListener(new View.OnClickListener() {
+            RelativeLayout Container = views.findViewById(R.id.itemscontainer);
+            Container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     main.getActivity().runOnUiThread(new Runnable() {
@@ -108,6 +108,7 @@ public class griditems extends BaseAdapter {
                             prompt.setView(R.layout.item_selector_order);
                             AlertDialog alertDialog = prompt.create();
                             alertDialog.show();
+
                             ImageButton Exitbutton = alertDialog.findViewById(R.id.Exitbutton);
                             TextView Modalproductname = alertDialog.findViewById(R.id.modalname);
                             RatingBar ratingBar = alertDialog.findViewById(R.id.modalrating);
