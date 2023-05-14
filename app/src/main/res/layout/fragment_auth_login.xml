@@ -31,7 +31,7 @@
         app:endIconTint="@color/teal_700">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/Token"
+            android:id="@+id/Email"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

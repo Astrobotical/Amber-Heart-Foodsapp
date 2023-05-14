@@ -21,7 +21,7 @@ public class register extends AppCompatActivity {
         setContentView(R.layout.register_activity);
         Button Onregister = findViewById(R.id.Register);
         EditText Name = findViewById(R.id.Username);
-        EditText Email = findViewById(R.id.Token);
+        EditText Email = findViewById(R.id.Email);
         EditText StudentID = findViewById(R.id.STUDID);
         EditText Password = findViewById(R.id.PasswordL);
         EditText Confirmed_Password = findViewById(R.id.ConfirmPassword);

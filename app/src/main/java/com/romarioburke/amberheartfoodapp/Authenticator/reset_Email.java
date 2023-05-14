@@ -30,7 +30,7 @@ public class reset_Email extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reset_byemail);
         Button VerifyandsendToken = findViewById(R.id.validatetoken);
-        TextInputEditText Email = findViewById(R.id.Token);
+        TextInputEditText Email = findViewById(R.id.Email);
         ImageView Backbtn = findViewById(R.id.backbutton);
         Backbtn.setOnClickListener((view)->{
             Intent Tonextactivity = new Intent(getApplicationContext(), ForgetpasswordChooser.class);
@@ -42,7 +42,7 @@ public class reset_Email extends AppCompatActivity {
                 if (!Email.getText().toString().equals("")) {
                     postData(Email.getText().toString());
                     setContentView(R.layout.activity_reset_options);
-                    TextInputEditText Tokeninput = findViewById(R.id.Token);
+                    TextInputEditText Tokeninput = findViewById(R.id.Email);
                     Button Validate = findViewById(R.id.validatetoken);
                     ImageView returnhome = findViewById(R.id.backbutton);
                     Validate.setOnClickListener((view)->{
@@ -78,7 +78,7 @@ public class reset_Email extends AppCompatActivity {
                             String Message = obj.optString("message");
                             if(Message.equals("Token was validated successfully!")) {
                                 Toast.makeText(getApplicationContext(), Message, Toast.LENGTH_LONG).show();
-                                Intent Tonextactivity = new Intent(getApplicationContext(), Auth);
+                                Intent Tonextactivity = new Intent(getApplicationContext(), Auth.class);
                                 startActivity(Tonextactivity);
                             }
                         } catch (JSONException e) {

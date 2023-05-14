@@ -39,7 +39,7 @@ public class auth_register extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_auth_register, container, false);
     }
-    private Boolean Inputs(EditText StudentID ,EditText Name,EditText Email, TextInputEditText Password,EditText Confirm_Password)
+    private Boolean Inputs(EditText StudentID ,EditText Name,TextInputEditText Email, TextInputEditText Password,EditText Confirm_Password)
     {
         Data obj = new Data(getContext());
         boolean Response;
@@ -168,7 +168,7 @@ public class auth_register extends Fragment {
         Button Register = getActivity().findViewById(R.id.Register);
         EditText Name = getActivity().findViewById(R.id.Username);
         EditText StudentID = getActivity().findViewById(R.id.STUDID);
-        EditText Email = getActivity().findViewById(R.id.Token);
+        TextInputEditText Email = getActivity().findViewById(R.id.Email);
         TextInputLayout passwordlayout = getActivity().findViewById(R.id.Textinputlayout);
         TextInputEditText passwordtext = getActivity().findViewById(R.id.Password);
         EditText Confirmed_Password = (EditText) getActivity().findViewById(R.id.ConfirmPassword);
@@ -177,7 +177,8 @@ public class auth_register extends Fragment {
         Confirmed_Password.requestFocus();
         Register.setOnClickListener((view) -> {
                     if (Inputs(StudentID, Name, Email, passwordtext, Confirmed_Password)) {
-                        com.romarioburke.amberheartfoodapp.Dataclasses.Register regis = new Register(StudentID.getText().toString(), Name.getText().toString(), Email.getText().toString(), passwordtext.getText().toString(), getActivity());
+                        TextInputEditText got = getActivity().findViewById(R.id.Email);
+                        com.romarioburke.amberheartfoodapp.Dataclasses.Register regis = new Register(StudentID.getText().toString(), Name.getText().toString(), got, passwordtext.getText().toString(), getActivity());
                         if (regis.IsRegistered()) {
                             Log.i("Queryresult", "Record has been inserted");
                             bar.setVisibility(View.GONE);
@@ -198,7 +199,7 @@ public class auth_register extends Fragment {
         super.onResume();
         EditText Name = getActivity().findViewById(R.id.Username);
         EditText StudentID = getActivity().findViewById(R.id.STUDID);
-        EditText Email = getActivity().findViewById(R.id.Token);
+        TextInputEditText Email = getActivity().findViewById(R.id.Email);
         TextInputEditText Password = getActivity().findViewById(R.id.PasswordL);
         EditText Confirmed_Password = getActivity().findViewById(R.id.ConfirmPassword);
         Name.setText("");

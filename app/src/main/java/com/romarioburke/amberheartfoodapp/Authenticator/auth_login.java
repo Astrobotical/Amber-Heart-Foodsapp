@@ -60,7 +60,7 @@ public class auth_login extends Fragment {
 
             case Configuration.UI_MODE_NIGHT_UNDEFINED-> Day();
         }
-        TextInputEditText StudentIDElement = this.getActivity().findViewById(R.id.Token);
+        TextInputEditText StudentIDElement = this.getActivity().findViewById(R.id.Email);
         TextInputEditText PasswordElement = this.getActivity().findViewById(R.id.PasswordL);
         TextView top = this.getActivity().findViewById(R.id.head);
         TextView ForgetPassword = this.getActivity().findViewById(R.id.forgetpassword);
