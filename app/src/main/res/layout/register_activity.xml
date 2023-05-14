@@ -64,7 +64,7 @@
             android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/Email"
+            android:id="@+id/Token"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"

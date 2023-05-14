@@ -20,7 +20,9 @@ android {
         buildConfigField "String","DBuser", localProperties['DBuser']
         buildConfigField "String","DBname", localProperties['DBname']
     }
-
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
     buildTypes {
         release {
             minifyEnabled false

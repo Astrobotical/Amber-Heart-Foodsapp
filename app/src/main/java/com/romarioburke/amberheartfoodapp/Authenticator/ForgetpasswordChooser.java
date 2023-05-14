@@ -1,5 +1,6 @@
-package com.romarioburke.amberheartfoodapp;
+package com.romarioburke.amberheartfoodapp.Authenticator;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,10 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.ImageView;
+
+import com.romarioburke.amberheartfoodapp.R;
 
 
-public class ItemSelector_order extends Fragment {
+public class ForgetpasswordChooser extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,7 +25,7 @@ public class ItemSelector_order extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ItemSelector_order() {
+    public ForgetpasswordChooser() {
         // Required empty public constructor
     }
 
@@ -32,11 +35,11 @@ public class ItemSelector_order extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ItemSelector_order.
+     * @return A new instance of fragment ForgetpasswordChooser.
      */
     // TODO: Rename and change types and number of parameters
-    public static ItemSelector_order newInstance(String param1, String param2) {
-        ItemSelector_order fragment = new ItemSelector_order();
+    public static ForgetpasswordChooser newInstance(String param1, String param2) {
+        ForgetpasswordChooser fragment = new ForgetpasswordChooser();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -57,12 +60,27 @@ public class ItemSelector_order extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.item_selector_order, container, false);
+        return inflater.inflate(R.layout.fragment_forgetpassword_chooser, container, false);
     }
     @Override
     public void onStart()
     {
         super.onStart();
-
+        ImageView BackButton = getActivity().findViewById(R.id.BackButton);
+        Button resetEmail = getActivity().findViewById(R.id.ResetByEmail);
+        Button resetStudentID = getActivity().findViewById(R.id.ResetByStudentID);
+        BackButton.setOnClickListener((view)->{
+            Intent switchbackactivity = new Intent(getContext(), Auth.class);
+            startActivity(switchbackactivity);
+        });
+        resetEmail.setOnClickListener((view)->{
+            Intent switchbtoreset = new Intent(getContext(), Auth.class);
+            startActivity(switchbtoreset);
+        });
+        resetStudentID.setOnClickListener((view)->
+        {
+            Intent switchbtostudentid = new Intent(getContext(), Auth.class);
+            startActivity(switchbtostudentid);
+        });
     }
 }

@@ -168,7 +168,7 @@ public class auth_register extends Fragment {
         Button Register = getActivity().findViewById(R.id.Register);
         EditText Name = getActivity().findViewById(R.id.Username);
         EditText StudentID = getActivity().findViewById(R.id.STUDID);
-        EditText Email = getActivity().findViewById(R.id.Email);
+        EditText Email = getActivity().findViewById(R.id.Token);
         TextInputLayout passwordlayout = getActivity().findViewById(R.id.Textinputlayout);
         TextInputEditText passwordtext = getActivity().findViewById(R.id.Password);
         EditText Confirmed_Password = (EditText) getActivity().findViewById(R.id.ConfirmPassword);
@@ -198,7 +198,7 @@ public class auth_register extends Fragment {
         super.onResume();
         EditText Name = getActivity().findViewById(R.id.Username);
         EditText StudentID = getActivity().findViewById(R.id.STUDID);
-        EditText Email = getActivity().findViewById(R.id.Email);
+        EditText Email = getActivity().findViewById(R.id.Token);
         TextInputEditText Password = getActivity().findViewById(R.id.PasswordL);
         EditText Confirmed_Password = getActivity().findViewById(R.id.ConfirmPassword);
         Name.setText("");

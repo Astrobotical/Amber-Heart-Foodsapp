@@ -31,7 +31,7 @@
         app:endIconTint="@color/teal_700">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/SID"
+            android:id="@+id/Token"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -64,7 +64,7 @@
 
     <CheckBox
         android:id="@+id/rememberme"
-        style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+        style="@style/Widget.Material3.CompoundButton.CheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15sp"
@@ -72,6 +72,15 @@
         android:text="Remember me"
         android:textColor="#000000"
         android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/forgetpassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="180sp"
+        android:layout_marginTop="280sp"
+        android:text="Forgot your password?"
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/Loginbtn"
