@@ -23,7 +23,7 @@
             android:src="@drawable/exit_foreground" />
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/modalimage"
+            android:id="@+id/Itemimage"
             android:layout_width="148dp"
             android:layout_height="107dp"
             android:layout_marginStart="10dp"

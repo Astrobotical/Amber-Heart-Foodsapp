@@ -24,7 +24,7 @@ public class Register {
     private  String Email;
     private final String Password;
     private final Activity Current_Activity;
-    private boolean Choice;
+    private boolean Choice = true;
 
     public Register(String studentid, String name, TextInputEditText email, String password, Activity activity) {
         this.StudentID = studentid;

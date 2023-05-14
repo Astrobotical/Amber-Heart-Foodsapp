@@ -85,7 +85,7 @@ public class griditems extends BaseAdapter {
             return views;
         } else {
             views = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_griditems, viewGroup, false);
-            ImageView img = views.findViewById(R.id.modalimage);
+            ImageView img = views.findViewById(R.id.Itemimage);
             TextView itemname = views.findViewById(R.id.modalname);
             CardView cards = views.findViewById(R.id.card);
             TextView CategoryElement = views.findViewById(R.id.category);
@@ -105,7 +105,7 @@ public class griditems extends BaseAdapter {
                             TextView Modalproductname = alertDialog.findViewById(R.id.modalname);
                             TextView ModalDiscription = alertDialog.findViewById(R.id.modaldescription);
                             RatingBar ratingBar = alertDialog.findViewById(R.id.modalrating);
-                            ImageView Modalproductimage = alertDialog.findViewById(R.id.modalimage);
+                            ImageView Modalproductimage = alertDialog.findViewById(R.id.Itemimage);
                             TextView ModalTarget = alertDialog.findViewById(R.id.modaltarget);
                             Button ModalBtnAdd = alertDialog.findViewById(R.id.additembtn);
                             ModalBtnAdd.setOnClickListener(new View.OnClickListener() {

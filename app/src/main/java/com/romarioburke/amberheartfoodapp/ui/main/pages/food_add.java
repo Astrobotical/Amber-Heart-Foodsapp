@@ -80,6 +80,7 @@ public class food_add extends Fragment {
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private ProgressDialog progressDialog;
     ActivityResultLauncher<PickVisualMediaRequest> launcher;
+    AddingFood classobj = new AddingFood();
 
     public food_add() {
     }
@@ -119,6 +120,40 @@ public class food_add extends Fragment {
             Intent select = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(select, 1);
         });
+        CategoryList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (FoodCatergoryArray[i].equals("Select a food type")) {
+                    Toast.makeText(getContext(), "Please select the type of food item", Toast.LENGTH_LONG).show();
+                    // Toast.makeText(getContext(), "Please select the type of food item", Toast.LENGTH_LONG).show();
+                    classobj.setChoice(false);
+                } else {
+                    classobj.setFoodCategory(FoodCatergoryArray[i]);
+                    //ChoosenFoodCategory = adapterView.getItemAtPosition(i).toString();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+        TargetedStudent.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (TargetStudentArray[position].equals("Select a student type")) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Please select a student group to target for this item", Toast.LENGTH_LONG).show();
+                    classobj.setChoice(false);
+                } else {
+
+                    //ChoosenTargetedStudentGroup = parent.getItemAtPosition(position).toString();
+                    classobj.setTargetedStudent(TargetStudentArray[position]);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
         additem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +162,7 @@ public class food_add extends Fragment {
                     public void run() {
                         EditText Foodname = getActivity().findViewById(R.id.food_name);
                         EditText Food_description = getActivity().findViewById(R.id.food_description);
-                        AddingFood classobj = new AddingFood();
+
                         if (Foodname.getText().toString().equals(" ")) {
                             Foodname.setError("Please ensure the Food name was entered.");
                             classobj.setChoice(false);
@@ -137,44 +172,10 @@ public class food_add extends Fragment {
                         }
                         classobj.setFoodName(Foodname.getText().toString());
                         classobj.setDescription(Food_description.getText().toString());
-                        CategoryList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                if (FoodCatergoryArray[i].equals("Select a food type")) {
-                                    Toast.makeText(getContext(), "Please select the type of food item", Toast.LENGTH_LONG).show();
-                                    // Toast.makeText(getContext(), "Please select the type of food item", Toast.LENGTH_LONG).show();
-                                    classobj.setChoice(false);
-                                } else {
-                                    classobj.setFoodCategory(FoodCatergoryArray[i]);
-                                    //ChoosenFoodCategory = adapterView.getItemAtPosition(i).toString();
-                                }
-                            }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> adapterView) {
-                            }
-                        });
-                        TargetedStudent.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                if (TargetStudentArray[position].equals("Select a student type")) {
-                                    Toast.makeText(getActivity().getApplicationContext(), "Please select a student group to target for this item", Toast.LENGTH_LONG).show();
-                                    classobj.setChoice(false);
-                                } else {
-
-                                    //ChoosenTargetedStudentGroup = parent.getItemAtPosition(position).toString();
-                                    classobj.setTargetedStudent(TargetStudentArray[position]);
-                                }
-                            }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
-                            }
-                        });
                         if (classobj.isChoice()) {
                             //progressDialog.show();
                             //UploadImage(Foodname.getText().toString(),"Ominvore",ChoosenFoodCategory,Food_description.getText().toString());
-                            postData(classobj.getFoodName(), "Ominvore", "Lunch", classobj.getDescription());
+                            postData(classobj.getFoodName(), classobj.getTargetedStudent(), classobj.getFoodCategory(), classobj.getDescription());
                         }
                     }
                 });
@@ -254,12 +255,20 @@ public class food_add extends Fragment {
                StringRequest request = new StringRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<String>() {
                    @Override
                    public void onResponse(String response) {
-                       Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
+                       JSONObject obj = null;
+                       try {
+                           obj = new JSONObject(response);
+                           String Message = obj.optString("message");
+                           Toast.makeText(getContext(), Message, Toast.LENGTH_LONG).show();
+                          // Intent Change
+                       } catch (JSONException e) {
+                           throw new RuntimeException(e);
+                       }
                    }
                }, new com.android.volley.Response.ErrorListener() {
                    @Override
                    public void onErrorResponse(VolleyError error) {
-                       Toast.makeText(getContext(), "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
+                       Toast.makeText(getContext(), error.toString(), Toast.LENGTH_SHORT).show();
                    }
                })
                {
@@ -272,7 +281,6 @@ public class food_add extends Fragment {
                        String image = "data:image/jpeg;base64,";
                        image += Base64.encodeToString(bytes, Base64.DEFAULT);
                        Map<String, String> params = new HashMap<String, String>();
-
                        tester.setText(image);
                        params.put("Item_id", UUID.randomUUID().toString());
                        params.put("Item_name", Foodname);
@@ -280,6 +288,7 @@ public class food_add extends Fragment {
                        params.put("Item_description",Food_Description);
                        params.put("Item_category",FoodCategpry);
                        params.put("Item_Target",Target);
+                      // Log.i("spenting", String.valueOf(params));
                        return params;
                    }
                };
