@@ -157,9 +157,8 @@ public class food_add extends Fragment {
         additem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+
+
                         EditText Foodname = getActivity().findViewById(R.id.food_name);
                         EditText Food_description = getActivity().findViewById(R.id.food_description);
 
@@ -177,8 +176,7 @@ public class food_add extends Fragment {
                             //UploadImage(Foodname.getText().toString(),"Ominvore",ChoosenFoodCategory,Food_description.getText().toString());
                             postData(classobj.getFoodName(), classobj.getTargetedStudent(), classobj.getFoodCategory(), classobj.getDescription());
                         }
-                    }
-                });
+
             }
         });
     }
@@ -206,7 +204,6 @@ public class food_add extends Fragment {
                    } catch (IOException e) {
                        e.printStackTrace();
                    }
-
                }
            }
            break;
@@ -246,6 +243,9 @@ public class food_add extends Fragment {
        }
    }
     private void postData(String Foodname,String Target,String FoodCategpry,String Food_Description) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
                String url = "https://api.romarioburke.com/api/v1/Items/Additem";
                RequestQueue queue = Volley.newRequestQueue(getActivity());
                TextView tester = getActivity().findViewById(R.id.tester);
@@ -257,7 +257,6 @@ public class food_add extends Fragment {
                            obj = new JSONObject(response);
                            String Message = obj.optString("message");
                            Toast.makeText(getContext(), Message, Toast.LENGTH_LONG).show();
-                          // Intent Change
                        } catch (JSONException e) {
                            throw new RuntimeException(e);
                        }
@@ -277,64 +276,18 @@ public class food_add extends Fragment {
                        String image = "data:image/jpeg;base64,";
                        image += Base64.encodeToString(bytes, Base64.DEFAULT);
                        Map<String, String> params = new HashMap<String, String>();
-                       tester.setText(image);
                        params.put("Item_id", UUID.randomUUID().toString());
                        params.put("Item_name", Foodname);
                        params.put("Item_image", image);
                        params.put("Item_description",Food_Description);
                        params.put("Item_category",FoodCategpry);
                        params.put("Item_Target",Target);
-                      // Log.i("spenting", String.valueOf(params));
                        return params;
                    }
                };
                queue.add(request);
-           }
-    private void UploadImage(String Foodname, String Target,String FoodCategpry,String Food_Description) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        Saved.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-        String url = "https://api.romarioburke.com/api/v1/Items/Additem";
-        String image = "data:image/jpeg;base64,";
-         image += Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-        String Id = UUID.randomUUID().toString();
-        try {
-            progressDialog.show();
-            jsonObject = new JSONObject();
-            jsonObject.put("Item_id", Id);
-            jsonObject.put("Item_name", Foodname);
-            jsonObject.put("Item_image", image);
-            jsonObject.put("Item_description",Food_Description);
-            jsonObject.put("Item_category",FoodCategpry);
-            jsonObject.put("Item_Target",Target);
-
-            jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            try {
-                                String message = response.getString("message");
-                                Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
-                                progressDialog.dismiss();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getContext(), error.toString(), Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
-                }
-            }
-            );
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-
-
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
-        queue.add(jsonObjectRequest);
-
+        });
     }
     public String BitMapToString(Bitmap userImage1) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

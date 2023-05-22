@@ -182,7 +182,7 @@ public class auth_register extends Fragment {
         bar.setVisibility(View.GONE);
         Confirmed_Password.requestFocus();
         Register.setOnClickListener((view) -> {
-                    if (Inputs(StudentID, Name, Email, passwordtext, Confirmed_Password)) {
+
                         TextInputEditText got = getActivity().findViewById(R.id.Email);
                         com.romarioburke.amberheartfoodapp.Dataclasses.Register regis = new Register(StudentID.getText().toString(), Name.getText().toString(), got, passwordtext.getText().toString(), getActivity());
                         if (regis.IsRegistered()) {
@@ -192,11 +192,12 @@ public class auth_register extends Fragment {
                             Intent Loginscreen = new Intent(getContext(), Auth.class);
                             startActivity(Loginscreen);
                         }
-                    } else {
+                     else {
                         Log.i("Queryresult", "Record was not inserted");
                     }
                     //Toast.makeText(getApplicationContext(), "You've been registered sucessfully ", Toast.LENGTH_SHORT).show();
                 });
+
     }
 
     @Override
