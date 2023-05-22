@@ -2,22 +2,29 @@ package com.romarioburke.amberheartfoodapp.Adapters;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.romarioburke.amberheartfoodapp.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class DinnerAdapter extends BaseAdapter {
     Context context;
-    String countryList[];
-    int flags[];
-    LayoutInflater inflter;
     ArrayList<String> FoodTarget = new ArrayList<>();
     ArrayList<String> FoodImage = new ArrayList<>();
     ArrayList<String> FoodName = new ArrayList<>();
@@ -34,17 +41,16 @@ public class DinnerAdapter extends BaseAdapter {
         this.FoodUID = FoodUID;
         this.FoodTarget = Target;
         this.main = trying;
-        inflter = (LayoutInflater.from(context));
     }
 
     @Override
     public int getCount() {
-        return countryList.length;
+        return FoodName.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return FoodImage.get(i);
     }
 
     @Override
@@ -53,12 +59,44 @@ public class DinnerAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        view = inflter.inflate(R.layout.activity_listview, null);
-        TextView country = (TextView) view.findViewById(R.id.textView);
-        ImageView icon = (ImageView) view.findViewById(R.id.icon);
-        country.setText(countryList[i]);
-        icon.setImageResource(flags[i]);
-        return view;
+    public View getView(int position, View convertView, ViewGroup parent) {
+        convertView = LayoutInflater.from(context).inflate(R.layout.listitems, parent, false);
+        //ViewHolder holder;
+     /*   if(convertView == null)
+        {
+            holder = new ViewHolder(convertView);
+            String Imagealtered = "https://api.romarioburke.com/"+FoodImage.get(position);
+            Glide.with(context).load(Imagealtered).apply(RequestOptions.circleCropTransform()).placeholder(R.drawable.loadingplaceholder).into(holder.Itemimage);
+        }*/
+       Log.i("Listitems",FoodCategory.toString());
+        ImageView Item_image = convertView.findViewById(R.id.Itemimage);
+        TextView Item_name = convertView.findViewById(R.id.Itemname);
+        Button Edit_btn = convertView.findViewById(R.id.Edit);
+        Button Delete_btn = convertView.findViewById(R.id.Delete);
+        String Imagealtered = "https://api.romarioburke.com/"+FoodImage.get(position);
+        //  Glide.with(view.getContext()).load(Imagealtered).apply(RequestOptions.circleCropTransform()).placeholder(R.drawable.loadingplaceholder).into(Item_image);
+        Item_name.setText(FoodName.get(position));
+        Edit_btn.setOnClickListener((v)->{
+            Toast.makeText(context,FoodName.get(position)+" Item was clicked to be edited",Toast.LENGTH_LONG).show();
+        });
+        Delete_btn.setOnClickListener((v)->{
+            Toast.makeText(context,FoodName.get(position)+" Item was clicked to be deleted",Toast.LENGTH_LONG).show();
+        });
+        return convertView;
     }
+    /*
+    private class ViewHolder {
+        TextView ItemName;
+        ImageView Itemimage;
+        Button Edit_btn;
+        Button Delete_btn;
+        public ViewHolder(View view) {
+            ItemName = (TextView) view.findViewById(R.id.Itemname);
+            Itemimage = (ImageView) view.findViewById(R.id.Itemimage);
+            Edit_btn = (Button) view.findViewById(R.id.Edit_btn);
+            Delete_btn= (Button) view.findViewById(R.id.Delete_btn);
+
+        }
+    }
+     */
 }

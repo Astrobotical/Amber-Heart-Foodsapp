@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.romarioburke.amberheartfoodapp.studentviews.logout;
 import com.romarioburke.amberheartfoodapp.ui.main.CooksMainFragment;
 import com.romarioburke.amberheartfoodapp.ui.main.pages.cooks_Home;
 import com.romarioburke.amberheartfoodapp.ui.main.pages.cooks_Menu;
@@ -42,6 +43,9 @@ public class cooks_main extends AppCompatActivity {
                         break;
                     case R.id.resources:
                         frag = new cooks_Menu();
+                        break;
+                    case R.id.Logout:
+                        frag =  new logout();
                         break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.cooks_main, frag).commit();

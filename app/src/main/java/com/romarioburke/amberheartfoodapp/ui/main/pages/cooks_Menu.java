@@ -30,11 +30,15 @@ public class cooks_Menu extends Fragment {
         super.onStart();
         ImageButton Menu_create = getActivity().findViewById(R.id.MenuCreate_btn);
         ImageButton Additem = getActivity().findViewById(R.id.additem);
+        ImageButton Alter_Menu_items = getActivity().findViewById(R.id.Edititems);
         Additem.setOnClickListener((view)->{
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.cooks_main, new food_add()).commit();
         });
         Menu_create.setOnClickListener((view)->{
             //getActivity().getSupportFragmentManager().beginTransaction().replace().commit();
+        });
+        Alter_Menu_items.setOnClickListener((view)->{
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.cooks_main, new TotalItems()).commit();
         });
     }
 

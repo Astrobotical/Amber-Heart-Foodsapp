@@ -1,6 +1,9 @@
 package com.romarioburke.amberheartfoodapp.Authenticator;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -165,6 +169,8 @@ public class auth_register extends Fragment {
     public void onStart() {
         super.onStart();
         boolean checker = false;
+        ConstraintLayout Container = getActivity().findViewById(R.id.Container);
+        //Container.setBackgroundColor(Color.GRAY);
         Button Register = getActivity().findViewById(R.id.Register);
         EditText Name = getActivity().findViewById(R.id.Username);
         EditText StudentID = getActivity().findViewById(R.id.STUDID);

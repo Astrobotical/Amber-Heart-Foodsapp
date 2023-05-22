@@ -2,7 +2,9 @@ package com.romarioburke.amberheartfoodapp.Authenticator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class reset_Email extends AppCompatActivity {
+    String SavedID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +79,14 @@ public class reset_Email extends AppCompatActivity {
                         try {
                             JSONObject obj = new JSONObject(response);
                             String Message = obj.optString("message");
+                            String StudentID = obj.optString("StudentID");
                             if(Message.equals("Token was validated successfully!")) {
                                 Toast.makeText(getApplicationContext(), Message, Toast.LENGTH_LONG).show();
-                                Intent Tonextactivity = new Intent(getApplicationContext(), Auth.class);
+                                Intent Tonextactivity = new Intent(getApplicationContext(), passwordchanger.class);
+                                SharedPreferences logs = getSharedPreferences("change", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor myEdit = logs.edit();
+                                myEdit.putString("ID", StudentID);
+                                myEdit.apply();
                                 startActivity(Tonextactivity);
                             }
                         } catch (JSONException e) {
@@ -88,7 +96,7 @@ public class reset_Email extends AppCompatActivity {
                 }, new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 })
                 {
@@ -140,6 +148,7 @@ public class reset_Email extends AppCompatActivity {
                     @Override
                     protected Map<String, String> getParams() {
                         Map<String, String> params = new HashMap<String, String>();
+                        SavedID = Email;
                         params.put("email", Email);
                         return params;
                     }

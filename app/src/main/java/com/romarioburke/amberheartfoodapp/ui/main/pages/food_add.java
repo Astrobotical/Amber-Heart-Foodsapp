@@ -246,9 +246,6 @@ public class food_add extends Fragment {
        }
    }
     private void postData(String Foodname,String Target,String FoodCategpry,String Food_Description) {
-      getActivity().runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
                String url = "https://api.romarioburke.com/api/v1/Items/Additem";
                RequestQueue queue = Volley.newRequestQueue(getActivity());
                TextView tester = getActivity().findViewById(R.id.tester);
@@ -276,7 +273,6 @@ public class food_add extends Fragment {
                    protected Map<String, String> getParams() {
                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                        Saved.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-                       String url = "https://api.romarioburke.com/api/v1/Items/Additem";
                        byte[] bytes=byteArrayOutputStream.toByteArray();
                        String image = "data:image/jpeg;base64,";
                        image += Base64.encodeToString(bytes, Base64.DEFAULT);
@@ -294,8 +290,6 @@ public class food_add extends Fragment {
                };
                queue.add(request);
            }
-       });
-    }
     private void UploadImage(String Foodname, String Target,String FoodCategpry,String Food_Description) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         Saved.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);

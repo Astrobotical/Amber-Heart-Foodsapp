@@ -7,48 +7,63 @@
     android:orientation="vertical"
     tools:context=".ui.main.pages.TotalItems">
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="140sp"
-        android:text="BreakFast Items"
-        android:textSize="20sp" />
-
-    <ListView
-        android:id="@+id/BreakFastList"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </ListView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="140sp"
-        android:text="Lunch Items"
-        android:textSize="20sp" />
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="140sp"
+                android:text="BreakFast Items"
+                android:textSize="20sp" />
 
+            <ListView
+                android:id="@+id/BreakFastList"
+                android:layout_width="match_parent"
+                android:layout_height="250sp">
+            </ListView>
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="140sp"
+                android:text="Lunch Items"
+                android:textSize="20sp" />
 
-    <ListView
-        android:id="@+id/LunchList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            <ListView
+                android:id="@+id/LunchList"
+                android:layout_width="match_parent"
+                android:layout_height="250sp">
+            </ListView>
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="140sp"
+                android:text="Dinner Items"
+                android:textSize="20sp" />
 
-    </ListView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/Dinner"
+                android:layout_width="match_parent"
+                android:layout_height="236sp"
+                tools:listitem="@layout/recycler_view_item" >
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="140sp"
-        android:text="Dinner Items"
-        android:textSize="20sp" />
+            </androidx.recyclerview.widget.RecyclerView>
 
-    <ListView
-        android:id="@+id/DinnerList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+            <ListView
+                android:id="@+id/DinnerList"
+                android:layout_width="match_parent"
+                android:layout_height="293dp" />
+        </LinearLayout>
+    </ScrollView>
+
 
 </LinearLayout>

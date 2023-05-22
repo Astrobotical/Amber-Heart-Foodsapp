@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,9 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.romarioburke.amberheartfoodapp.Adapters.BreakFastAdapter;
 import com.romarioburke.amberheartfoodapp.Adapters.DinnerAdapter;
-import com.romarioburke.amberheartfoodapp.Adapters.LunchAdapter;
 import com.romarioburke.amberheartfoodapp.R;
 
 import org.json.JSONArray;
@@ -28,7 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TotalItems extends Fragment {
 
@@ -83,8 +81,7 @@ public class TotalItems extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.cooks_total_items, container, false);
     }
@@ -98,10 +95,12 @@ public class TotalItems extends Fragment {
                 public void run() {
                     String RequestURL = "https://api.romarioburke.com/api/v1/catalogs";
                     RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+                    Log.i("Listitems","Here");
                     JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, RequestURL, null, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
+                                Log.i("Listitems",response.toString());
                                 JSONObject result = new JSONObject(response.toString());
                                 JSONArray Product = result.getJSONArray("data");
                                 for (int i = 0; i < Product.length(); i++) {
@@ -150,11 +149,17 @@ public class TotalItems extends Fragment {
     @Override
     public void onStart(){
         super.onStart();
+        Log.i("Listitems","Started");
         ListView BreakfastView =(ListView)getActivity().findViewById(R.id.BreakFastList);
         ListView LunchView = (ListView)getActivity().findViewById(R.id.LunchList);
-        ListView DinnerView = (ListView) getActivity().findViewById(R.id.DinnerList);
-        BreakFastAdapter BreakAdpt = new BreakFastAdapter();
-        LunchAdapter LunchAdpt = new LunchAdapter();
-        DinnerAdapter DinnerAdpt = new DinnerAdapter(getContext(),Dname,DImg,Ddesc,Dcategory,DFoodUID,DTarget,this);
+        ListView DinnerView =   (ListView) getActivity().findViewById(R.id.DinnerList);
+       // BreakFastAdapter BreakAdpt = new BreakFastAdapter();
+       // LunchAdapter LunchAdpt = new LunchAdapter();
+        String[] listItems = {"Itme one", "Item two", "Item three"};
+        ArrayAdapter<String> adapter;
+        //adapter = new ArrayAdapter<>(getContext(), R.layout.listitems, R.id.Itemname, listItems);
+        //DinnerView.setAdapter(adapter);
+       DinnerAdapter DinnerAdpt = new DinnerAdapter(getContext(),Dname,DImg,Ddesc,Dcategory,DFoodUID,DTarget,this);
+        DinnerView.setAdapter(DinnerAdpt);
     }
 }
