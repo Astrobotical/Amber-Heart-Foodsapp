@@ -75,7 +75,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/TextinputlayoutP"
+            android:id="@+id/TextinputlayoutP1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
@@ -83,10 +83,11 @@
             app:endIconTint="@color/teal_700">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/Email"
-                android:layout_width="333dp"
+                android:id="@+id/Emailrr"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="10sp">
+                android:layout_marginBottom="10sp"
+                android:inputType="textEmailAddress">
 
             </com.google.android.material.textfield.TextInputEditText>
 

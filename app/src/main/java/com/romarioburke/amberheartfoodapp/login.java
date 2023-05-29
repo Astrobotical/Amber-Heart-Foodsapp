@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -23,7 +22,7 @@ public class login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
         EditText Password = findViewById(R.id.PasswordL);
-        EditText StudentID = findViewById(R.id.Email);
+        EditText StudentID = findViewById(R.id.Emailr);
         Button Login = findViewById(R.id.Loginbtn);
         Login.setOnClickListener(new View.OnClickListener() {
             @Override

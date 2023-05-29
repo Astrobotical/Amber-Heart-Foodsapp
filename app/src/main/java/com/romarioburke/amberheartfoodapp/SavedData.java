@@ -13,6 +13,7 @@ import java.util.List;
 
 public class SavedData extends ViewModel {
     private HashMap<String,String> item;
+    private final MediatorLiveData<Boolean> Errors = new MediatorLiveData<>();
     private final MutableLiveData<String> selectedItem = new MutableLiveData<String>();
 
     HashMap<String, JSONArray> Data =  new HashMap<>();
@@ -21,6 +22,17 @@ public class SavedData extends ViewModel {
     private final MediatorLiveData<Integer> counter = new MediatorLiveData<Integer>();
     private int count = 0;
 
+    public void  setError()
+    {
+        Errors.setValue(false);
+    }
+    public void setErrorsuccess()
+    {
+        Errors.setValue(true);
+    }
+    public LiveData<Boolean> AreErrors(){
+        return Errors;
+    }
     public void increment(){
        count +=1;
         counter.setValue(count);

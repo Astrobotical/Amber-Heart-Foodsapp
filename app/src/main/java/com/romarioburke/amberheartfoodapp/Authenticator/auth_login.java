@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.util.Log;
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,30 +23,21 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
-import com.google.android.gms.auth.api.identity.Identity;
 import com.google.android.gms.auth.api.identity.SignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
-import com.romarioburke.amberheartfoodapp.Database.Data;
-import com.romarioburke.amberheartfoodapp.Dataclasses.Login;
 import com.romarioburke.amberheartfoodapp.MainActivity;
 import com.romarioburke.amberheartfoodapp.R;
 import com.romarioburke.amberheartfoodapp.cooks_main;
-import com.romarioburke.amberheartfoodapp.login;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,7 +81,7 @@ public class auth_login extends Fragment {
         //updateUI(account);
         DisplayModes();
         CheckBox rememberme = this.getActivity().findViewById(R.id.rememberme);
-        TextInputEditText StudentIDElement = this.getActivity().findViewById(R.id.Email);
+        TextInputEditText StudentIDElement = this.getActivity().findViewById(R.id.Emailr);
         TextInputEditText PasswordElement = this.getActivity().findViewById(R.id.PasswordL);
         preference = getActivity().getPreferences(0);
         int loadtime = 0;
@@ -110,10 +99,10 @@ public class auth_login extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Toast.makeText(getContext(), "You student ID will be stored", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Your student ID will be stored", Toast.LENGTH_SHORT).show();
                     checked = true;
                 } else {
-                    Toast.makeText(getContext(), "You student ID will not be saved", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Your student ID will not be saved", Toast.LENGTH_SHORT).show();
                     checked = false;
                 }
             }

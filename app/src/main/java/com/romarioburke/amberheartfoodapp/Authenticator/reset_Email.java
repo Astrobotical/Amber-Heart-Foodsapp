@@ -33,7 +33,7 @@ public class reset_Email extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reset_byemail);
         Button VerifyandsendToken = findViewById(R.id.validatetoken);
-        TextInputEditText Email = findViewById(R.id.Email);
+        TextInputEditText Email = findViewById(R.id.Emailr);
         ImageView Backbtn = findViewById(R.id.backbutton);
         Backbtn.setOnClickListener((view)->{
             Intent Tonextactivity = new Intent(getApplicationContext(), ForgetpasswordChooser.class);
@@ -45,7 +45,7 @@ public class reset_Email extends AppCompatActivity {
                 if (!Email.getText().toString().equals("")) {
                     postData(Email.getText().toString());
                     setContentView(R.layout.activity_reset_options);
-                    TextInputEditText Tokeninput = findViewById(R.id.Email);
+                    TextInputEditText Tokeninput = findViewById(R.id.Emailr);
                     Button Validate = findViewById(R.id.validatetoken);
                     ImageView returnhome = findViewById(R.id.backbutton);
                     Validate.setOnClickListener((view)->{
