@@ -1,16 +1,21 @@
 package com.romarioburke.amberheartfoodapp.ui.main.pages;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -20,13 +25,19 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.romarioburke.amberheartfoodapp.Adapters.DinnerAdapter;
+import com.romarioburke.amberheartfoodapp.Adapters.emptyadapter;
+import com.romarioburke.amberheartfoodapp.Adapters.griditems;
+import com.romarioburke.amberheartfoodapp.Adapters.itemsadapter;
 import com.romarioburke.amberheartfoodapp.R;
+import com.romarioburke.amberheartfoodapp.SavedData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TotalItems extends Fragment {
 
@@ -38,6 +49,9 @@ public class TotalItems extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    Button PreviouslyClicked;
+    Bundle bundler;
+    HashMap<String, String> Selecteditems = new HashMap<String, String>();
     ArrayList<String> BImg = new ArrayList<>();
     ArrayList<String> Bname = new ArrayList<>();
     ArrayList<String> Bdesc = new ArrayList<>();
@@ -81,7 +95,7 @@ public class TotalItems extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.cooks_total_items, container, false);
     }
@@ -95,12 +109,12 @@ public class TotalItems extends Fragment {
                 public void run() {
                     String RequestURL = "https://api.romarioburke.com/api/v1/catalogs";
                     RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
-                    Log.i("Listitems","Here");
+                    Log.i("Listitems", "Here");
                     JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, RequestURL, null, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
-                                Log.i("Listitems",response.toString());
+                                Log.i("Listitems", response.toString());
                                 JSONObject result = new JSONObject(response.toString());
                                 JSONArray Product = result.getJSONArray("data");
                                 for (int i = 0; i < Product.length(); i++) {
@@ -146,20 +160,95 @@ public class TotalItems extends Fragment {
         } catch (Exception ex) {
         }
     }
+
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
-        Log.i("Listitems","Started");
-        ListView BreakfastView =(ListView)getActivity().findViewById(R.id.BreakFastList);
-        ListView LunchView = (ListView)getActivity().findViewById(R.id.LunchList);
-        ListView DinnerView =   (ListView) getActivity().findViewById(R.id.DinnerList);
-       // BreakFastAdapter BreakAdpt = new BreakFastAdapter();
-       // LunchAdapter LunchAdpt = new LunchAdapter();
+        Log.i("Listitems", "Started");
         String[] listItems = {"Itme one", "Item two", "Item three"};
         ArrayAdapter<String> adapter;
-        //adapter = new ArrayAdapter<>(getContext(), R.layout.listitems, R.id.Itemname, listItems);
-        //DinnerView.setAdapter(adapter);
-       DinnerAdapter DinnerAdpt = new DinnerAdapter(getContext(),Dname,DImg,Ddesc,Dcategory,DFoodUID,DTarget,this);
-        DinnerView.setAdapter(DinnerAdpt);
+        Button Breakfast = this.getActivity().findViewById(R.id.Breakfast);
+        Button Lunch = this.getActivity().findViewById(R.id.lunch);
+        Button Dinner = this.getActivity().findViewById(R.id.dinner);
+        GridView gridView = this.getActivity().findViewById(R.id.grids);
+        TextView featured = this.getActivity().findViewById(R.id.ViewModelELEMENET);
+        TextView  Head = this.getActivity().findViewById(R.id.Head);
+        if (PreviouslyClicked == null) {
+            Breakfast.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.teal_700)));
+            Head.setText("Breakfast Menu Items");
+            pulldata("Breakfast");
+            PreviouslyClicked = Breakfast;
+        } else {
+            Breakfast.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple_500)));
+        }
+
+        Breakfast.setOnClickListener((view) -> {
+            Head.setText("Breakfast Menu Items");
+            pulldata("Breakfast");
+            ActiveButton(Breakfast);
+        });
+        Lunch.setOnClickListener((view) -> {
+            Head.setText("Lunch Menu Items");
+           // Toast.makeText(getActivity(), "This works, it is lunch", Toast.LENGTH_SHORT).show();
+            pulldata("Lunch");
+            ActiveButton(Lunch);
+        });
+        Dinner.setOnClickListener((view) -> {
+            Head.setText("Dinner Menu Items");
+            //Toast.makeText(getActivity(), "This works, it is Dinner", Toast.LENGTH_SHORT).show();
+            pulldata("Dinner");
+            ActiveButton(Dinner);
+            //Dinner.setBackgroundTintList(ColorStateList.valueOf(R.color.menubtn));
+        });
+    }
+
+    void pulldata(String RequestType) {
+        GridView gridView = this.getActivity().findViewById(R.id.grids);
+        emptyadapter emptygrid =new emptyadapter(this,getContext());
+        if (RequestType.equals("Breakfast")) {
+            itemsadapter Grid = new itemsadapter(this.getActivity().getApplicationContext(), Bname, BImg, Bdesc, Bcategory, BFoodUID, bundler, Selecteditems, BTarget, this);
+            if(Bname.size() == 0){
+                gridView.setAdapter(emptygrid);
+            }else {
+                gridView.setAdapter(Grid);
+            }
+        } else if (RequestType.equals("Lunch")) {
+            itemsadapter Grid = new itemsadapter(this.getActivity().getApplicationContext(), Lname, LImg, Ldesc, Lcategory, LFoodUID, bundler, Selecteditems, LTarget, this);
+            if(Lname.size() == 0){
+                gridView.setAdapter(emptygrid);
+            }else {
+                gridView.setAdapter(Grid);
+            }
+        } else if (RequestType.equals("Dinner")) {
+
+            itemsadapter Grid = new itemsadapter(this.getActivity().getApplicationContext(), Dname, DImg, Ddesc, Dcategory, DFoodUID, bundler, Selecteditems, DTarget, this);
+            if(Lname.size() == 0){
+                gridView.setAdapter(emptygrid);
+            }else {
+                gridView.setAdapter(Grid);
+            }
+        }
+    }
+
+    private void ActiveButton(Button current) {
+        if (PreviouslyClicked == null) {
+            current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple_700)));
+        } else {
+            PreviouslyClicked.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple_700)));
+        }
+        switch (current.getText().toString()) {
+            case "Breakfast":
+                current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.teal_700)));
+                PreviouslyClicked = current;
+                break;
+            case "Lunch":
+                current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.teal_700)));
+                PreviouslyClicked = current;
+                break;
+            case "Dinner":
+                current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.teal_700)));
+                PreviouslyClicked = current;
+                break;
+        }
     }
 }

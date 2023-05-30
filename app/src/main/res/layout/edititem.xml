@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/dialog"
+    app:circularflow_radiusInDP="25"
+    >
+    <RelativeLayout
+        android:id="@+id/Editcontainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/lb1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:layout_marginTop="175dp"
+            android:text="Edit Food name"
+            android:textSize="18sp" />
+
+        <ImageButton
+            android:id="@+id/ExitEditbtn"
+            android:layout_width="87dp"
+            android:layout_height="84dp"
+            android:layout_marginStart="295dp"
+            android:background="@drawable/round_corners"
+            android:src="@drawable/exit_foreground" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/editimage"
+            android:layout_width="148dp"
+            android:layout_height="107dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="40sp"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp"
+            tools:src="@drawable/loadingplaceholder"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+        <EditText
+            android:id="@+id/editname"
+            style="@style/Widget.Material3.AutoCompleteTextView.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="165sp"
+            android:layout_marginTop="160sp"
+            android:ems="10"
+            android:inputType="text"
+            android:text="Name"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/changeimg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="150dp"
+            android:layout_marginTop="60dp"
+            android:text="change  image" />
+
+        <TextView
+            android:id="@+id/lbtarget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:layout_marginTop="280sp"
+            android:fontFamily="@font/dxssemi"
+            android:textColor="#0B0A0A"
+            android:textSize="18sp"
+            tools:text="Edit Student Target" />
+
+        <EditText
+            android:id="@+id/editdescription"
+            style="@style/Widget.Material3.AutoCompleteTextView.FilledBox.Dense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="165sp"
+            android:layout_marginTop="205sp"
+            android:ems="10"
+            android:inputType="text"
+            android:text="Name"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/lb1description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:layout_marginTop="225sp"
+            android:fontFamily="@font/dxssemi"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            tools:text="Edit Food Description" />
+
+        <Button
+            android:id="@+id/edititembtn"
+            style="@style/Widget.Material3.Button.IconButton.Filled"
+
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="340dp"
+            android:background="#98EF31"
+            android:backgroundTint="#98EF31"
+            android:text="Choose {Category item }->Item"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:cornerRadius="10sp" />
+
+        <Spinner
+            android:id="@+id/edittarget"
+            android:layout_width="171dp"
+            android:layout_height="37dp"
+            android:layout_marginStart="165dp"
+            android:layout_marginTop="270dp" />
+
+    </RelativeLayout>
+</FrameLayout>

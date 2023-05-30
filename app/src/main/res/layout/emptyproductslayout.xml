@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:layout_weight="1"
-        android:paddingStart="25dp"
-        android:text="Nothing to Show Here"
+        android:paddingStart="10dp"
+        android:text="No items in this category"
         android:textAlignment="textStart"
-        android:textSize="24sp"
+        android:textSize="34sp"
         android:textStyle="bold" />
-</LinearLayout>
+</RelativeLayout>

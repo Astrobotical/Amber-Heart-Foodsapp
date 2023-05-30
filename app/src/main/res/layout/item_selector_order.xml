@@ -10,6 +10,7 @@
     >
 
     <RelativeLayout
+        android:id="@+id/Editcontainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -99,7 +100,7 @@
             android:textStyle="bold" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/edittarget"
             android:layout_width="171dp"
             android:layout_height="37dp"
             android:layout_marginStart="182dp"
