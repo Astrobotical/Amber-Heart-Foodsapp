@@ -6,12 +6,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,6 +102,7 @@ public class griditems extends BaseAdapter {
                             prompt.setView(R.layout.item_selector_order);
                             AlertDialog alertDialog = prompt.create();
                             alertDialog.show();
+                            Button Imagechanger = alertDialog.findViewById(R.id.changeimg);
 
                             ImageButton Exitbutton = alertDialog.findViewById(R.id.Exitbutton);
                             TextView Modalproductname = alertDialog.findViewById(R.id.modalname);
@@ -108,6 +111,10 @@ public class griditems extends BaseAdapter {
                             ImageView Modalproductimage = alertDialog.findViewById(R.id.Itemimage);
                             TextView ModalTarget = alertDialog.findViewById(R.id.modaltarget);
                             Button ModalBtnAdd = alertDialog.findViewById(R.id.additembtn);
+                            Imagechanger.setOnClickListener((view)->{
+                                Intent select = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                main.startActivityForResult(select,1);
+                            });
                             ModalBtnAdd.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
@@ -153,6 +160,7 @@ public class griditems extends BaseAdapter {
 
             return views;
         }
+
     }
     private Drawable getDrawableWithRadius() {
         GradientDrawable gradientDrawable = new GradientDrawable();

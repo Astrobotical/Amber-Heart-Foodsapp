@@ -1,12 +1,18 @@
 package com.romarioburke.amberheartfoodapp.ui.main.pages;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +42,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -71,6 +78,7 @@ public class TotalItems extends Fragment {
     ArrayList<String> Dcategory = new ArrayList<>();
     ArrayList<String> DFoodUID = new ArrayList<>();
     ArrayList<String> DTarget = new ArrayList<>();
+    SavedData Viewmodeler;
 
     public TotalItems() {
         // Required empty public constructor
@@ -103,6 +111,10 @@ public class TotalItems extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+       getinfo();
+    }
+    private void getinfo()
+    {
         try {
             new Thread(new Runnable() {
                 @Override
@@ -142,6 +154,7 @@ public class TotalItems extends Fragment {
                                         DTarget.add(Productdata.getString("ItemTarget"));
                                     }
                                 }
+                                pulldata("Breakfast");
                             } catch (JSONException EX) {
                                 Toast.makeText(getActivity(), "ERROR", Toast.LENGTH_SHORT).show();
                                 Log.i("CustomError", EX.toString());
@@ -160,7 +173,6 @@ public class TotalItems extends Fragment {
         } catch (Exception ex) {
         }
     }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -176,7 +188,6 @@ public class TotalItems extends Fragment {
         if (PreviouslyClicked == null) {
             Breakfast.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.teal_700)));
             Head.setText("Breakfast Menu Items");
-            pulldata("Breakfast");
             PreviouslyClicked = Breakfast;
         } else {
             Breakfast.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple_500)));
@@ -222,7 +233,7 @@ public class TotalItems extends Fragment {
         } else if (RequestType.equals("Dinner")) {
 
             itemsadapter Grid = new itemsadapter(this.getActivity().getApplicationContext(), Dname, DImg, Ddesc, Dcategory, DFoodUID, bundler, Selecteditems, DTarget, this);
-            if(Lname.size() == 0){
+            if(Dname.size() == 0){
                 gridView.setAdapter(emptygrid);
             }else {
                 gridView.setAdapter(Grid);
@@ -249,6 +260,37 @@ public class TotalItems extends Fragment {
                 current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.teal_700)));
                 PreviouslyClicked = current;
                 break;
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode,  Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 0: {
+                if (resultCode == RESULT_OK) {
+                    Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                  //  image.setImageBitmap(bitmap);
+                   // Saved = bitmap;
+                }
+                //capture
+            }
+            break;
+            case 1: {
+                if (resultCode == RESULT_OK) {
+                    try {
+                        Uri imageUri = data.getData();
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap( getActivity().getContentResolver(), imageUri);
+                        Viewmodeler = new ViewModelProvider(this).get(SavedData.class);
+                        Viewmodeler.Saveimage(bitmap);
+                        //image.setImageBitmap(bitmap);
+                      //  Saved = bitmap;
+                        //UploadImage(Foodname,bitmap,"Ominvore",ChoosenFoodCategory,Food_description);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            break;
         }
     }
 }

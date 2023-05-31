@@ -3,21 +3,26 @@ package com.romarioburke.amberheartfoodapp.Adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +37,7 @@ import android.widget.Toast;
 import androidx.cardview.widget.CardView;
 import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.Request;
@@ -55,8 +61,9 @@ import java.util.Map;
 import java.util.UUID;
 
 public class itemsadapter extends BaseAdapter {
+    Context context;
     public itemsadapter(Context context, ArrayList<String> FoodName, ArrayList<String> FoodImage, ArrayList<String> Description, ArrayList<String> Category, ArrayList<String>FoodUID, Bundle bundler, HashMap<String, String> Selecteditem, ArrayList<String>Target, Fragment trying) {
-       // this.context = context;
+        this.context = context;
         this.FoodName = FoodName;
         this.FoodDescription = Description;
         this.FoodImage = FoodImage;
@@ -67,6 +74,10 @@ public class itemsadapter extends BaseAdapter {
         this.FoodTarget = Target;
         this.main = trying;
     }
+    Bitmap CurrentImage;
+    String CurrentDescription;
+    String CurrentTarget;
+    String CurrentCategory;
     ArrayList<String>FoodTarget = new ArrayList<>();
     ArrayList<String> FoodImage = new ArrayList<>();
     ArrayList<String> FoodName = new ArrayList<>();
@@ -183,21 +194,103 @@ public class itemsadapter extends BaseAdapter {
                             AlertDialog.Builder prompt = new AlertDialog.Builder(view.getContext());
                             prompt.setView(R.layout.edititem);
                             AlertDialog alertDialog = prompt.create();
+                            String[] TargetStudentArray = {"Select a Student Type", "Omnivore", "Herbivore", "Pescatarian"};
+                            String[] FoodCatergoryArray = {"Select a Food Type", "Breakfast", "Lunch", "Dinner"};
                             alertDialog.show();
+                            ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(alertDialog.getContext(), android.R.layout.simple_spinner_dropdown_item, FoodCatergoryArray);
+                            spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            Button Changebtn = alertDialog.findViewById(R.id.changeimg);
                             ImageButton Exitbutton = alertDialog.findViewById(R.id.ExitEditbtn);
+                            Spinner ModalCategory = alertDialog.findViewById(R.id.editcategory);
+                            ModalCategory.setAdapter(spinnerArrayAdapter);
                             EditText Modalproductname = alertDialog.findViewById(R.id.editname);
                             EditText ModalDiscription = alertDialog.findViewById(R.id.editdescription);
                             ImageView Modalproductimage = alertDialog.findViewById(R.id.editimage);
                             Spinner ModalTarget = alertDialog.findViewById(R.id.edittarget);
                             Button edititembtn = alertDialog.findViewById(R.id.edititembtn);
+                            ArrayAdapter<String> TargetStudentAdapter = new ArrayAdapter<>(alertDialog.getContext(), android.R.layout.simple_spinner_dropdown_item, TargetStudentArray);
+                            TargetStudentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            ModalTarget.setAdapter(TargetStudentAdapter);
+                            if(CurrentImage == null)
+                            {
+                                BitmapDrawable drawable = (BitmapDrawable) img.getDrawable();
+                                CurrentImage =  drawable.getBitmap();
+                            }
+                            if(CurrentDescription ==  null|| ModalTarget.getSelectedItem().toString().equals("Select a Student Type"))
+                            {
+                                CurrentDescription = FoodCategory.get(i);
+                            }
+                            if(CurrentCategory == null || ModalCategory.getSelectedItem().toString().equals("Select a Food Type"))
+                            {
+                                CurrentCategory = FoodCategory.get(i);
+                            }
+                            Actioncallor = new ViewModelProvider(main).get(SavedData.class);
+                            Actioncallor.getImage().observe(main, new Observer<Bitmap>() {
+                                        @Override
+                                        public void onChanged(Bitmap bitmap) {
+                                            CurrentImage = bitmap;
+                                            Modalproductimage.setImageBitmap(bitmap);
+                                        }
+                                    });
+                                    Changebtn.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent select = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                            main.startActivityForResult(select, 1);
+
+                                        }
+                                    });
                             edititembtn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    JSONArray arraybuilder = new JSONArray();
-                                    arraybuilder.put("Name");
-                                    Actioncallor = new ViewModelProvider(main).get(SavedData.class);
-                                    Actioncallor.addItem(FoodName.get(i), arraybuilder);
-                                    alertDialog.onBackPressed();
+                                  main.getActivity().runOnUiThread(new Runnable() {
+                                      @Override
+                                      public void run() {
+                                          String url = "https://api.romarioburke.com/api/v1/Items/Updateitem";
+                                          RequestQueue queue = Volley.newRequestQueue(alertDialog.getContext());
+
+                                          StringRequest request = new StringRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<String>() {
+                                              @Override
+                                              public void onResponse(String response) {
+                                                  JSONObject obj = null;
+                                                  try {
+                                                      obj = new JSONObject(response);
+                                                      String Message = obj.optString("message");
+                                                      Toast.makeText(main.getContext(), Message, Toast.LENGTH_LONG).show();
+                                                      alertDialog.onBackPressed();
+                                                      main.getActivity().recreate();
+                                                  } catch (JSONException e) {
+                                                      throw new RuntimeException(e);
+                                                  }
+                                              }
+                                          }, new com.android.volley.Response.ErrorListener() {
+                                              @Override
+                                              public void onErrorResponse(VolleyError error) {
+                                                  Toast.makeText(main.getContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                                              }
+                                          }) {
+                                              @Override
+                                              protected Map<String, String> getParams() {
+                                                  ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                                  CurrentImage.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                                                  byte[] bytes = byteArrayOutputStream.toByteArray();
+                                                  String image = "data:image/jpeg;base64,";
+                                                  image += Base64.encodeToString(bytes, Base64.DEFAULT);
+                                                  Map<String, String> params = new HashMap<String, String>();
+                                                  params.put("Item_id", FoodUID.get(i));
+                                                  params.put("Item_name", FoodName.get(i));
+                                                  params.put("Item_image", image);
+                                                  params.put("Item_description", ModalDiscription.getText().toString());
+                                                  params.put("Item_category", ModalCategory.getSelectedItem().toString());
+                                                  params.put("Item_Target", ModalTarget.getSelectedItem().toString());
+                                                  Log.i("Stringable",params.toString());
+                                                  return params;
+
+                                              }
+                                          };
+                                          queue.add(request);
+                                      }
+                                  });
                                 }
                             });
                             //ModalTarget.setText("Food Base Type - "+FoodTarget.get(i));
@@ -234,6 +327,7 @@ public class itemsadapter extends BaseAdapter {
 
         return views;
     }
+
     private Drawable getDrawableWithRadius() {
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setColor(Color.WHITE);

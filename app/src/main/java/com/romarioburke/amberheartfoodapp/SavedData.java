@@ -1,5 +1,7 @@
 package com.romarioburke.amberheartfoodapp;
 
+import android.graphics.Bitmap;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -7,7 +9,6 @@ import androidx.lifecycle.ViewModel;
 
 import org.json.JSONArray;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,8 +21,19 @@ public class SavedData extends ViewModel {
     //private final MutableLiveData<HashMap<String,String>> StoredItemObject = new MutableLiveData<>();
     private final MutableLiveData<HashMap<String, JSONArray>> Storeditems = new MutableLiveData<>();
     private final MediatorLiveData<Integer> counter = new MediatorLiveData<Integer>();
+    private final MediatorLiveData<Bitmap> choosenimg = new MediatorLiveData<>();
     private int count = 0;
-
+    public void Saveimage(Bitmap image){
+        choosenimg.setValue(image);
+    }
+    public LiveData<Bitmap>getImage()
+    {
+        return choosenimg;
+    }
+    public MediatorLiveData<Bitmap> Imageet()
+    {
+        return choosenimg;
+    }
     public void  setError()
     {
         Errors.setValue(false);

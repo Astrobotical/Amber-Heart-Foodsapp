@@ -62,13 +62,13 @@
             android:text="change  image" />
 
         <TextView
-            android:id="@+id/lbtarget"
+            android:id="@+id/lbtarget1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10sp"
             android:layout_marginTop="280sp"
-            android:fontFamily="@font/dxssemi"
-            android:textColor="#0B0A0A"
+            android:text="Edit Student Target"
+            android:textColor="#050505"
             android:textSize="18sp"
             tools:text="Edit Student Target" />
 
@@ -85,13 +85,13 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/lb1description"
+            android:id="@+id/lb1description1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10sp"
             android:layout_marginTop="225sp"
-            android:fontFamily="@font/dxssemi"
-            android:textColor="#000000"
+            android:text="Edit Food Description"
+            android:textColor="#070707"
             android:textSize="18sp"
             tools:text="Edit Food Description" />
 
@@ -102,7 +102,7 @@
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="340dp"
+            android:layout_marginTop="380dp"
             android:background="#98EF31"
             android:backgroundTint="#98EF31"
             android:text="Choose {Category item }->Item"
@@ -117,6 +117,23 @@
             android:layout_height="37dp"
             android:layout_marginStart="165dp"
             android:layout_marginTop="270dp" />
+
+        <Spinner
+            android:id="@+id/editcategory"
+            android:layout_width="171dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="165sp"
+            android:layout_marginTop="330sp" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:layout_marginTop="330sp"
+            android:text="Edit Category"
+            android:textColor="#171717"
+            android:textSize="18sp" />
 
     </RelativeLayout>
 </FrameLayout>
