@@ -115,6 +115,7 @@ public class food_add extends Fragment {
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         TargetedStudent.setAdapter(TargetStudentAdapter);
         CategoryList.setAdapter(spinnerArrayAdapter);
+        image = getActivity().findViewById(R.id.food_img);
         uploadphoto.setOnClickListener((view) -> {
             CheckPermission();
             Intent select = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -248,7 +249,6 @@ public class food_add extends Fragment {
             public void run() {
                String url = "https://api.romarioburke.com/api/v1/Items/Additem";
                RequestQueue queue = Volley.newRequestQueue(getActivity());
-               TextView tester = getActivity().findViewById(R.id.tester);
                StringRequest request = new StringRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<String>() {
                    @Override
                    public void onResponse(String response) {

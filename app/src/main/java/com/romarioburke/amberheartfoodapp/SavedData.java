@@ -1,6 +1,7 @@
 package com.romarioburke.amberheartfoodapp;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
@@ -43,6 +44,7 @@ public class SavedData extends ViewModel {
         Errors.setValue(true);
     }
     public LiveData<Boolean> AreErrors(){
+        Log.i("isRegistered",  Errors.getValue().toString());
         return Errors;
     }
     public void increment(){

@@ -42,6 +42,7 @@ import java.util.regex.Pattern;
 public class auth_register extends Fragment {
     private boolean Response;
     SavedData Actioncallor;
+    private boolean ckecher;
     public auth_register() {
         // Required empty public constructor
     }
@@ -336,67 +337,63 @@ public class auth_register extends Fragment {
         });
         Register.setOnClickListener((view) -> {
             TextInputEditText got = getActivity().findViewById(R.id.Emailrr);
+
             com.romarioburke.amberheartfoodapp.Dataclasses.Register regis = new Register(StudentID.getText().toString(), Name.getText().toString(), got, passwordtext.getText().toString(), getActivity());
             Actioncallor.AreErrors().observe(this, Error -> {
-                if (Error.equals(true)) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            String url = "https://api.romarioburke.com/api/v1/auth/register";
-                            RequestQueue queue = Volley.newRequestQueue(getActivity());
-                            StringRequest request = new StringRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    try {
-                                        JSONObject obj = new JSONObject(response);
-                                        String Message = obj.optString("response");
-                                        String Errors = obj.getString("errors");
-                                        if (Message.equals("Success")) {
+                this.ckecher = Error;
+            });
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (ckecher == true) {
+                        String url = "https://api.romarioburke.com/api/v1/auth/register";
+                        RequestQueue queue = Volley.newRequestQueue(getActivity());
+                        StringRequest request = new StringRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject obj = new JSONObject(response);
+                                    String Message = obj.optString("response");
+                                    if (Message.equals("Success")) {
+                                        //bar.setVisibility(View.GONE);
+                                        Toast.makeText(getContext(), "Successful registration", Toast.LENGTH_LONG).show();
+                                        Intent Loginscreen = new Intent(getActivity(), Auth.class);
+                                        startActivity(Loginscreen);
 
-                                            bar.setVisibility(View.GONE);
-                                            Toast.makeText(getContext(), "Successful registration", Toast.LENGTH_LONG).show();
-                                            Intent Loginscreen = new Intent(getActivity(), Auth.class);
-                                            startActivity(Loginscreen);
-
-                                        } else if (Message.equals("Email already exists")) {
-
-                                        } else if (!Errors.equals("")) {
-                                            Toast.makeText(getActivity().getApplicationContext(), Errors, Toast.LENGTH_LONG).show();
-                                        }
-                                    } catch (JSONException e) {
+                                    } else if (Message.equals("Email already exists")) {
                                     }
+                                } catch (JSONException e) {
                                 }
-                            }, new com.android.volley.Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Toast.makeText(getActivity().getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
-                                }
-                            }) {
-                                @Override
-                                protected Map<String, String> getParams() {
-                                    String[] splited = Name.getText().toString().split("\\s");
-                                    String First = Character.toUpperCase(splited[0].charAt(0)) + splited[0].substring(1);
-                                    String Lastname = Character.toUpperCase(splited[1].charAt(0)) + splited[1].substring(1);
-                                    ;
-                                    String NewName = First + " " + Lastname;
-                                    Map<String, String> params = new HashMap<String, String>();
-                                    params.put("Name", NewName);
-                                    params.put("StudentID", StudentID.getText().toString());
-                                    params.put("Email", got.getText().toString());
-                                    params.put("Password", passwordtext.getText().toString());
-                                    params.put("Status", "Student");
-                                    Log.i("spenting", String.valueOf(params));
-                                    return params;
-                                }
-                            };
-                            queue.add(request);
-                        }
-                    });
+                            }
+                        }, new com.android.volley.Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(getActivity().getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        }) {
+                            @Override
+                            protected Map<String, String> getParams() {
+                                String[] splited = Name.getText().toString().split("\\s");
+                                String First = Character.toUpperCase(splited[0].charAt(0)) + splited[0].substring(1);
+                                String Lastname = Character.toUpperCase(splited[1].charAt(0)) + splited[1].substring(1);
+                                ;
+                                String NewName = First + " " + Lastname;
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put("Name", NewName);
+                                params.put("StudentID", StudentID.getText().toString());
+                                params.put("Email", got.getText().toString());
+                                params.put("Password", passwordtext.getText().toString());
+                                params.put("Status", "Student");
+                                Log.i("spenting", String.valueOf(params));
+                                return params;
+                            }
+                        };
+                        queue.add(request);
+                    }
                 }
             });
-        });
+            });
     }
-
     @Override
     public void onResume()
     {

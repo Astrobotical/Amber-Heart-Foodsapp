@@ -93,11 +93,18 @@
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="430dp"
+            android:layout_marginTop="490dp"
             android:text="Choose {Category item }->Item"
             android:textAlignment="center"
             android:textSize="15sp"
             android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/miniview"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="375dp"
+            android:orientation="vertical" />
 
         <Spinner
             android:id="@+id/edittarget"

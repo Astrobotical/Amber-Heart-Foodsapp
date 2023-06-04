@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -49,6 +50,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.romarioburke.amberheartfoodapp.R;
 import com.romarioburke.amberheartfoodapp.SavedData;
+import com.romarioburke.amberheartfoodapp.ui.main.pages.TotalItems;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -191,128 +193,244 @@ public class itemsadapter extends BaseAdapter {
                     main.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            AlertDialog.Builder prompt = new AlertDialog.Builder(view.getContext());
-                            prompt.setView(R.layout.edititem);
-                            AlertDialog alertDialog = prompt.create();
-                            String[] TargetStudentArray = {"Select a Student Type", "Omnivore", "Herbivore", "Pescatarian"};
-                            String[] FoodCatergoryArray = {"Select a Food Type", "Breakfast", "Lunch", "Dinner"};
-                            alertDialog.show();
-                            ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(alertDialog.getContext(), android.R.layout.simple_spinner_dropdown_item, FoodCatergoryArray);
-                            spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            Button Changebtn = alertDialog.findViewById(R.id.changeimg);
-                            ImageButton Exitbutton = alertDialog.findViewById(R.id.ExitEditbtn);
-                            Spinner ModalCategory = alertDialog.findViewById(R.id.editcategory);
-                            ModalCategory.setAdapter(spinnerArrayAdapter);
-                            EditText Modalproductname = alertDialog.findViewById(R.id.editname);
-                            EditText ModalDiscription = alertDialog.findViewById(R.id.editdescription);
-                            ImageView Modalproductimage = alertDialog.findViewById(R.id.editimage);
-                            Spinner ModalTarget = alertDialog.findViewById(R.id.edittarget);
-                            Button edititembtn = alertDialog.findViewById(R.id.edititembtn);
-                            ArrayAdapter<String> TargetStudentAdapter = new ArrayAdapter<>(alertDialog.getContext(), android.R.layout.simple_spinner_dropdown_item, TargetStudentArray);
-                            TargetStudentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            ModalTarget.setAdapter(TargetStudentAdapter);
-                            if(CurrentImage == null)
-                            {
-                                BitmapDrawable drawable = (BitmapDrawable) img.getDrawable();
-                                CurrentImage =  drawable.getBitmap();
-                            }
-                            if(CurrentDescription ==  null|| ModalTarget.getSelectedItem().toString().equals("Select a Student Type"))
-                            {
-                                CurrentDescription = FoodCategory.get(i);
-                            }
-                            if(CurrentCategory == null || ModalCategory.getSelectedItem().toString().equals("Select a Food Type"))
-                            {
-                                CurrentCategory = FoodCategory.get(i);
-                            }
-                            Actioncallor = new ViewModelProvider(main).get(SavedData.class);
-                            Actioncallor.getImage().observe(main, new Observer<Bitmap>() {
-                                        @Override
-                                        public void onChanged(Bitmap bitmap) {
-                                            CurrentImage = bitmap;
-                                            Modalproductimage.setImageBitmap(bitmap);
-                                        }
-                                    });
-                                    Changebtn.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            Intent select = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                            main.startActivityForResult(select, 1);
+                            if (FoodCategory.get(i).equals("Sides")) {
+                                AlertDialog.Builder prompt = new AlertDialog.Builder(view.getContext());
+                                prompt.setView(R.layout.sides_editor);
+                                AlertDialog alertDialog = prompt.create();
+                                alertDialog.show();
+                                String[] FoodCatergoryArray = {"Select a Food Type", "Breakfast", "Lunch", "Dinner"};
+                                Actioncallor = new ViewModelProvider(main).get(SavedData.class);
 
-                                        }
-                                    });
-                            edititembtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                  main.getActivity().runOnUiThread(new Runnable() {
-                                      @Override
-                                      public void run() {
-                                          String url = "https://api.romarioburke.com/api/v1/Items/Updateitem";
-                                          RequestQueue queue = Volley.newRequestQueue(alertDialog.getContext());
+                                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(main.getContext(), android.R.layout.simple_spinner_dropdown_item, FoodCatergoryArray);
+                                spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                EditText Foodname = alertDialog.findViewById(R.id.Fname);
+                                EditText Fooddes = alertDialog.findViewById(R.id.Fdescription);
+                                Spinner FoodCategory = alertDialog.findViewById(R.id.FCategory);
+                                Button Addside = alertDialog.findViewById(R.id.addside);
+                                ImageView image = alertDialog.findViewById(R.id.Img);
+                                ImageView Exit = alertDialog.findViewById(R.id.Exit);
+                                Button photoupload = alertDialog.findViewById(R.id.photoupload);
+                                FoodCategory.setAdapter(spinnerArrayAdapter);
 
-                                          StringRequest request = new StringRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<String>() {
-                                              @Override
-                                              public void onResponse(String response) {
-                                                  JSONObject obj = null;
-                                                  try {
-                                                      obj = new JSONObject(response);
-                                                      String Message = obj.optString("message");
-                                                      Toast.makeText(main.getContext(), Message, Toast.LENGTH_LONG).show();
-                                                      alertDialog.onBackPressed();
-                                                      main.getActivity().recreate();
-                                                  } catch (JSONException e) {
-                                                      throw new RuntimeException(e);
-                                                  }
-                                              }
-                                          }, new com.android.volley.Response.ErrorListener() {
-                                              @Override
-                                              public void onErrorResponse(VolleyError error) {
-                                                  Toast.makeText(main.getContext(), error.toString(), Toast.LENGTH_SHORT).show();
-                                              }
-                                          }) {
-                                              @Override
-                                              protected Map<String, String> getParams() {
-                                                  ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                                                  CurrentImage.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-                                                  byte[] bytes = byteArrayOutputStream.toByteArray();
-                                                  String image = "data:image/jpeg;base64,";
-                                                  image += Base64.encodeToString(bytes, Base64.DEFAULT);
-                                                  Map<String, String> params = new HashMap<String, String>();
-                                                  params.put("Item_id", FoodUID.get(i));
-                                                  params.put("Item_name", FoodName.get(i));
-                                                  params.put("Item_image", image);
-                                                  params.put("Item_description", ModalDiscription.getText().toString());
-                                                  params.put("Item_category", ModalCategory.getSelectedItem().toString());
-                                                  params.put("Item_Target", ModalTarget.getSelectedItem().toString());
-                                                  Log.i("Stringable",params.toString());
-                                                  return params;
-
-                                              }
-                                          };
-                                          queue.add(request);
-                                      }
-                                  });
-                                }
-                            });
-                            //ModalTarget.setText("Food Base Type - "+FoodTarget.get(i));
-                            edititembtn.setText("Save the changes");
-                            Modalproductname.setText(FoodName.get(i));
-                            ModalDiscription.setText(FoodDescription.get(i));
-                            String Imagealtered = "https://api.romarioburke.com/"+FoodImage.get(i);
-
-                            Glide.with(views.getContext()).load(Imagealtered).apply(RequestOptions.circleCropTransform()).placeholder(R.drawable.loadingplaceholder).into(Modalproductimage);
-                            Exitbutton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
+                                Actioncallor.getImage().observe(main, new Observer<Bitmap>() {
+                                    @Override
+                                    public void onChanged(Bitmap bitmap) {
+                                        CurrentImage = bitmap;
+                                        image.setImageBitmap(bitmap);
+                                    }
+                                });
+                                Exit.setOnClickListener((view)->{
                                     alertDialog.onBackPressed();
-                                }
-                            });
-                            alertDialog.getWindow().setBackgroundDrawable(getDrawableWithRadius());
-                            // alertDialog.getWindow().setLayout(1000, 1900);
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                            }
+                                });
+                                photoupload.setOnClickListener((view)->{
+                                    Intent select = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                    main.startActivityForResult(select, 1);
+                                });
+                                Addside.setOnClickListener((view) -> {
+                                    if (Foodname.getText().toString().equals("")) {
+                                        Foodname.setError("Please enter a side item name");
+                                    } else if (Fooddes.getText().toString().equals("Please enter a description")) {
+                                        Fooddes.setError("Please enter a short description");
+                                    } else if (FoodCategory.getSelectedItem().toString().equals("Select a Food Type")) {
+                                        Toast.makeText(context, "Please ensure you have selected a food category", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        if (CurrentImage == null) {
+                                            BitmapDrawable drawable = (BitmapDrawable) img.getDrawable();
+                                            CurrentImage = drawable.getBitmap();
+                                        }
+                                        main.getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                String url = "https://api.romarioburke.com/api/v1/Items/Updateitem";
+                                                RequestQueue queue = Volley.newRequestQueue(context);
+                                                StringRequest request = new StringRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<String>() {
+                                                    @Override
+                                                    public void onResponse(String response) {
+                                                        JSONObject obj = null;
+                                                        try {
+                                                            obj = new JSONObject(response);
+                                                            String Message = obj.optString("message");
+                                                            Toast.makeText(context, Message, Toast.LENGTH_LONG).show();
+                                                            main.getActivity().recreate();
+                                                            alertDialog.onBackPressed();
+                                                            //main.getActivity().recreate();
+                                                        } catch (JSONException e) {
+                                                            throw new RuntimeException(e);
+                                                        }
+                                                    }
+                                                }, new com.android.volley.Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+                                                        Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }) {
+                                                    @Override
+                                                    protected Map<String, String> getParams() {
+                                                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                                        CurrentImage.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                                                        byte[] bytes = byteArrayOutputStream.toByteArray();
+                                                        String image = "data:image/jpeg;base64,";
+                                                        image += Base64.encodeToString(bytes, Base64.DEFAULT);
+                                                        Map<String, String> params = new HashMap<String, String>();
+                                                        params.put("Item_id", FoodUID.get(i));
+                                                        params.put("Item_name", Foodname.getText().toString());
+                                                        params.put("Item_image", image);
+                                                        params.put("Item_description", Fooddes.getText().toString());
+                                                        params.put("Item_category", "Sides");
+                                                        params.put("Item_Target", "Omnivore");
+                                                        params.put("Side_Target", FoodCategory.getSelectedItem().toString());
+                                                        return params;
+                                                    }
+                                                };
+                                                queue.add(request);
+                                            }
+                                        });
+                                    }
+                                });
+                                String Imagealtered = "https://api.romarioburke.com/" + FoodImage.get(i);
+                                Foodname.setText(FoodName.get(i));
+                                Fooddes.setText(FoodDescription.get(i));
+                                Glide.with(views.getContext()).load(Imagealtered).apply(RequestOptions.circleCropTransform()).placeholder(R.drawable.loadingplaceholder).into(image);
+                            } else {
+                                AlertDialog.Builder prompt = new AlertDialog.Builder(view.getContext());
+                                prompt.setView(R.layout.edititem);
+                                AlertDialog alertDialog = prompt.create();
+                                String[] TargetStudentArray = {"Select a Student Type", "Omnivore", "Herbivore", "Pescatarian"};
+                                String[] FoodCatergoryArray = {"Select a Food Type", "Breakfast", "Lunch", "Dinner"};
+                                alertDialog.show();
+                                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(alertDialog.getContext(), android.R.layout.simple_spinner_dropdown_item, FoodCatergoryArray);
+                                spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                Button Changebtn = alertDialog.findViewById(R.id.changeimg);
+                                ImageButton Exitbutton = alertDialog.findViewById(R.id.ExitEditbtn);
+                                Spinner ModalCategory = alertDialog.findViewById(R.id.editcategory);
+                                ModalCategory.setAdapter(spinnerArrayAdapter);
+                                EditText Modalproductname = alertDialog.findViewById(R.id.editname);
+                                EditText ModalDiscription = alertDialog.findViewById(R.id.editdescription);
+                                ImageView Modalproductimage = alertDialog.findViewById(R.id.editimage);
+                                Spinner ModalTarget = alertDialog.findViewById(R.id.edittarget);
+                                Button edititembtn = alertDialog.findViewById(R.id.edititembtn);
+                                ArrayAdapter<String> TargetStudentAdapter = new ArrayAdapter<>(alertDialog.getContext(), android.R.layout.simple_spinner_dropdown_item, TargetStudentArray);
+                                TargetStudentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                ModalTarget.setAdapter(TargetStudentAdapter);
+                                ModalCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                        CurrentCategory = ModalCategory.getSelectedItem().toString();
+                                    }
 
-                            //   Toast.makeText(context.getApplicationContext(), FoodName.get(i) + "- was clicked", Toast.LENGTH_SHORT).show();
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> parent) {
+
+                                    }
+                                });
+                                if (CurrentImage == null) {
+                                    BitmapDrawable drawable = (BitmapDrawable) img.getDrawable();
+                                    CurrentImage = drawable.getBitmap();
+                                }
+                                if (CurrentDescription == null || ModalDiscription.getText().equals("")) {
+                                    CurrentDescription = FoodCategory.get(i);
+                                }
+
+                                if (CurrentTarget == null || ModalTarget.getSelectedItem().toString().equals("Select a Student Type")) {
+                                    CurrentTarget = FoodTarget.get(i);
+                                }
+                                if (CurrentCategory == null || ModalCategory.getSelectedItem().toString().equals("Select a Food Type")) {
+                                    CurrentCategory = FoodCategory.get(i);
+                                } else {
+                                    CurrentCategory = ModalCategory.getSelectedItem().toString();
+                                }
+                                Actioncallor = new ViewModelProvider(main).get(SavedData.class);
+                                Actioncallor.getImage().observe(main, new Observer<Bitmap>() {
+                                    @Override
+                                    public void onChanged(Bitmap bitmap) {
+                                        CurrentImage = bitmap;
+                                        Modalproductimage.setImageBitmap(bitmap);
+
+                                    }
+                                });
+                                Changebtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent select = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                        main.startActivityForResult(select, 1);
+
+                                    }
+                                });
+                                edititembtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        main.getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+
+                                                String url = "https://api.romarioburke.com/api/v1/Items/Updateitem";
+                                                RequestQueue queue = Volley.newRequestQueue(alertDialog.getContext());
+
+                                                StringRequest request = new StringRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<String>() {
+                                                    @Override
+                                                    public void onResponse(String response) {
+                                                        JSONObject obj = null;
+                                                        try {
+                                                            obj = new JSONObject(response);
+                                                            String Message = obj.optString("message");
+                                                            Toast.makeText(main.getContext(), Message, Toast.LENGTH_LONG).show();
+                                                            alertDialog.onBackPressed();
+                                                            main.getActivity().recreate();
+                                                        } catch (JSONException e) {
+                                                            throw new RuntimeException(e);
+                                                        }
+                                                    }
+                                                }, new com.android.volley.Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+                                                        Toast.makeText(main.getContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }) {
+                                                    @Override
+                                                    protected Map<String, String> getParams() {
+                                                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                                        CurrentImage.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                                                        byte[] bytes = byteArrayOutputStream.toByteArray();
+                                                        String image = "data:image/jpeg;base64,";
+                                                        image += Base64.encodeToString(bytes, Base64.DEFAULT);
+                                                        Map<String, String> params = new HashMap<String, String>();
+                                                        params.put("Item_id", FoodUID.get(i));
+                                                        params.put("Item_name", Modalproductname.getText().toString());
+                                                        params.put("Item_image", image);
+                                                        params.put("Item_description", CurrentDescription);
+                                                        params.put("Item_category", CurrentCategory);
+                                                        params.put("Item_Target", CurrentTarget);
+                                                        Log.i("Stringable", params.toString());
+                                                        return params;
+
+                                                    }
+                                                };
+                                                queue.add(request);
+                                            }
+                                        });
+                                    }
+                                });
+                                //ModalTarget.setText("Food Base Type - "+FoodTarget.get(i));
+                                edititembtn.setText("Save the changes");
+                                Modalproductname.setText(FoodName.get(i));
+                                ModalDiscription.setText(FoodDescription.get(i));
+                                String Imagealtered = "https://api.romarioburke.com/" + FoodImage.get(i);
+
+                                Glide.with(views.getContext()).load(Imagealtered).apply(RequestOptions.circleCropTransform()).placeholder(R.drawable.loadingplaceholder).into(Modalproductimage);
+                                Exitbutton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        alertDialog.onBackPressed();
+                                    }
+                                });
+                                alertDialog.getWindow().setBackgroundDrawable(getDrawableWithRadius());
+                                // alertDialog.getWindow().setLayout(1000, 1900);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                    alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                }
+
+                                //   Toast.makeText(context.getApplicationContext(), FoodName.get(i) + "- was clicked", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
                 }

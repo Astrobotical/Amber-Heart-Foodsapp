@@ -3,6 +3,8 @@ package com.romarioburke.amberheartfoodapp.Adapters;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -102,7 +104,8 @@ public class griditems extends BaseAdapter {
                             prompt.setView(R.layout.item_selector_order);
                             AlertDialog alertDialog = prompt.create();
                             alertDialog.show();
-                            Button Imagechanger = alertDialog.findViewById(R.id.changeimg);
+                            //Button Imagechanger = alertDialog.findViewById(R.id.changeimg);
+                            RecyclerView miniview = alertDialog.findViewById(R.id.miniview);
 
                             ImageButton Exitbutton = alertDialog.findViewById(R.id.Exitbutton);
                             TextView Modalproductname = alertDialog.findViewById(R.id.modalname);
@@ -111,10 +114,15 @@ public class griditems extends BaseAdapter {
                             ImageView Modalproductimage = alertDialog.findViewById(R.id.Itemimage);
                             TextView ModalTarget = alertDialog.findViewById(R.id.modaltarget);
                             Button ModalBtnAdd = alertDialog.findViewById(R.id.additembtn);
-                            Imagechanger.setOnClickListener((view)->{
+                            miniview.setLayoutManager(new LinearLayoutManager(alertDialog.getContext()));
+                            RecyclerAdapter adapter = new RecyclerAdapter(alertDialog.getContext(),FoodName, FoodImage,FoodUID, main);
+                           miniview.setAdapter(adapter);
+                            /* Imagechanger.setOnClickListener((view)->{
                                 Intent select = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                                 main.startActivityForResult(select,1);
                             });
+
+                            */
                             ModalBtnAdd.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {

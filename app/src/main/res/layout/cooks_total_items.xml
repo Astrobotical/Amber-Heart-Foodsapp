@@ -38,25 +38,38 @@
                             android:id="@+id/Breakfast"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="5dp"
                             android:layout_marginTop="50dp"
-                            android:text="Breakfast" />
+                            android:text="Breakfast"
+                            android:textSize="12sp" />
 
                         <Button
                             android:id="@+id/dinner"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="268dp"
+                            android:layout_marginStart="210dp"
                             android:layout_marginTop="50dp"
-                            android:text="Dinner" />
+                            android:text="Dinner"
+                            android:textSize="12sp" />
 
                         <Button
                             android:id="@+id/lunch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="160dp"
+                            android:layout_marginStart="115dp"
                             android:layout_marginTop="50dp"
-                            android:text="Lunch" />
+                            android:text="Lunch"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/sides"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="305dp"
+                            android:layout_marginTop="50dp"
+                            android:layout_marginEnd="5sp"
+                            android:text="Sides"
+                            android:textSize="12sp" />
 
                     </RelativeLayout>
 
@@ -82,7 +95,7 @@
                     android:layout_marginStart="120dp"
                     android:layout_marginTop="130dp"
                     android:text="test"
-                    android:textAlignment="center"
+                    android:gravity="center_horizontal|center_vertical"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     tools:text="test" />

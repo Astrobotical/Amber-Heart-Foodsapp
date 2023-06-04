@@ -78,6 +78,13 @@ public class TotalItems extends Fragment {
     ArrayList<String> Dcategory = new ArrayList<>();
     ArrayList<String> DFoodUID = new ArrayList<>();
     ArrayList<String> DTarget = new ArrayList<>();
+
+    ArrayList<String> SImg = new ArrayList<>();
+    ArrayList<String> Sname = new ArrayList<>();
+    ArrayList<String> Sdesc = new ArrayList<>();
+    ArrayList<String> Scategory = new ArrayList<>();
+    ArrayList<String> SFoodUID = new ArrayList<>();
+    ArrayList<String> STarget = new ArrayList<>();
     SavedData Viewmodeler;
 
     public TotalItems() {
@@ -112,6 +119,7 @@ public class TotalItems extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
        getinfo();
+
     }
     private void getinfo()
     {
@@ -152,9 +160,17 @@ public class TotalItems extends Fragment {
                                         Dcategory.add(Productdata.getString("ItemCategory"));
                                         DFoodUID.add(Productdata.getString("ItemID"));
                                         DTarget.add(Productdata.getString("ItemTarget"));
+                                    } else if(Productdata.getString("ItemCategory").equals("Sides")) {
+                                        SImg.add(Productdata.getString("ItemImage"));
+                                        Sname.add(Productdata.getString("ItemName"));
+                                        Sdesc.add(Productdata.getString("ItemDescription"));
+                                        Scategory.add(Productdata.getString("ItemCategory"));
+                                        SFoodUID.add(Productdata.getString("ItemID"));
+                                        STarget.add(Productdata.getString("ItemTarget"));
                                     }
                                 }
                                 pulldata("Breakfast");
+
                             } catch (JSONException EX) {
                                 Toast.makeText(getActivity(), "ERROR", Toast.LENGTH_SHORT).show();
                                 Log.i("CustomError", EX.toString());
@@ -173,6 +189,34 @@ public class TotalItems extends Fragment {
         } catch (Exception ex) {
         }
     }
+    void resetdata(){
+        Dcategory =null;
+        Ddesc = null;
+        Dname= null;
+        DImg = null;
+        DTarget= null;
+        DFoodUID= null;
+
+        Lcategory= null;
+        Ldesc =null;
+        Lname=null;
+        LFoodUID = null;
+        LTarget=null;
+        LImg=null;
+
+        Scategory= null;
+        Sdesc =null;
+        Sname=null;
+        SFoodUID = null;
+        STarget=null;
+        SImg=null;
+        Bcategory= null;
+        Bdesc =null;
+        Bname=null;
+        BFoodUID = null;
+        BTarget=null;
+        BImg=null;
+    }
     @Override
     public void onStart() {
         super.onStart();
@@ -182,6 +226,7 @@ public class TotalItems extends Fragment {
         Button Breakfast = this.getActivity().findViewById(R.id.Breakfast);
         Button Lunch = this.getActivity().findViewById(R.id.lunch);
         Button Dinner = this.getActivity().findViewById(R.id.dinner);
+        Button Sides = this.getActivity().findViewById(R.id.sides);
         GridView gridView = this.getActivity().findViewById(R.id.grids);
         TextView featured = this.getActivity().findViewById(R.id.ViewModelELEMENET);
         TextView  Head = this.getActivity().findViewById(R.id.Head);
@@ -197,8 +242,10 @@ public class TotalItems extends Fragment {
             Head.setText("Breakfast Menu Items");
             pulldata("Breakfast");
             ActiveButton(Breakfast);
+
         });
         Lunch.setOnClickListener((view) -> {
+
             Head.setText("Lunch Menu Items");
            // Toast.makeText(getActivity(), "This works, it is lunch", Toast.LENGTH_SHORT).show();
             pulldata("Lunch");
@@ -211,6 +258,12 @@ public class TotalItems extends Fragment {
             ActiveButton(Dinner);
             //Dinner.setBackgroundTintList(ColorStateList.valueOf(R.color.menubtn));
         });
+        Sides.setOnClickListener((view)->{
+           // resetdata();
+            Head.setText("Side Menu Items");
+            pulldata("Sides");
+            ActiveButton(Sides);
+        });
     }
 
     void pulldata(String RequestType) {
@@ -221,14 +274,24 @@ public class TotalItems extends Fragment {
             if(Bname.size() == 0){
                 gridView.setAdapter(emptygrid);
             }else {
-                gridView.setAdapter(Grid);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        gridView.setAdapter(Grid);
+                    }
+                });
             }
         } else if (RequestType.equals("Lunch")) {
             itemsadapter Grid = new itemsadapter(this.getActivity().getApplicationContext(), Lname, LImg, Ldesc, Lcategory, LFoodUID, bundler, Selecteditems, LTarget, this);
             if(Lname.size() == 0){
                 gridView.setAdapter(emptygrid);
             }else {
-                gridView.setAdapter(Grid);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        gridView.setAdapter(Grid);
+                    }
+                });
             }
         } else if (RequestType.equals("Dinner")) {
 
@@ -236,7 +299,26 @@ public class TotalItems extends Fragment {
             if(Dname.size() == 0){
                 gridView.setAdapter(emptygrid);
             }else {
-                gridView.setAdapter(Grid);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        gridView.setAdapter(Grid);
+                    }
+                });
+            }
+        }else if( RequestType.equals("Sides"))
+        {
+            itemsadapter Grid = new itemsadapter(this.getActivity().getApplicationContext(), Sname, SImg, Sdesc, Scategory, SFoodUID, bundler, Selecteditems, STarget, this);
+            if(Sname.size() == 0){
+                gridView.setAdapter(emptygrid);
+            }else {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        gridView.setAdapter(Grid);
+                    }
+                });
+
             }
         }
     }
@@ -260,6 +342,10 @@ public class TotalItems extends Fragment {
                 current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.teal_700)));
                 PreviouslyClicked = current;
                 break;
+            case "Sides":
+                current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.teal_700)));
+                PreviouslyClicked = current;
+                break;
         }
     }
     @Override
@@ -269,10 +355,9 @@ public class TotalItems extends Fragment {
             case 0: {
                 if (resultCode == RESULT_OK) {
                     Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                  //  image.setImageBitmap(bitmap);
-                   // Saved = bitmap;
+                    Viewmodeler = new ViewModelProvider(this).get(SavedData.class);
+                    Viewmodeler.Saveimage(bitmap);
                 }
-                //capture
             }
             break;
             case 1: {
@@ -282,9 +367,6 @@ public class TotalItems extends Fragment {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap( getActivity().getContentResolver(), imageUri);
                         Viewmodeler = new ViewModelProvider(this).get(SavedData.class);
                         Viewmodeler.Saveimage(bitmap);
-                        //image.setImageBitmap(bitmap);
-                      //  Saved = bitmap;
-                        //UploadImage(Foodname,bitmap,"Ominvore",ChoosenFoodCategory,Food_description);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

@@ -4,13 +4,17 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.romarioburke.amberheartfoodapp.R;
 
 import java.util.ArrayList;
@@ -26,29 +30,28 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Countr
     Fragment main;
     private Context context;
 
-    public RecyclerAdapter(Context context,ArrayList<String> FoodName, ArrayList<String> FoodImage, ArrayList<String> Description, ArrayList<String> Category, ArrayList<String>FoodUID,ArrayList<String>Target, Fragment trying) {
+    public RecyclerAdapter(Context context,ArrayList<String> FoodName, ArrayList<String> FoodImage,ArrayList<String>UID, Fragment trying) {
         this.context = context;
         this.FoodName = FoodName;
-        this.FoodDescription = Description;
         this.FoodImage = FoodImage;
-        this.FoodCategory = Category;
-        this.FoodUID = FoodUID;
-        this.FoodTarget = Target;
+        this.FoodUID = UID;
         this.main = trying;
     }
 
     @NonNull
     @Override
     public CountryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_item,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.sidesview,parent,false);
         return new CountryViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CountryViewHolder holder, int position) {
-        //holder.textViewName.setText(countryName.get(position));
-       // holder.textViewDetails.setText(countryDetails.get(position));
-       // holder.imageViews.setImageResource(imageList.get(position));
+        String Imagealtered = "https://api.romarioburke.com/"+FoodImage.get(position);
+
+        Glide.with(context).load(Imagealtered).placeholder(R.drawable.loadingplaceholder).into(holder.sideimage);
+        holder.sidename.setText(FoodName.get(position));
+
 
     }
 
@@ -59,15 +62,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Countr
 
 
     public class CountryViewHolder extends RecyclerView.ViewHolder{
-    private TextView textViewName,textViewDetails;
-    private ImageView image;
+    private TextView sidename;
+    private ImageView sideimage;
+    private CheckBox sidecheckbox;
+    private CardView Container;
 
     public CountryViewHolder(@NonNull View itemView) {
         super(itemView);
-
-        //textViewName=itemView.findViewById(R.id.textView);
-        textViewDetails=itemView.findViewById(R.id.textView2);
-        image= itemView.findViewById((R.id.imageView));
+        sideimage = itemView.findViewById(R.id.sideimage);
+        sidename = itemView.findViewById(R.id.sidename);
+        sidecheckbox = itemView.findViewById(R.id.sideisselected);
+        Container = itemView.findViewById(R.id.cardcontainer);
     }
 }
 

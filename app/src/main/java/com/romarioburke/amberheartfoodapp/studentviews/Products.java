@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
@@ -25,15 +27,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.romarioburke.amberheartfoodapp.Adapters.emptyadapter;
 import com.romarioburke.amberheartfoodapp.Adapters.griditems;
+import com.romarioburke.amberheartfoodapp.AsyncTasks.GetProducts;
 import com.romarioburke.amberheartfoodapp.R;
 import com.romarioburke.amberheartfoodapp.SavedData;
+import com.romarioburke.amberheartfoodapp.viewmodels.ProductsModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 import java.util.HashMap;
 
 /**
@@ -78,7 +84,8 @@ public class Products extends Fragment {
     HashMap<String, String> Selecteditems = new HashMap<String, String>();
     SavedData Datathatwassaved;
     CardView OuterContainer,HeadingContainer;
-    Button PreviouslyClicked;
+    Button PreviouslyClicked,currentbtn;
+    String CurrentClicked;
 
     public Products() {
         // Required empty public constructor
@@ -102,6 +109,59 @@ public class Products extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        GetProducts data = new GetProducts(context,this);
+        Thread currentdata = new Thread(data);
+        currentdata.start();
+        ProductsModel Products = new ViewModelProvider(this).get(ProductsModel.class);
+        Products.getProducts().observe(this, saved -> {
+            cleardata();
+            for (int i = 0; i < saved.length(); i++) {
+                JSONObject Productdata = null;
+                try {
+                    Productdata = saved.getJSONObject(i);
+                    if (!Productdata.getString("ItemCategory").equals("Sides")) {
+                        DefaultImg.add(Productdata.getString("ItemImage"));
+                        Defaultname.add(Productdata.getString("ItemName"));
+                        Defaultdesc.add(Productdata.getString("ItemDescription"));
+                        Defaultcategory.add(Productdata.getString("ItemCategory"));
+                        DefaultFoodUID.add(Productdata.getString("ItemID"));
+                        DefaultTarget.add(Productdata.getString("ItemTarget"));
+                    }
+                    if (Productdata.getString("ItemCategory").equals("Breakfast")) {
+                        BImg.add(Productdata.getString("ItemImage"));
+                        Bname.add(Productdata.getString("ItemName"));
+                        Bdesc.add(Productdata.getString("ItemDescription"));
+                        Bcategory.add(Productdata.getString("ItemCategory"));
+                        BFoodUID.add(Productdata.getString("ItemID"));
+                        BTarget.add(Productdata.getString("ItemTarget"));
+                    } else if (Productdata.getString("ItemCategory").equals("Lunch")) {
+                        LImg.add(Productdata.getString("ItemImage"));
+                        Lname.add(Productdata.getString("ItemName"));
+                        Ldesc.add(Productdata.getString("ItemDescription"));
+                        Lcategory.add(Productdata.getString("ItemCategory"));
+                        LFoodUID.add(Productdata.getString("ItemID"));
+                        LTarget.add(Productdata.getString("ItemTarget"));
+                    } else if (Productdata.getString("ItemCategory").equals("Dinner")) {
+                        DImg.add(Productdata.getString("ItemImage"));
+                        Dname.add(Productdata.getString("ItemName"));
+                        Ddesc.add(Productdata.getString("ItemDescription"));
+                        Dcategory.add(Productdata.getString("ItemCategory"));
+                        DFoodUID.add(Productdata.getString("ItemID"));
+                        DTarget.add(Productdata.getString("ItemTarget"));
+                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if(CurrentClicked == null) {
+               pulldata("All");
+                //ActiveButton(All);
+            }else{
+                pulldata(CurrentClicked);
+                ActiveButton(currentbtn);
+            }
+        });
+        /*
         try {
             new Thread(new Runnable() {
                 @Override
@@ -116,12 +176,14 @@ public class Products extends Fragment {
                                 JSONArray Product = result.getJSONArray("data");
                                 for (int i = 0; i < Product.length(); i++) {
                                     JSONObject Productdata = Product.getJSONObject(i);
-                                    DefaultImg.add(Productdata.getString("ItemImage"));
-                                    Defaultname.add(Productdata.getString("ItemName"));
-                                    Defaultdesc.add(Productdata.getString("ItemDescription"));
-                                    Defaultcategory.add(Productdata.getString("ItemCategory"));
-                                    DefaultFoodUID.add(Productdata.getString("ItemID"));
-                                    DefaultTarget.add(Productdata.getString("ItemTarget"));
+                                    if(!Productdata.getString("ItemCategory").equals("Sides")) {
+                                        DefaultImg.add(Productdata.getString("ItemImage"));
+                                        Defaultname.add(Productdata.getString("ItemName"));
+                                        Defaultdesc.add(Productdata.getString("ItemDescription"));
+                                        Defaultcategory.add(Productdata.getString("ItemCategory"));
+                                        DefaultFoodUID.add(Productdata.getString("ItemID"));
+                                        DefaultTarget.add(Productdata.getString("ItemTarget"));
+                                    }
                                     if (Productdata.getString("ItemCategory").equals("Breakfast")) {
                                         BImg.add(Productdata.getString("ItemImage"));
                                         Bname.add(Productdata.getString("ItemName"));
@@ -166,6 +228,7 @@ public class Products extends Fragment {
 
         }
 
+         */
     }
 
     @Override
@@ -189,18 +252,39 @@ public class Products extends Fragment {
 
     void pulldata(String RequestType) {
         GridView gridView = this.getActivity().findViewById(R.id.grids);
+        emptyadapter emptygrid =new emptyadapter(this,getContext());
         if (RequestType.equals("All")) {
             griditems Grid = new griditems(this.getActivity().getApplicationContext(), Defaultname, DefaultImg, Defaultdesc, Defaultcategory, DefaultFoodUID, bundler, Selecteditems,DefaultTarget, this);
-            gridView.setAdapter(Grid);
+            if(Defaultname.size()== 0)
+            {
+              gridView.setAdapter(emptygrid);
+            }else {
+                gridView.setAdapter(Grid);
+            }
         } else if (RequestType.equals("Breakfast")) {
             griditems Grid = new griditems(this.getActivity().getApplicationContext(), Bname, BImg, Bdesc, Bcategory, BFoodUID, bundler, Selecteditems,BTarget, this);
-            gridView.setAdapter(Grid);
+            if(Bname.size()== 0)
+            {
+                gridView.setAdapter(emptygrid);
+            }else {
+                gridView.setAdapter(Grid);
+            }
         } else if (RequestType.equals("Lunch")) {
             griditems Grid = new griditems(this.getActivity().getApplicationContext(), Lname, LImg, Ldesc, Lcategory, LFoodUID, bundler, Selecteditems,LTarget, this);
-            gridView.setAdapter(Grid);
+            if(Lname.size()== 0)
+            {
+                gridView.setAdapter(emptygrid);
+            }else {
+                gridView.setAdapter(Grid);
+            }
         } else if (RequestType.equals("Dinner")) {
             griditems Grid = new griditems(this.getActivity().getApplicationContext(), Dname, DImg, Ddesc, Dcategory, DFoodUID, bundler, Selecteditems,DTarget, this);
-            gridView.setAdapter(Grid);
+            if(Dname.size()== 0)
+            {
+                gridView.setAdapter(emptygrid);
+            }else {
+                gridView.setAdapter(Grid);
+            }
         }
     }
 
@@ -235,25 +319,24 @@ public class Products extends Fragment {
         Datathatwassaved.TotalItems().observe(this, item -> {
             featured.setText(Integer.toString(item));
         });
-        All.setOnClickListener((view) -> {
-            pulldata("All");
-            ActiveButton(All);
 
-        });
+
+                All.setOnClickListener((view) -> {
+                    pulldata("All");
+                    ActiveButton(All);
+
+                });
         Breakfast.setOnClickListener((view) -> {
             pulldata("Breakfast");
             ActiveButton(Breakfast);
         });
         Lunch.setOnClickListener((view) -> {
-            Toast.makeText(getActivity(), "This works, it is lunch", Toast.LENGTH_SHORT).show();
             pulldata("Lunch");
             ActiveButton(Lunch);
         });
         Dinner.setOnClickListener((view) -> {
-            Toast.makeText(getActivity(), "This works, it is Dinner", Toast.LENGTH_SHORT).show();
             pulldata("Dinner");
             ActiveButton(Dinner);
-            //Dinner.setBackgroundTintList(ColorStateList.valueOf(R.color.menubtn));
         });
     }
     private void Day(){
@@ -274,20 +357,54 @@ public class Products extends Fragment {
         {
             case "All":
                 current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menubtn)));
+                CurrentClicked = "All";
+                currentbtn = current;
                 PreviouslyClicked = current;
                 break;
             case "Breakfast":
                 current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menubtn)));
+                CurrentClicked = "Breakfast";
+                currentbtn = current;
                 PreviouslyClicked = current;
                 break;
             case "Lunch":
                 current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menubtn)));
+               CurrentClicked = "Lunch";
+                currentbtn = current;
                 PreviouslyClicked = current;
                 break;
             case "Dinner":
                 current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menubtn)));
+                CurrentClicked = "Dinner";
+                currentbtn = current;
                 PreviouslyClicked = current;
                 break;
         }
+    }
+    void cleardata(){
+        Defaultname.clear();
+        DefaultImg.clear();
+        Defaultdesc.clear();
+        Defaultcategory.clear();
+        DefaultFoodUID.clear();
+        DefaultTarget.clear();
+        Bname.clear();
+        BImg.clear();
+        Bdesc.clear();
+        Bcategory.clear();
+        BFoodUID.clear();
+        BTarget.clear();
+        Lname.clear();
+        LImg.clear();
+        Ldesc.clear();
+        Lcategory.clear();
+        LFoodUID.clear();
+        LTarget.clear();
+        Dname.clear();
+        DImg.clear();
+        Ddesc.clear();
+        Dcategory.clear();
+        DFoodUID.clear();
+        DTarget.clear();
     }
 }

@@ -1,45 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.main.pages.food_add">
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:elevation="5dp"
-        app:cardCornerRadius="5dp">
-
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/dialog"
+    app:circularflow_radiusInDP="25">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp">
 
             <ImageView
-                android:id="@+id/food_img"
+                android:id="@+id/Exit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="245dp"
+                app:srcCompat="@drawable/exit_foreground"
+                tools:srcCompat="@drawable/exit_foreground" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/Img"
                 android:layout_width="200dp"
                 android:layout_height="189dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginBottom="40dp"
-                app:layout_constraintBottom_toTopOf="@+id/food_name"
                 app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/logintexticon_foreground"
                 tools:src="@tools:sample/avatars"
                 tools:srcCompat="@drawable/logintexticon_foreground" />
 
             <Button
-                android:id="@+id/uploadphoto"
+                android:id="@+id/photoupload"
                 android:layout_width="119dp"
                 android:layout_height="68dp"
-                android:layout_marginStart="250dp"
-                android:layout_marginTop="70dp"
+                android:layout_marginStart="230dp"
+                android:layout_marginTop="110dp"
                 android:layout_marginEnd="16dp"
-                android:text="Upload a photo"
+                android:text="Change photo"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -56,19 +54,18 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <EditText
-                android:id="@+id/food_name"
+                android:id="@+id/Fname"
                 style="@style/Widget.Material3.AutoCompleteTextView.FilledBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="170dp"
-                android:layout_marginTop="218dp"
+                android:layout_marginTop="210dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="24dp"
                 android:ems="10"
                 android:hint="Enter the Food Name"
                 android:inputType="textPersonName"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/Category_list"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
@@ -80,24 +77,22 @@
                 android:layout_marginBottom="46dp"
                 android:text="Food description:"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/textView7"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <EditText
-                android:id="@+id/food_description"
+                android:id="@+id/Fdescription"
                 style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="170dp"
-                android:layout_marginTop="278dp"
+                android:layout_marginTop="272dp"
                 android:layout_marginEnd="16dp"
                 android:ems="10"
-                android:hint="Enter -"
+                android:hint="Enter description"
 
                 android:inputType="textPersonName"
                 android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Category_list" />
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
                 android:id="@+id/Category"
@@ -106,30 +101,14 @@
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="350dp"
                 android:layout_marginBottom="26dp"
-                android:text="Cateogry:"
+                android:text="Category target:"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/food_description_label"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="410dp"
-                android:text="Student Target"
-                android:textSize="18sp" />
-
             <Spinner
-                android:id="@+id/Options_StudentTarget"
-                android:layout_width="209dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="165dp"
-                android:layout_marginTop="410dp" />
-
-            <Spinner
-                android:id="@+id/Category_list"
+                android:id="@+id/FCategory"
                 android:layout_width="210dp"
                 android:layout_height="28dp"
                 android:layout_marginStart="165dp"
@@ -138,18 +117,16 @@
                 tools:layout_editor_absoluteY="320dp" />
 
             <Button
-                android:id="@+id/addbtn"
+                android:id="@+id/addside"
                 android:layout_width="159dp"
                 android:layout_height="64dp"
-                android:layout_marginStart="210dp"
-                android:layout_marginTop="490dp"
+                android:layout_marginStart="200dp"
+                android:layout_marginTop="420dp"
                 android:layout_marginEnd="32dp"
                 android:background="@drawable/rounded"
-                android:text="Add Food item"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Premiumcheckbox" />
+                android:text="Update item"
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </RelativeLayout>
-    </androidx.cardview.widget.CardView>
 
 </FrameLayout>
