@@ -44,7 +44,7 @@ public class griditems extends BaseAdapter {
     Context context;
     private Products product;
     int counter;
-    public griditems(Context context, ArrayList<String> FoodName, ArrayList<String> FoodImage, ArrayList<String> Description, ArrayList<String> Category,ArrayList<String>FoodUID, Bundle bundler,   HashMap<String, String> Selecteditem,ArrayList<String>Target,Fragment trying) {
+    public griditems(Context context, ArrayList<String> FoodName, ArrayList<String> FoodImage, ArrayList<String> Description, ArrayList<String> Category,ArrayList<String>FoodUID, Bundle bundler,   HashMap<String, String> Selecteditem,ArrayList<String>Target,Fragment trying,ArrayList<String>Sname,ArrayList<String>Simage,ArrayList<String>SUID) {
         this.context = context;
         this.FoodName = FoodName;
         this.FoodDescription = Description;
@@ -55,6 +55,9 @@ public class griditems extends BaseAdapter {
         this.Selecteditems = Selecteditem;
         this.FoodTarget = Target;
         this.main = trying;
+        this.Sname = Sname;
+        this.SImg = Simage;
+        this.SFoodUID = SUID;
     }
     ArrayList<String>FoodTarget = new ArrayList<>();
     ArrayList<String> FoodImage = new ArrayList<>();
@@ -62,6 +65,9 @@ public class griditems extends BaseAdapter {
     ArrayList<String> FoodDescription = new ArrayList<>();
     ArrayList<String> FoodCategory = new ArrayList<>();
     ArrayList<String>FoodUID = new ArrayList<>();
+    ArrayList<String> SImg = new ArrayList<>();
+    ArrayList<String> Sname = new ArrayList<>();
+    ArrayList<String> SFoodUID = new ArrayList<>();
     HashMap<String, String> Selecteditems = new HashMap<String,String>();
     Bundle bundle;
     Fragment main;
@@ -114,8 +120,9 @@ public class griditems extends BaseAdapter {
                             ImageView Modalproductimage = alertDialog.findViewById(R.id.Itemimage);
                             TextView ModalTarget = alertDialog.findViewById(R.id.modaltarget);
                             Button ModalBtnAdd = alertDialog.findViewById(R.id.additembtn);
-                            miniview.setLayoutManager(new LinearLayoutManager(alertDialog.getContext()));
-                            RecyclerAdapter adapter = new RecyclerAdapter(alertDialog.getContext(),FoodName, FoodImage,FoodUID, main);
+                            LinearLayoutManager layoutManager = new LinearLayoutManager(alertDialog.getContext(), LinearLayoutManager.HORIZONTAL, false);
+                            miniview.setLayoutManager(layoutManager);
+                            RecyclerAdapter adapter = new RecyclerAdapter(alertDialog.getContext(),FoodName, FoodImage,FoodUID, main,Sname,SImg,SFoodUID);
                            miniview.setAdapter(adapter);
                             /* Imagechanger.setOnClickListener((view)->{
                                 Intent select = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

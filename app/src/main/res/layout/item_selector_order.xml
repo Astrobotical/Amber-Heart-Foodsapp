@@ -28,7 +28,7 @@
             android:layout_width="148dp"
             android:layout_height="107dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="90sp"
+            android:layout_marginTop="20sp"
             app:civ_border_color="#FF000000"
             app:civ_border_width="2dp"
             tools:src="@drawable/loadingplaceholder"
@@ -36,10 +36,10 @@
 
         <TextView
             android:id="@+id/modalname"
-            android:layout_width="224dp"
+            android:layout_width="144dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="150dp"
-            android:layout_marginTop="100sp"
+            android:layout_marginTop="40sp"
             android:fontFamily="@font/dxb"
             android:textAlignment="viewStart"
             android:textColor="#000000"
@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30sp"
-            android:layout_marginTop="280sp"
+            android:layout_marginTop="180sp"
             android:textSize="18sp"
             tools:text="Student Target" />
 
@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30sp"
-            android:layout_marginTop="205sp"
+            android:layout_marginTop="145sp"
             android:fontFamily="@font/dxssemi"
             android:textColor="#191919"
             android:textSize="18sp"
@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="150dp"
-            android:layout_marginTop="160dp"
+            android:layout_marginTop="90dp"
             android:numStars="5" />
 
         <TextView
@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="343dp"
+            android:layout_marginTop="220dp"
             android:text="Available sides"
             android:textColor="#020202"
             android:textSize="18sp"
@@ -102,16 +102,14 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/miniview"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginTop="375dp"
-            android:orientation="vertical" />
-
-        <Spinner
-            android:id="@+id/edittarget"
-            android:layout_width="171dp"
-            android:layout_height="37dp"
-            android:layout_marginStart="182dp"
-            android:layout_marginTop="338dp" />
+            android:layout_height="212dp"
+            android:layout_marginTop="255dp"
+            android:fadeScrollbars="false"
+            android:isScrollContainer="false"
+            android:nestedScrollingEnabled="false"
+            android:scrollbars="horizontal"
+            android:verticalScrollbarPosition="defaultPosition"
+            app:fastScrollEnabled="false" />
 
     </RelativeLayout>
 

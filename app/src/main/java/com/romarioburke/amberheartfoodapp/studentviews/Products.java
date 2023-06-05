@@ -80,6 +80,13 @@ public class Products extends Fragment {
     ArrayList<String> Dcategory = new ArrayList<>();
     ArrayList<String> DFoodUID = new ArrayList<>();
     ArrayList<String> DTarget = new ArrayList<>();
+
+    ArrayList<String> SImg = new ArrayList<>();
+    ArrayList<String> Sname = new ArrayList<>();
+    ArrayList<String> Sdesc = new ArrayList<>();
+    ArrayList<String> Scategory = new ArrayList<>();
+    ArrayList<String> SFoodUID = new ArrayList<>();
+    ArrayList<String> STarget = new ArrayList<>();
     Bundle bundler;
     HashMap<String, String> Selecteditems = new HashMap<String, String>();
     SavedData Datathatwassaved;
@@ -148,6 +155,14 @@ public class Products extends Fragment {
                         Dcategory.add(Productdata.getString("ItemCategory"));
                         DFoodUID.add(Productdata.getString("ItemID"));
                         DTarget.add(Productdata.getString("ItemTarget"));
+                    }
+                    else if(Productdata.getString("ItemCategory").equals("Sides")) {
+                        SImg.add(Productdata.getString("ItemImage"));
+                        Sname.add(Productdata.getString("ItemName"));
+                        Sdesc.add(Productdata.getString("ItemDescription"));
+                        Scategory.add(Productdata.getString("ItemCategory"));
+                        SFoodUID.add(Productdata.getString("ItemID"));
+                        STarget.add(Productdata.getString("ItemTarget"));
                     }
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
@@ -254,7 +269,7 @@ public class Products extends Fragment {
         GridView gridView = this.getActivity().findViewById(R.id.grids);
         emptyadapter emptygrid =new emptyadapter(this,getContext());
         if (RequestType.equals("All")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Defaultname, DefaultImg, Defaultdesc, Defaultcategory, DefaultFoodUID, bundler, Selecteditems,DefaultTarget, this);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Defaultname, DefaultImg, Defaultdesc, Defaultcategory, DefaultFoodUID, bundler, Selecteditems,DefaultTarget, this,Sname,SImg,SFoodUID);
             if(Defaultname.size()== 0)
             {
               gridView.setAdapter(emptygrid);
@@ -262,7 +277,7 @@ public class Products extends Fragment {
                 gridView.setAdapter(Grid);
             }
         } else if (RequestType.equals("Breakfast")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Bname, BImg, Bdesc, Bcategory, BFoodUID, bundler, Selecteditems,BTarget, this);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Bname, BImg, Bdesc, Bcategory, BFoodUID, bundler, Selecteditems,BTarget, this,Sname,SImg,SFoodUID);
             if(Bname.size()== 0)
             {
                 gridView.setAdapter(emptygrid);
@@ -270,7 +285,7 @@ public class Products extends Fragment {
                 gridView.setAdapter(Grid);
             }
         } else if (RequestType.equals("Lunch")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Lname, LImg, Ldesc, Lcategory, LFoodUID, bundler, Selecteditems,LTarget, this);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Lname, LImg, Ldesc, Lcategory, LFoodUID, bundler, Selecteditems,LTarget, this,Sname,SImg,SFoodUID);
             if(Lname.size()== 0)
             {
                 gridView.setAdapter(emptygrid);
@@ -278,7 +293,7 @@ public class Products extends Fragment {
                 gridView.setAdapter(Grid);
             }
         } else if (RequestType.equals("Dinner")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Dname, DImg, Ddesc, Dcategory, DFoodUID, bundler, Selecteditems,DTarget, this);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Dname, DImg, Ddesc, Dcategory, DFoodUID, bundler, Selecteditems,DTarget, this,Sname,SImg,SFoodUID);
             if(Dname.size()== 0)
             {
                 gridView.setAdapter(emptygrid);

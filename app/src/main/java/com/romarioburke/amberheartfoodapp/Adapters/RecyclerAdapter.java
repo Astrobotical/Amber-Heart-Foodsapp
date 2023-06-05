@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -26,16 +27,26 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Countr
     ArrayList<String> FoodName = new ArrayList<>();
     ArrayList<String> FoodDescription = new ArrayList<>();
     ArrayList<String> FoodCategory = new ArrayList<>();
+    ArrayList<String> SUID = new ArrayList<>();
+    ArrayList<String> Sname = new ArrayList<>();
+    ArrayList<String> SImg = new ArrayList<>();
     ArrayList<String>FoodUID = new ArrayList<>();
+    CardView CurrentCard;
+    CheckBox CurrentCheckbox;
+    CardView PreviousCard;
+    CheckBox PreviousCheckbox;
     Fragment main;
     private Context context;
 
-    public RecyclerAdapter(Context context,ArrayList<String> FoodName, ArrayList<String> FoodImage,ArrayList<String>UID, Fragment trying) {
+    public RecyclerAdapter(Context context,ArrayList<String> FoodName, ArrayList<String> FoodImage,ArrayList<String>UID, Fragment trying,ArrayList<String>Sname,ArrayList<String>Simage,ArrayList<String>SUID) {
         this.context = context;
         this.FoodName = FoodName;
         this.FoodImage = FoodImage;
         this.FoodUID = UID;
         this.main = trying;
+        this.Sname = Sname;
+        this.SImg = Simage;
+        this.SUID = SUID;
     }
 
     @NonNull
@@ -47,17 +58,35 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Countr
 
     @Override
     public void onBindViewHolder(@NonNull CountryViewHolder holder, int position) {
-        String Imagealtered = "https://api.romarioburke.com/"+FoodImage.get(position);
-
+        String Imagealtered = "https://api.romarioburke.com/"+SImg.get(position);
         Glide.with(context).load(Imagealtered).placeholder(R.drawable.loadingplaceholder).into(holder.sideimage);
-        holder.sidename.setText(FoodName.get(position));
+        holder.sidename.setText(Sname.get(position));
+        holder.Container.setOnClickListener((view)->{
+            if(PreviousCard != null &&  PreviousCheckbox != null)
+            {
+                PreviousCard.setCardBackgroundColor(context.getResources().getColor(R.color.white));
+                PreviousCheckbox.setVisibility(View.INVISIBLE);
+                PreviousCheckbox.setChecked(false);
+                PreviousCheckbox = null;
+                PreviousCard = null;
+            }
+                CurrentCard = holder.Container;
+                CurrentCheckbox = holder.sidecheckbox;
+                holder.Container.setCardBackgroundColor(context.getResources().getColor(R.color.teal_700));
+                holder.sidecheckbox.setVisibility(View.VISIBLE);
+                holder.sidecheckbox.setChecked(true);
+                Toast.makeText(context, Sname.get(position)+"was clicked", Toast.LENGTH_SHORT).show();
+                PreviousCard = CurrentCard;
+                PreviousCheckbox = CurrentCheckbox;
+
+        });
 
 
     }
 
     @Override
     public int getItemCount() {
-        return FoodName.size();
+        return SUID.size();
     }
 
 
