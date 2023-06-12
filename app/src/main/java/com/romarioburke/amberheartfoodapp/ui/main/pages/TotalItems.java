@@ -228,7 +228,6 @@ public class TotalItems extends Fragment {
         Button Dinner = this.getActivity().findViewById(R.id.dinner);
         Button Sides = this.getActivity().findViewById(R.id.sides);
         GridView gridView = this.getActivity().findViewById(R.id.grids);
-        TextView featured = this.getActivity().findViewById(R.id.ViewModelELEMENET);
         TextView  Head = this.getActivity().findViewById(R.id.Head);
         if (PreviouslyClicked == null) {
             Breakfast.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.teal_700)));

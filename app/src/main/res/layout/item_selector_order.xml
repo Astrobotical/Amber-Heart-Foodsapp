@@ -48,15 +48,6 @@
             tools:text="Food Name" />
 
         <TextView
-            android:id="@+id/modaltarget"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30sp"
-            android:layout_marginTop="180sp"
-            android:textSize="18sp"
-            tools:text="Student Target" />
-
-        <TextView
             android:id="@+id/modaldescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -86,6 +86,18 @@ public class Products extends Fragment {
     ArrayList<String> Sdesc = new ArrayList<>();
     ArrayList<String> Scategory = new ArrayList<>();
     ArrayList<String> SFoodUID = new ArrayList<>();
+    ArrayList<String> BSImg = new ArrayList<>();
+    ArrayList<String> BSname = new ArrayList<>();
+    ArrayList<String> BSFoodUID = new ArrayList<>();
+    ArrayList<String> BSCategory = new ArrayList<>();
+    ArrayList<String> LSImg = new ArrayList<>();
+    ArrayList<String> LSname = new ArrayList<>();
+    ArrayList<String> LSFoodUID = new ArrayList<>();
+    ArrayList<String> LSCategory = new ArrayList<>();
+    ArrayList<String> DSImg = new ArrayList<>();
+    ArrayList<String> DSname = new ArrayList<>();
+    ArrayList<String> DSFoodUID = new ArrayList<>();
+    ArrayList<String> DSCategory = new ArrayList<>();
     ArrayList<String> STarget = new ArrayList<>();
     Bundle bundler;
     HashMap<String, String> Selecteditems = new HashMap<String, String>();
@@ -157,6 +169,22 @@ public class Products extends Fragment {
                         DTarget.add(Productdata.getString("ItemTarget"));
                     }
                     else if(Productdata.getString("ItemCategory").equals("Sides")) {
+                        if(Productdata.getString("SideTarget").equals("Breakfast")){
+                            BSImg.add(Productdata.getString("ItemImage"));
+                            BSname.add(Productdata.getString("ItemName"));
+                            BSFoodUID.add(Productdata.getString("ItemID"));
+                            BSCategory.add(Productdata.getString("SideTarget"));
+                        }else if(Productdata.getString("SideTarget").equals("Lunch")){
+                            LSImg.add(Productdata.getString("ItemImage"));
+                            LSname.add(Productdata.getString("ItemName"));
+                            LSFoodUID.add(Productdata.getString("ItemID"));
+                            LSCategory.add(Productdata.getString("SideTarget"));
+                        }else if(Productdata.getString("SideTarget").equals("Dinner")){
+                            DSImg.add(Productdata.getString("ItemImage"));
+                            DSname.add(Productdata.getString("ItemName"));
+                            DSFoodUID.add(Productdata.getString("ItemID"));
+                            DSCategory.add(Productdata.getString("SideTarget"));
+                        }
                         SImg.add(Productdata.getString("ItemImage"));
                         Sname.add(Productdata.getString("ItemName"));
                         Sdesc.add(Productdata.getString("ItemDescription"));
@@ -176,74 +204,6 @@ public class Products extends Fragment {
                 ActiveButton(currentbtn);
             }
         });
-        /*
-        try {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    String RequestURL = "https://api.romarioburke.com/api/v1/catalogs";
-                    RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
-                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, RequestURL, null, new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            try {
-                                JSONObject result = new JSONObject(response.toString());
-                                JSONArray Product = result.getJSONArray("data");
-                                for (int i = 0; i < Product.length(); i++) {
-                                    JSONObject Productdata = Product.getJSONObject(i);
-                                    if(!Productdata.getString("ItemCategory").equals("Sides")) {
-                                        DefaultImg.add(Productdata.getString("ItemImage"));
-                                        Defaultname.add(Productdata.getString("ItemName"));
-                                        Defaultdesc.add(Productdata.getString("ItemDescription"));
-                                        Defaultcategory.add(Productdata.getString("ItemCategory"));
-                                        DefaultFoodUID.add(Productdata.getString("ItemID"));
-                                        DefaultTarget.add(Productdata.getString("ItemTarget"));
-                                    }
-                                    if (Productdata.getString("ItemCategory").equals("Breakfast")) {
-                                        BImg.add(Productdata.getString("ItemImage"));
-                                        Bname.add(Productdata.getString("ItemName"));
-                                        Bdesc.add(Productdata.getString("ItemDescription"));
-                                        Bcategory.add(Productdata.getString("ItemCategory"));
-                                        BFoodUID.add(Productdata.getString("ItemID"));
-                                        BTarget.add(Productdata.getString("ItemTarget"));
-                                    } else if (Productdata.getString("ItemCategory").equals("Lunch")) {
-                                        LImg.add(Productdata.getString("ItemImage"));
-                                        Lname.add(Productdata.getString("ItemName"));
-                                        Ldesc.add(Productdata.getString("ItemDescription"));
-                                        Lcategory.add(Productdata.getString("ItemCategory"));
-                                        LFoodUID.add(Productdata.getString("ItemID"));
-                                        LTarget.add(Productdata.getString("ItemTarget"));
-                                    } else if (Productdata.getString("ItemCategory").equals("Dinner")) {
-                                        DImg.add(Productdata.getString("ItemImage"));
-                                        Dname.add(Productdata.getString("ItemName"));
-                                        Ddesc.add(Productdata.getString("ItemDescription"));
-                                        Dcategory.add(Productdata.getString("ItemCategory"));
-                                        DFoodUID.add(Productdata.getString("ItemID"));
-                                        DTarget.add(Productdata.getString("ItemTarget"));
-                                    }
-                                }
-                                pulldata("All");
-                            } catch (JSONException EX) {
-                                Toast.makeText(getActivity(), "ERROR", Toast.LENGTH_SHORT).show();
-                                Log.i("CustomError", EX.toString());
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.i("CustomError", error.toString());
-                        }
-                    });
-                    queue.add(request);
-                }
-
-            }).start();
-        }
-        catch(Exception ex){
-
-        }
-
-         */
     }
 
     @Override
@@ -269,7 +229,7 @@ public class Products extends Fragment {
         GridView gridView = this.getActivity().findViewById(R.id.grids);
         emptyadapter emptygrid =new emptyadapter(this,getContext());
         if (RequestType.equals("All")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Defaultname, DefaultImg, Defaultdesc, Defaultcategory, DefaultFoodUID, bundler, Selecteditems,DefaultTarget, this,Sname,SImg,SFoodUID);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Defaultname, DefaultImg, Defaultdesc, Defaultcategory, DefaultFoodUID, bundler, Selecteditems,DefaultTarget, this,Sname,SImg,SFoodUID,Scategory);
             if(Defaultname.size()== 0)
             {
               gridView.setAdapter(emptygrid);
@@ -277,7 +237,7 @@ public class Products extends Fragment {
                 gridView.setAdapter(Grid);
             }
         } else if (RequestType.equals("Breakfast")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Bname, BImg, Bdesc, Bcategory, BFoodUID, bundler, Selecteditems,BTarget, this,Sname,SImg,SFoodUID);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Bname, BImg, Bdesc, Bcategory, BFoodUID, bundler, Selecteditems,BTarget, this,BSname,BSImg,BSFoodUID,BSCategory);
             if(Bname.size()== 0)
             {
                 gridView.setAdapter(emptygrid);
@@ -285,7 +245,7 @@ public class Products extends Fragment {
                 gridView.setAdapter(Grid);
             }
         } else if (RequestType.equals("Lunch")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Lname, LImg, Ldesc, Lcategory, LFoodUID, bundler, Selecteditems,LTarget, this,Sname,SImg,SFoodUID);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Lname, LImg, Ldesc, Lcategory, LFoodUID, bundler, Selecteditems,LTarget, this,LSname,LSImg,LSFoodUID,LSCategory);
             if(Lname.size()== 0)
             {
                 gridView.setAdapter(emptygrid);
@@ -293,7 +253,7 @@ public class Products extends Fragment {
                 gridView.setAdapter(Grid);
             }
         } else if (RequestType.equals("Dinner")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Dname, DImg, Ddesc, Dcategory, DFoodUID, bundler, Selecteditems,DTarget, this,Sname,SImg,SFoodUID);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Dname, DImg, Ddesc, Dcategory, DFoodUID, bundler, Selecteditems,DTarget, this,DSname,DSImg,DSFoodUID,DSCategory);
             if(Dname.size()== 0)
             {
                 gridView.setAdapter(emptygrid);
@@ -322,7 +282,6 @@ public class Products extends Fragment {
         Button All = this.getActivity().findViewById(R.id.all);
         OuterContainer = this.getActivity().findViewById(R.id.MainOuterContainer);
         HeadingContainer = this.getActivity().findViewById(R.id.HeaderContainer);
-        TextView featured = this.getActivity().findViewById(R.id.ViewModelELEMENET);
         if(PreviouslyClicked == null) {
             All.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menubtn)));
             PreviouslyClicked = All;
@@ -332,7 +291,6 @@ public class Products extends Fragment {
         }
         Datathatwassaved = new ViewModelProvider(this).get(SavedData.class);
         Datathatwassaved.TotalItems().observe(this, item -> {
-            featured.setText(Integer.toString(item));
         });
 
 

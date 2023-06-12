@@ -8,14 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,13 +36,14 @@ import com.romarioburke.amberheartfoodapp.SavedData;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class griditems extends BaseAdapter {
     Context context;
     private Products product;
     int counter;
-    public griditems(Context context, ArrayList<String> FoodName, ArrayList<String> FoodImage, ArrayList<String> Description, ArrayList<String> Category,ArrayList<String>FoodUID, Bundle bundler,   HashMap<String, String> Selecteditem,ArrayList<String>Target,Fragment trying,ArrayList<String>Sname,ArrayList<String>Simage,ArrayList<String>SUID) {
+    public griditems(Context context, ArrayList<String> FoodName, ArrayList<String> FoodImage, ArrayList<String> Description, ArrayList<String> Category,ArrayList<String>FoodUID, Bundle bundler,   HashMap<String, String> Selecteditem,ArrayList<String>Target,Fragment trying,ArrayList<String>Sname,ArrayList<String>Simage,ArrayList<String>SUID,ArrayList<String> SideCat) {
         this.context = context;
         this.FoodName = FoodName;
         this.FoodDescription = Description;
@@ -58,7 +57,9 @@ public class griditems extends BaseAdapter {
         this.Sname = Sname;
         this.SImg = Simage;
         this.SFoodUID = SUID;
+        this.SidesCategory = SideCat;
     }
+    ArrayList<String> SidesCategory = new ArrayList<>();
     ArrayList<String>FoodTarget = new ArrayList<>();
     ArrayList<String> FoodImage = new ArrayList<>();
     ArrayList<String> FoodName = new ArrayList<>();
@@ -112,24 +113,34 @@ public class griditems extends BaseAdapter {
                             alertDialog.show();
                             //Button Imagechanger = alertDialog.findViewById(R.id.changeimg);
                             RecyclerView miniview = alertDialog.findViewById(R.id.miniview);
-
                             ImageButton Exitbutton = alertDialog.findViewById(R.id.Exitbutton);
                             TextView Modalproductname = alertDialog.findViewById(R.id.modalname);
                             TextView ModalDiscription = alertDialog.findViewById(R.id.modaldescription);
                             RatingBar ratingBar = alertDialog.findViewById(R.id.modalrating);
                             ImageView Modalproductimage = alertDialog.findViewById(R.id.Itemimage);
-                            TextView ModalTarget = alertDialog.findViewById(R.id.modaltarget);
                             Button ModalBtnAdd = alertDialog.findViewById(R.id.additembtn);
                             LinearLayoutManager layoutManager = new LinearLayoutManager(alertDialog.getContext(), LinearLayoutManager.HORIZONTAL, false);
+                            emptysidesAdapter emptyadapt =  new emptysidesAdapter();
+                            RecyclerAdapter adapter;
                             miniview.setLayoutManager(layoutManager);
-                            RecyclerAdapter adapter = new RecyclerAdapter(alertDialog.getContext(),FoodName, FoodImage,FoodUID, main,Sname,SImg,SFoodUID);
-                           miniview.setAdapter(adapter);
-                            /* Imagechanger.setOnClickListener((view)->{
-                                Intent select = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                main.startActivityForResult(select,1);
-                            });
+                            for(int counter=0; counter < SidesCategory.size();counter++)
+                            {
+                                if(SidesCategory.get(counter).equals(FoodCategory.get(i)))
+                                {
+                                    adapter = new RecyclerAdapter(alertDialog.getContext(), Sname, SImg, SFoodUID, main, Sname, SImg, SFoodUID);
+                                    miniview.setAdapter(adapter);
+                                }else{
 
-                            */
+                                }
+                            }
+                          /*  if( isPresent(SidesCategory,FoodCategory.get(i))){
+                                adapter = new RecyclerAdapter(alertDialog.getContext(), Sname, SImg, SFoodUID, main, Sname, SImg, SFoodUID);
+                                miniview.setAdapter(adapter);
+                            } else {
+                                miniview.setAdapter(emptyadapt);
+                            }
+
+                           */
                             ModalBtnAdd.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
@@ -140,10 +151,9 @@ public class griditems extends BaseAdapter {
                                     alertDialog.onBackPressed();
                                 }
                             });
-                          ModalTarget.setText("Food Base Type -"+FoodTarget.get(i));
                             ModalBtnAdd.setText("Choose " + FoodCategory.get(i) + " item");
                             Modalproductname.setText(FoodName.get(i));
-                            ModalDiscription.setText(FoodDescription.get(i));
+                            ModalDiscription.setText(FoodDescription.get(i)+"\n"+"Food Base Type -"+FoodTarget.get(i));
                             String Imagealtered = "https://api.romarioburke.com/"+FoodImage.get(i);
 
                             Glide.with(views.getContext()).load(Imagealtered).apply(RequestOptions.circleCropTransform()).placeholder(R.drawable.loadingplaceholder).into(Modalproductimage);
@@ -159,7 +169,6 @@ public class griditems extends BaseAdapter {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                                 alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                             }
-
                             //   Toast.makeText(context.getApplicationContext(), FoodName.get(i) + "- was clicked", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -176,6 +185,9 @@ public class griditems extends BaseAdapter {
             return views;
         }
 
+    }
+    private boolean isPresent(ArrayList<String> array, String targetValue) {
+        return Arrays.asList(array).contains(targetValue);
     }
     private Drawable getDrawableWithRadius() {
         GradientDrawable gradientDrawable = new GradientDrawable();

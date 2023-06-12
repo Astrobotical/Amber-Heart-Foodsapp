@@ -73,9 +73,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Countr
                 CurrentCard = holder.Container;
                 CurrentCheckbox = holder.sidecheckbox;
                 holder.Container.setCardBackgroundColor(context.getResources().getColor(R.color.teal_700));
+                holder.sidename.setTextColor(context.getResources().getColor(R.color.white));
+                holder.sidecheckbox.setTextColor(context.getResources().getColor(R.color.white));
                 holder.sidecheckbox.setVisibility(View.VISIBLE);
                 holder.sidecheckbox.setChecked(true);
-                Toast.makeText(context, Sname.get(position)+"was clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, Sname.get(position)+" was clicked", Toast.LENGTH_SHORT).show();
                 PreviousCard = CurrentCard;
                 PreviousCheckbox = CurrentCheckbox;
 

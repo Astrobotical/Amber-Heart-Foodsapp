@@ -192,6 +192,7 @@ public class auth_login extends Fragment {
                                                 String[] total_String = prebroken.split("\\s");
                                                 String Usernamebuilder = total_String[0] + " " + total_String[1].substring(0, 1).toUpperCase() + ".";
                                                 activity.putExtra("Username", Usernamebuilder);
+                                                activity.putExtra("StudentID", ID);
                                                 startActivity(activity);
                                             } else {
                                                 Log.i("Queryresult", "Logged in");

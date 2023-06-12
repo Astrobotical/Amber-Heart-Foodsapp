@@ -257,6 +257,7 @@ public class food_add extends Fragment {
                            obj = new JSONObject(response);
                            String Message = obj.optString("message");
                            Toast.makeText(getContext(), Message, Toast.LENGTH_LONG).show();
+                           getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.cooks_main, new TotalItems()).commit();
                        } catch (JSONException e) {
                            throw new RuntimeException(e);
                        }
