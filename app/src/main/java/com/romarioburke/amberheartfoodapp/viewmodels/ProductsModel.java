@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.romarioburke.amberheartfoodapp.Dataclasses.Repositories.Repository;
+
 import org.json.JSONArray;
 
 import java.util.HashMap;
@@ -17,6 +19,17 @@ public class ProductsModel extends ViewModel {
     }
     public LiveData<JSONArray> getProducts(){
         return Products;
+    }
+    MutableLiveData<Boolean> TOSTOGGLE = new MutableLiveData<>();
+    MutableLiveData<Integer> cartitems = new MutableLiveData<>();
+    int counter = 0;
+
+    public void additem() {
+            cartitems.postValue(counter++);
+
+    }
+    public LiveData<Integer> getCartitems(){
+        return cartitems;
     }
     void setProductData(String Categoryname,HashMap data){
         HashMap<String, HashMap> Data = new HashMap<>();
@@ -55,8 +68,17 @@ public class ProductsModel extends ViewModel {
                 }
         }
     }
+    public void setTOSTOGGLE(Boolean data){
+        TOSTOGGLE.setValue(data);
+    }
+    public LiveData<Boolean> getTOSTOGGLE(){
+        return TOSTOGGLE;
+    }
     public LiveData<HashMap<String, HashMap>> getProductData(){
         return ProductData;
     }
-
+    public LiveData<Integer> getData() {
+        // for simplicity return data directly to view
+        return Repository.instance().getData();
+    }
 }

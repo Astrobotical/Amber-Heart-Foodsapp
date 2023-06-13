@@ -31,14 +31,15 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="match_parent"
+                        android:background="#EDC377">
 
                         <Button
                             android:id="@+id/Breakfast"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="80dp"
-                            android:layout_marginTop="60dp"
+                            android:layout_marginTop="10sp"
                             android:text="Breakfast" />
 
                         <Button
@@ -46,7 +47,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="308dp"
-                            android:layout_marginTop="60dp"
+                            android:layout_marginTop="10sp"
                             android:text="Dinner" />
 
                         <Button
@@ -54,7 +55,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="209dp"
-                            android:layout_marginTop="60dp"
+                            android:layout_marginTop="10sp"
                             android:text="Lunch" />
 
                         <Button
@@ -62,16 +63,26 @@
                             android:layout_width="64dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8sp"
-                            android:layout_marginTop="60dp"
+                            android:layout_marginTop="10sp"
                             android:text="All" />
 
                         <ToggleButton
-                            android:id="@+id/toggleButton"
+                            android:id="@+id/TOSToggler"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="8sp"
+                            android:layout_marginTop="60sp"
                             android:text="ToggleButton"
-                            android:textOff="TOS OFF"
-                            android:textOn="TOS ON" />
+                            android:textOff="Text to Speech OFF"
+                            android:textOn="Text to Speech ON" />
+
+                        <ImageView
+                            android:id="@+id/pagecart"
+                            android:layout_width="67dp"
+                            android:layout_height="39dp"
+                            android:layout_marginStart="308dp"
+                            android:layout_marginTop="70sp"
+                            android:src="@drawable/addtocart_foreground" />
 
                     </RelativeLayout>
 
@@ -83,7 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="225dp"
+                    android:layout_marginTop="125dp"
                     android:layout_marginRight="10dp"
                     android:gravity="center"
                     android:horizontalSpacing="5dp"

@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,15 +31,24 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.romarioburke.amberheartfoodapp.Dataclasses.CartModel;
+import com.romarioburke.amberheartfoodapp.Dataclasses.Helpers.DatabaseHelper;
+import com.romarioburke.amberheartfoodapp.Dataclasses.Repositories.Repository;
+import com.romarioburke.amberheartfoodapp.MainActivity;
 import com.romarioburke.amberheartfoodapp.studentviews.Products;
 import com.romarioburke.amberheartfoodapp.R;
 import com.romarioburke.amberheartfoodapp.SavedData;
+import com.romarioburke.amberheartfoodapp.viewmodels.ProductsModel;
 
 import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+
+import java.util.Locale;
 
 public class griditems extends BaseAdapter {
     Context context;
@@ -72,7 +83,10 @@ public class griditems extends BaseAdapter {
     HashMap<String, String> Selecteditems = new HashMap<String,String>();
     Bundle bundle;
     Fragment main;
-    SavedData Actioncallor;
+    ProductsModel Modelviewer;
+    DatabaseHelper DBhelper;
+
+    TextToSpeech tts;
 
     @Override
     public int getCount() {
@@ -91,6 +105,16 @@ public class griditems extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         View views;
+        tts = new TextToSpeech(main.getContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                if(i != TextToSpeech.ERROR)
+                {
+                    tts.setLanguage(Locale.UK);
+                }
+            }
+        });
+        Modelviewer = new ViewModelProvider(main).get(ProductsModel.class);
         if (FoodName.size() == 0) {
             views = LayoutInflater.from(view.getContext()).inflate(R.layout.emptyproductslayout, viewGroup, false);
             return views;
@@ -107,6 +131,18 @@ public class griditems extends BaseAdapter {
                     main.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+
+                            Modelviewer.getTOSTOGGLE().observe(main, item ->{
+                                if(item == true)
+                                {
+                                    tts.speak(FoodName.get(i),TextToSpeech.SUCCESS,null);
+                                }
+                                else
+                                {
+                                    tts.stop();
+                                }
+                            });
+
                             AlertDialog.Builder prompt = new AlertDialog.Builder(view.getContext());
                             prompt.setView(R.layout.item_selector_order);
                             AlertDialog alertDialog = prompt.create();
@@ -146,8 +182,23 @@ public class griditems extends BaseAdapter {
                                 public void onClick(View view) {
                                     JSONArray arraybuilder = new JSONArray();
                                     arraybuilder.put("Name");
-                                    Actioncallor = new ViewModelProvider(main).get(SavedData.class);
-                                    Actioncallor.addItem(FoodName.get(i), arraybuilder);
+                                    Modelviewer.additem();
+                                    Repository rep = new Repository();
+                                    rep.addDataSource(Modelviewer.getData());
+                                    Intent intent = new Intent("CartUpdate");
+                                    main.getActivity().sendBroadcast(intent);
+                                    DBhelper = DatabaseHelper.getInstance(main.getContext());
+                                    DBhelper.cartDAO().insert(
+                                            new CartModel(
+                                                    FoodName.get(i),
+                                                    FoodDescription.get(i),
+                                                    FoodImage.get(i),
+                                                    FoodUID.get(i),
+                                                    FoodCategory.get(i),
+                                                    FoodTarget.get(i),
+                                                    1,
+                                                    1,
+                                    );
                                     alertDialog.onBackPressed();
                                 }
                             });
@@ -194,5 +245,8 @@ public class griditems extends BaseAdapter {
         gradientDrawable.setColor(Color.WHITE);
         return gradientDrawable;
     }
+    void AddtoCart()
+    {
 
+    }
 }

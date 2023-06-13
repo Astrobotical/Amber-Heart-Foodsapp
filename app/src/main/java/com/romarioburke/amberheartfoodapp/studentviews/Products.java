@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
+import androidx.annotation.OptIn;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -18,8 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,6 +30,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.badge.BadgeUtils;
+import com.google.android.material.badge.ExperimentalBadgeUtils;
 import com.romarioburke.amberheartfoodapp.Adapters.emptyadapter;
 import com.romarioburke.amberheartfoodapp.Adapters.griditems;
 import com.romarioburke.amberheartfoodapp.AsyncTasks.GetProducts;
@@ -101,7 +107,6 @@ public class Products extends Fragment {
     ArrayList<String> STarget = new ArrayList<>();
     Bundle bundler;
     HashMap<String, String> Selecteditems = new HashMap<String, String>();
-    SavedData Datathatwassaved;
     CardView OuterContainer,HeadingContainer;
     Button PreviouslyClicked,currentbtn;
     String CurrentClicked;
@@ -263,7 +268,7 @@ public class Products extends Fragment {
         }
     }
 
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint({"ResourceAsColor", "UnsafeOptInUsageError"})
     @Override
     public void onStart() {
         int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
@@ -282,6 +287,13 @@ public class Products extends Fragment {
         Button All = this.getActivity().findViewById(R.id.all);
         OuterContainer = this.getActivity().findViewById(R.id.MainOuterContainer);
         HeadingContainer = this.getActivity().findViewById(R.id.HeaderContainer);
+        ToggleButton TOS = this.getActivity().findViewById(R.id.TOSToggler);
+        ImageView cartbtn = this.getActivity().findViewById(R.id.pagecart);
+        BadgeDrawable badgeDrawable = BadgeDrawable.create(getContext());
+        badgeDrawable.setVisible(true);
+        badgeDrawable.setNumber(2);
+        BadgeUtils.attachBadgeDrawable(badgeDrawable,cartbtn);
+
         if(PreviouslyClicked == null) {
             All.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menubtn)));
             PreviouslyClicked = All;
@@ -289,11 +301,18 @@ public class Products extends Fragment {
         else{
             All.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple_500)));
         }
-        Datathatwassaved = new ViewModelProvider(this).get(SavedData.class);
-        Datathatwassaved.TotalItems().observe(this, item -> {
+        //Datathatwassaved = new ViewModelProvider(this).get(ProductsModel.class);
+
+        TOS.setOnClickListener((view) -> {
+            if(TOS.isChecked())
+            {
+                Toast.makeText(getContext(),"TOS is checked",Toast.LENGTH_SHORT).show();
+               // Datathatwassaved.setTOSTOGGLE(TOS.isChecked());
+            }
+            else{
+                Toast.makeText(getContext(),"TOS is unchecked",Toast.LENGTH_SHORT).show();
+            }
         });
-
-
                 All.setOnClickListener((view) -> {
                     pulldata("All");
                     ActiveButton(All);

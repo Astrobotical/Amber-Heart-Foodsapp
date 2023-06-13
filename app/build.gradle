@@ -19,6 +19,14 @@ android {
         buildConfigField "String","DBPASS", localProperties['DBpass']
         buildConfigField "String","DBuser", localProperties['DBuser']
         buildConfigField "String","DBname", localProperties['DBname']
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                        "room.schemaLocation":"$projectDir/schemas".toString(),
+                        "room.incremental":"true"
+                ]
+            }
+        }
     }
     lint {
         baseline = file("lint-baseline.xml")
@@ -36,6 +44,19 @@ android {
 }
 
 dependencies {
+    def room_version = "2.5.1"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    // optional - RxJava2 support for Room
+    implementation "androidx.room:room-rxjava2:$room_version"
+
+    // optional - RxJava3 support for Room
+    implementation "androidx.room:room-rxjava3:$room_version"
+
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation "androidx.room:room-guava:$room_version"
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.android.volley:volley:1.2.1'
