@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,8 +39,16 @@ public class   MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.body, new Main()).commit();
         navbar.setSelectedItemId(R.id.nav_home);
         BadgeDrawable badge = navbar.getOrCreateBadge(R.id.cart);
-
-
+        IntentFilter filter = new IntentFilter("CartUpdate");
+        registerReceiver(Carti,filter);
+        SharedPreferences logs = getSharedPreferences("Carttotal", Context.MODE_PRIVATE);
+        int Carttotal = logs.getInt("Carttotal", 0);
+        if(Carttotal > 0){
+            badge.setVisible(true);
+            badge.setNumber(Carttotal);
+        }else{
+            badge.setVisible(false);
+        }
         int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         switch (nightModeFlags) {
             case Configuration.UI_MODE_NIGHT_YES-> Day();
@@ -50,15 +59,6 @@ public class   MainActivity extends AppCompatActivity {
         }
        // navbar.getOrCreateBadge(R.id.cart).setNumber(90);
 
-        Productsmodel = new ViewModelProvider(this).get(ProductsModel.class);
-        Productsmodel.getCartitems().observe(this, cartitems -> {
-          //  getSupportFragmentManager().beginTransaction().replace(R.id.body, new studentcart()).commit();
-                   badge.setVisible(true);
-                    badge.setNumber(cartitems);
-                    Log.i("Cart","onCreate: " + cartitem);
-                    getSupportFragmentManager().notifyAll();
-        }
-        );
         navbar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -68,15 +68,15 @@ public class   MainActivity extends AppCompatActivity {
                         frag = new Main();
                         break;
                     case R.id.currentmenu:
-                        navbar.getOrCreateBadge(R.id.cart).setNumber(1);
+                       // navbar.getOrCreateBadge(R.id.cart).setNumber(1);
                         frag = new Products();
                         break;
                     case R.id.Logout:
-                        navbar.getOrCreateBadge(R.id.cart).setNumber(2);
+                      //  navbar.getOrCreateBadge(R.id.cart).setNumber(2);
                         frag = new logout();
                         break;
                     case R.id.cart:
-                        navbar.getOrCreateBadge(R.id.cart).setNumber(3);
+                       // navbar.getOrCreateBadge(R.id.cart).setNumber(3);
                         frag = new studentcart();
                         break;
                 }
@@ -103,7 +103,6 @@ public class   MainActivity extends AppCompatActivity {
             navbar.notify();
             navbar.refreshDrawableState();
         });
-        Repository.instance().addDataSource(Carti.cartsize());
         registerReceiver(Carti, IntentFilter.create("CartUpdate", "text/plain"));
     }
 
@@ -111,7 +110,6 @@ public class   MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         // don't forget to remove receiver data source
-        Repository.instance().removeDataSource(Carti.cartsize());
         unregisterReceiver(Carti);
     }
 }

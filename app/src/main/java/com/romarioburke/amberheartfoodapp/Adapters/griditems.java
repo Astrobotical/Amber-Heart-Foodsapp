@@ -192,6 +192,8 @@ public class griditems extends BaseAdapter {
                                     Repository rep = new Repository();
                                     rep.addDataSource(Modelviewer.getData());
                                     Intent intent = new Intent("CartUpdate");
+                                    intent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+                                    intent.putExtra("Action", "Add");
                                     main.getActivity().sendBroadcast(intent);
                                     AddtoCart(FoodUID.get(i), FoodName.get(i),FoodCategory.get(i),"https://api.romarioburke.com/"+FoodImage.get(i),"123",SFoodUID.get(i),Sname.get(i),"https://api.romarioburke.com/"+SImg.get(i),SidesCategory.get(i));
                                     alertDialog.onBackPressed();
