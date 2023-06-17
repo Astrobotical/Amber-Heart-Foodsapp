@@ -65,6 +65,7 @@ public class Products extends Fragment {
     ArrayList<String> Defaultcategory = new ArrayList<>();
     ArrayList<String> DefaultFoodUID = new ArrayList<>();
     ArrayList<String> DefaultTarget = new ArrayList<>();
+    ArrayList<Float> DefaultRating = new ArrayList<>();
 
 
     ArrayList<String> BImg = new ArrayList<>();
@@ -73,6 +74,7 @@ public class Products extends Fragment {
     ArrayList<String> Bcategory = new ArrayList<>();
     ArrayList<String> BFoodUID = new ArrayList<>();
     ArrayList<String> BTarget = new ArrayList<>();
+    ArrayList<Float> BRating = new ArrayList<>();
 
     ArrayList<String> LImg = new ArrayList<>();
     ArrayList<String> Lname = new ArrayList<>();
@@ -80,22 +82,26 @@ public class Products extends Fragment {
     ArrayList<String> Lcategory = new ArrayList<>();
     ArrayList<String> LFoodUID = new ArrayList<>();
     ArrayList<String> LTarget = new ArrayList<>();
+    ArrayList<Float> LRating = new ArrayList<>();
     ArrayList<String> DImg = new ArrayList<>();
     ArrayList<String> Dname = new ArrayList<>();
     ArrayList<String> Ddesc = new ArrayList<>();
     ArrayList<String> Dcategory = new ArrayList<>();
     ArrayList<String> DFoodUID = new ArrayList<>();
     ArrayList<String> DTarget = new ArrayList<>();
+    ArrayList<Float> DRating = new ArrayList<>();
 
     ArrayList<String> SImg = new ArrayList<>();
     ArrayList<String> Sname = new ArrayList<>();
     ArrayList<String> Sdesc = new ArrayList<>();
     ArrayList<String> Scategory = new ArrayList<>();
     ArrayList<String> SFoodUID = new ArrayList<>();
+    ArrayList<String> STarget = new ArrayList<>();
     ArrayList<String> BSImg = new ArrayList<>();
     ArrayList<String> BSname = new ArrayList<>();
     ArrayList<String> BSFoodUID = new ArrayList<>();
     ArrayList<String> BSCategory = new ArrayList<>();
+
     ArrayList<String> LSImg = new ArrayList<>();
     ArrayList<String> LSname = new ArrayList<>();
     ArrayList<String> LSFoodUID = new ArrayList<>();
@@ -104,12 +110,12 @@ public class Products extends Fragment {
     ArrayList<String> DSname = new ArrayList<>();
     ArrayList<String> DSFoodUID = new ArrayList<>();
     ArrayList<String> DSCategory = new ArrayList<>();
-    ArrayList<String> STarget = new ArrayList<>();
     Bundle bundler;
     HashMap<String, String> Selecteditems = new HashMap<String, String>();
     CardView OuterContainer,HeadingContainer;
     Button PreviouslyClicked,currentbtn;
     String CurrentClicked;
+    ProductsModel Datathatwassaved;
 
     public Products() {
         // Required empty public constructor
@@ -150,6 +156,7 @@ public class Products extends Fragment {
                         Defaultcategory.add(Productdata.getString("ItemCategory"));
                         DefaultFoodUID.add(Productdata.getString("ItemID"));
                         DefaultTarget.add(Productdata.getString("ItemTarget"));
+                        DefaultRating.add(Float.parseFloat(Productdata.getString("ItemRating")));
                     }
                     if (Productdata.getString("ItemCategory").equals("Breakfast")) {
                         BImg.add(Productdata.getString("ItemImage"));
@@ -158,6 +165,7 @@ public class Products extends Fragment {
                         Bcategory.add(Productdata.getString("ItemCategory"));
                         BFoodUID.add(Productdata.getString("ItemID"));
                         BTarget.add(Productdata.getString("ItemTarget"));
+                        BRating.add(Float.parseFloat(Productdata.getString("ItemRating")));
                     } else if (Productdata.getString("ItemCategory").equals("Lunch")) {
                         LImg.add(Productdata.getString("ItemImage"));
                         Lname.add(Productdata.getString("ItemName"));
@@ -165,6 +173,7 @@ public class Products extends Fragment {
                         Lcategory.add(Productdata.getString("ItemCategory"));
                         LFoodUID.add(Productdata.getString("ItemID"));
                         LTarget.add(Productdata.getString("ItemTarget"));
+                        LRating.add(Float.parseFloat(Productdata.getString("ItemRating")));
                     } else if (Productdata.getString("ItemCategory").equals("Dinner")) {
                         DImg.add(Productdata.getString("ItemImage"));
                         Dname.add(Productdata.getString("ItemName"));
@@ -172,6 +181,7 @@ public class Products extends Fragment {
                         Dcategory.add(Productdata.getString("ItemCategory"));
                         DFoodUID.add(Productdata.getString("ItemID"));
                         DTarget.add(Productdata.getString("ItemTarget"));
+                        DRating.add(Float.parseFloat(Productdata.getString("ItemRating")));
                     }
                     else if(Productdata.getString("ItemCategory").equals("Sides")) {
                         if(Productdata.getString("SideTarget").equals("Breakfast")){
@@ -197,6 +207,7 @@ public class Products extends Fragment {
                         SFoodUID.add(Productdata.getString("ItemID"));
                         STarget.add(Productdata.getString("ItemTarget"));
                     }
+                    Log.i("PulledItem", Productdata.toString());
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
@@ -214,27 +225,21 @@ public class Products extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         //ViewModel Logic
-
-
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_products, container, false);
     }
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
-
     void pulldata(String RequestType) {
         GridView gridView = this.getActivity().findViewById(R.id.grids);
         emptyadapter emptygrid =new emptyadapter(this,getContext());
         if (RequestType.equals("All")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Defaultname, DefaultImg, Defaultdesc, Defaultcategory, DefaultFoodUID, bundler, Selecteditems,DefaultTarget, this,Sname,SImg,SFoodUID,Scategory);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Defaultname, DefaultImg, Defaultdesc, Defaultcategory, DefaultFoodUID, bundler, Selecteditems,DefaultTarget, DRating,this,Sname,SImg,SFoodUID,Scategory);
             if(Defaultname.size()== 0)
             {
               gridView.setAdapter(emptygrid);
@@ -242,7 +247,7 @@ public class Products extends Fragment {
                 gridView.setAdapter(Grid);
             }
         } else if (RequestType.equals("Breakfast")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Bname, BImg, Bdesc, Bcategory, BFoodUID, bundler, Selecteditems,BTarget, this,BSname,BSImg,BSFoodUID,BSCategory);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Bname, BImg, Bdesc, Bcategory, BFoodUID, bundler, Selecteditems,BTarget, BRating,this,BSname,BSImg,BSFoodUID,BSCategory);
             if(Bname.size()== 0)
             {
                 gridView.setAdapter(emptygrid);
@@ -250,7 +255,7 @@ public class Products extends Fragment {
                 gridView.setAdapter(Grid);
             }
         } else if (RequestType.equals("Lunch")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Lname, LImg, Ldesc, Lcategory, LFoodUID, bundler, Selecteditems,LTarget, this,LSname,LSImg,LSFoodUID,LSCategory);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Lname, LImg, Ldesc, Lcategory, LFoodUID, bundler, Selecteditems,LTarget,LRating, this,LSname,LSImg,LSFoodUID,LSCategory);
             if(Lname.size()== 0)
             {
                 gridView.setAdapter(emptygrid);
@@ -258,7 +263,7 @@ public class Products extends Fragment {
                 gridView.setAdapter(Grid);
             }
         } else if (RequestType.equals("Dinner")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Dname, DImg, Ddesc, Dcategory, DFoodUID, bundler, Selecteditems,DTarget, this,DSname,DSImg,DSFoodUID,DSCategory);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Dname, DImg, Ddesc, Dcategory, DFoodUID, bundler, Selecteditems,DTarget,DRating,this,DSname,DSImg,DSFoodUID,DSCategory);
             if(Dname.size()== 0)
             {
                 gridView.setAdapter(emptygrid);
@@ -301,13 +306,13 @@ public class Products extends Fragment {
         else{
             All.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple_500)));
         }
-        //Datathatwassaved = new ViewModelProvider(this).get(ProductsModel.class);
+        Datathatwassaved = new ViewModelProvider(this).get(ProductsModel.class);
 
         TOS.setOnClickListener((view) -> {
             if(TOS.isChecked())
             {
                 Toast.makeText(getContext(),"TOS is checked",Toast.LENGTH_SHORT).show();
-               // Datathatwassaved.setTOSTOGGLE(TOS.isChecked());
+                Datathatwassaved.setTOSTOGGLE(TOS.isChecked());
             }
             else{
                 Toast.makeText(getContext(),"TOS is unchecked",Toast.LENGTH_SHORT).show();

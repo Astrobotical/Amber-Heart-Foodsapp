@@ -12,15 +12,19 @@ public class CartModel {
 
     @ColumnInfo(name = "FoodCategory") private String FoodCategory;
     @ColumnInfo(name = "Foodimg") private String Foodimg;
-    @ColumnInfo(name = "CartID") private String CartID;
-    @ColumnInfo(name = "MenuID") private String MenuID;
+    @ColumnInfo(name = "CartID")
+    private String CartID;
+    @ColumnInfo(name = "MenuID")
+    private String MenuID;
     @ColumnInfo(name = "SideID") private String SideID;
     @ColumnInfo(name = "SideName") private String SideName;
     @ColumnInfo(name = "Sideimg") private String Sideimg;
     @ColumnInfo(name = "SideCategory") private String SideCategory;
+    public  CartModel(){
 
-    public CartModel(int autoID, String foodID, String foodName, String foodCategory, String foodimg, String cartID, String menuID, String sideID, String sideName, String sideimg, String sideCategory) {
-        AutoID = autoID;
+    }
+
+    public CartModel(String foodID, String foodName, String foodCategory, String foodimg, String cartID, String menuID, String sideID, String sideName, String sideimg, String sideCategory) {
         FoodID = foodID;
         FoodName = foodName;
         FoodCategory = foodCategory;
@@ -117,7 +121,6 @@ public class CartModel {
     public String getSideCategory() {
         return SideCategory;
     }
-
     public void setSideCategory(String sideCategory) {
         SideCategory = sideCategory;
     }

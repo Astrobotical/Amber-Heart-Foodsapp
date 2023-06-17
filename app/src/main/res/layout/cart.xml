@@ -7,8 +7,29 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20sp"
+        android:layout_marginTop="20sp"
+        android:text="My Cart"
+        android:textSize="34sp" />
+
+    <GridView
+        android:id="@+id/cartgrid"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="603dp"
+        android:layout_marginTop="90dp"
+        android:gravity="center"
+        android:horizontalSpacing="5dp"
+        android:numColumns="1"></GridView>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="240sp"
+        android:layout_marginTop="700sp"
+        android:text="Confirm Items"
+        android:textSize="16sp" />
 
 </FrameLayout>

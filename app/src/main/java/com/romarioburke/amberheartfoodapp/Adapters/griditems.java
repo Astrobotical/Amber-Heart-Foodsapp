@@ -9,13 +9,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.media.Rating;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +32,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.badge.BadgeDrawable;
@@ -43,18 +52,22 @@ import com.romarioburke.amberheartfoodapp.SavedData;
 import com.romarioburke.amberheartfoodapp.viewmodels.ProductsModel;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 import java.util.Locale;
+import java.util.Random;
+import java.util.TooManyListenersException;
 
 public class griditems extends BaseAdapter {
     Context context;
     private Products product;
     int counter;
-    public griditems(Context context, ArrayList<String> FoodName, ArrayList<String> FoodImage, ArrayList<String> Description, ArrayList<String> Category,ArrayList<String>FoodUID, Bundle bundler,   HashMap<String, String> Selecteditem,ArrayList<String>Target,Fragment trying,ArrayList<String>Sname,ArrayList<String>Simage,ArrayList<String>SUID,ArrayList<String> SideCat) {
+    public griditems(Context context, ArrayList<String> FoodName, ArrayList<String> FoodImage, ArrayList<String> Description, ArrayList<String> Category,ArrayList<String>FoodUID, Bundle bundler,   HashMap<String, String> Selecteditem,ArrayList<String>Target,ArrayList<Float> rating,Fragment trying,ArrayList<String>Sname,ArrayList<String>Simage,ArrayList<String>SUID,ArrayList<String> SideCat) {
         this.context = context;
         this.FoodName = FoodName;
         this.FoodDescription = Description;
@@ -69,7 +82,10 @@ public class griditems extends BaseAdapter {
         this.SImg = Simage;
         this.SFoodUID = SUID;
         this.SidesCategory = SideCat;
+        this.FoodRating = rating;
+        this.CurrentMenuID = getCart();
     }
+    ArrayList<Float>FoodRating = new ArrayList<>();
     ArrayList<String> SidesCategory = new ArrayList<>();
     ArrayList<String>FoodTarget = new ArrayList<>();
     ArrayList<String> FoodImage = new ArrayList<>();
@@ -85,6 +101,7 @@ public class griditems extends BaseAdapter {
     Fragment main;
     ProductsModel Modelviewer;
     DatabaseHelper DBhelper;
+    String CurrentMenuID= "";
 
     TextToSpeech tts;
 
@@ -125,6 +142,7 @@ public class griditems extends BaseAdapter {
             CardView cards = views.findViewById(R.id.card);
             TextView CategoryElement = views.findViewById(R.id.category);
             RelativeLayout Container = views.findViewById(R.id.itemscontainer);
+            RatingBar ratingBar = views.findViewById(R.id.Bars);
             Container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -142,12 +160,10 @@ public class griditems extends BaseAdapter {
                                     tts.stop();
                                 }
                             });
-
                             AlertDialog.Builder prompt = new AlertDialog.Builder(view.getContext());
                             prompt.setView(R.layout.item_selector_order);
                             AlertDialog alertDialog = prompt.create();
                             alertDialog.show();
-                            //Button Imagechanger = alertDialog.findViewById(R.id.changeimg);
                             RecyclerView miniview = alertDialog.findViewById(R.id.miniview);
                             ImageButton Exitbutton = alertDialog.findViewById(R.id.Exitbutton);
                             TextView Modalproductname = alertDialog.findViewById(R.id.modalname);
@@ -165,18 +181,8 @@ public class griditems extends BaseAdapter {
                                 {
                                     adapter = new RecyclerAdapter(alertDialog.getContext(), Sname, SImg, SFoodUID, main, Sname, SImg, SFoodUID);
                                     miniview.setAdapter(adapter);
-                                }else{
-
-                                }
+                                }else{}
                             }
-                          /*  if( isPresent(SidesCategory,FoodCategory.get(i))){
-                                adapter = new RecyclerAdapter(alertDialog.getContext(), Sname, SImg, SFoodUID, main, Sname, SImg, SFoodUID);
-                                miniview.setAdapter(adapter);
-                            } else {
-                                miniview.setAdapter(emptyadapt);
-                            }
-
-                           */
                             ModalBtnAdd.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
@@ -187,18 +193,7 @@ public class griditems extends BaseAdapter {
                                     rep.addDataSource(Modelviewer.getData());
                                     Intent intent = new Intent("CartUpdate");
                                     main.getActivity().sendBroadcast(intent);
-                                    DBhelper = DatabaseHelper.getInstance(main.getContext());
-                                    DBhelper.cartDAO().insert(
-                                            new CartModel(
-                                                    FoodName.get(i),
-                                                    FoodDescription.get(i),
-                                                    FoodImage.get(i),
-                                                    FoodUID.get(i),
-                                                    FoodCategory.get(i),
-                                                    FoodTarget.get(i),
-                                                    1,
-                                                    1,
-                                    );
+                                    AddtoCart(FoodUID.get(i), FoodName.get(i),FoodCategory.get(i),"https://api.romarioburke.com/"+FoodImage.get(i),"123",SFoodUID.get(i),Sname.get(i),"https://api.romarioburke.com/"+SImg.get(i),SidesCategory.get(i));
                                     alertDialog.onBackPressed();
                                 }
                             });
@@ -206,9 +201,8 @@ public class griditems extends BaseAdapter {
                             Modalproductname.setText(FoodName.get(i));
                             ModalDiscription.setText(FoodDescription.get(i)+"\n"+"Food Base Type -"+FoodTarget.get(i));
                             String Imagealtered = "https://api.romarioburke.com/"+FoodImage.get(i);
-
                             Glide.with(views.getContext()).load(Imagealtered).apply(RequestOptions.circleCropTransform()).placeholder(R.drawable.loadingplaceholder).into(Modalproductimage);
-                            ratingBar.setRating(1.5F);
+                            ratingBar.setRating(FoodRating.get(i));
                             Exitbutton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
@@ -229,6 +223,7 @@ public class griditems extends BaseAdapter {
             Glide.with(views.getContext()).load(Imagealtered).apply(RequestOptions.circleCropTransform()).placeholder(R.drawable.loadingplaceholder).into(img);
             cards.setCardBackgroundColor(45322);
             itemname.setText(FoodName.get(i));
+            ratingBar.setRating(FoodRating.get(i));
             Toast.makeText(context.getApplicationContext(),Imagealtered,Toast.LENGTH_SHORT);
             CategoryElement.setText(FoodCategory.get(i));
             counter++;
@@ -245,8 +240,77 @@ public class griditems extends BaseAdapter {
         gradientDrawable.setColor(Color.WHITE);
         return gradientDrawable;
     }
-    void AddtoCart()
+    void AddtoCart(String FID, String Fname, String Fcategory, String Fimage,String MenuID,String SideID, String  SideName,String Sideimg,String SideCategory)
     {
+        getCart();
+        SharedPreferences precheck = main.getActivity().getSharedPreferences("Cart", Context.MODE_PRIVATE);
+        Integer CartID = precheck.getInt("CartID", 0);
+        if(CartID == 0) {
+            CreateCart();
+        }else{
+            getCart();
+            DBhelper = DatabaseHelper.getInstance(main.getContext());
+            DBhelper.cartDAO().insert(
+                    new CartModel(
+                            FID, Fname,
+                            Fcategory, Fimage,
+                           CartID.toString(), CurrentMenuID,
+                            SideID, SideName,
+                            Sideimg, SideCategory
+                    )
+            );
+            Toast.makeText(main.getContext(), "Added to Cart", Toast.LENGTH_SHORT).show();
+        }
 
+    }
+    void CreateCart()
+    {
+        SharedPreferences logs = main.getActivity().getSharedPreferences("Cart", Context.MODE_PRIVATE);
+        SharedPreferences.Editor myEdit = logs.edit();
+        Random randomid = new Random();
+        myEdit.putInt("CartID", randomid.hashCode());
+        myEdit.apply();
+    }
+    String getCart()
+    {
+        String Menu;
+        main.getActivity().runOnUiThread(new Runnable() {
+            @Override
+        public void run() {
+        String RequestURL = "https://api.romarioburke.com/api/v1/cart/getmenu";
+        RequestQueue queue = Volley.newRequestQueue(context);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, RequestURL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject result = new JSONObject(response.toString());
+                    String Message =  result.getString("response");
+                    if(Message.equals("Success"))
+                    {
+                        String MenuID = result.getString("ActiveMenu");
+                        SharedPreferences precheck = main.getActivity().getSharedPreferences("Cart", Context.MODE_PRIVATE);
+                        //ProductsModel Viewmodel = new ViewModelProvider(main).get(ProductsModel.class);
+                        //Viewmodel.setMenuID(MenuID);
+                       CurrentMenuID = MenuID;
+                    }
+                    else
+                    {
+                        Toast.makeText(context, "No Active Menu", Toast.LENGTH_SHORT).show();
+                        Log.i("RESULTUID", "No Active Menu");
+                    }
+                } catch (JSONException EX) {
+                    Log.i("CustomError", EX.toString());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("CustomError", error.toString());
+            }
+        });
+        queue.add(request);
+    }
+    });
+        return CurrentMenuID;
     }
 }

@@ -52,6 +52,7 @@
                     android:textStyle="bold" />
 
                 <RatingBar
+                    android:id="@+id/Bars"
                     style="@android:style/Widget.Holo.RatingBar.Indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

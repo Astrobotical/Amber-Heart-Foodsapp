@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10sp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="195dp">
+
+        <ImageView
+            android:id="@+id/Item_img"
+            android:layout_width="165dp"
+            android:layout_height="155dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/Item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="170sp"
+            android:text="Name" />
+
+        <TextView
+            android:id="@+id/Item_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="170sp"
+            android:layout_marginTop="50sp"
+            android:text="Category" />
+
+        <TextView
+            android:id="@+id/Side_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="170sp"
+            android:layout_marginTop="80sp"
+            android:text="Side" />
+
+        <Button
+            android:id="@+id/Update_item"
+            style="@android:style/Widget.DeviceDefault.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="290sp"
+            android:layout_marginTop="110sp"
+            android:layout_marginBottom="10sp"
+            android:background="#FF80AB"
+            android:backgroundTint="#FF80AB"
+            android:text="Update"
+            app:rippleColor="#27D3B9" />
+
+        <Button
+            android:id="@+id/Delete_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="180sp"
+            android:layout_marginTop="110sp"
+            android:background="#F60707"
+            android:backgroundTint="#F60707"
+            android:text="Delete" />
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

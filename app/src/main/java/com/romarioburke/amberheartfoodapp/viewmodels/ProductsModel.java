@@ -4,11 +4,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.romarioburke.amberheartfoodapp.Dataclasses.CartModel;
 import com.romarioburke.amberheartfoodapp.Dataclasses.Repositories.Repository;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProductsModel extends ViewModel {
@@ -22,8 +25,22 @@ public class ProductsModel extends ViewModel {
     }
     MutableLiveData<Boolean> TOSTOGGLE = new MutableLiveData<>();
     MutableLiveData<Integer> cartitems = new MutableLiveData<>();
+    MutableLiveData<String> MenuID = new MutableLiveData<>();
+    MutableLiveData<ArrayList<CartModel>> CartItems = new MutableLiveData<>();
     int counter = 0;
 
+    public void setMenuID(String data){
+        MenuID.setValue(data);
+    }
+    public void setCartItems(ArrayList<CartModel> data){
+        CartItems.setValue(data);
+    }
+    public LiveData<ArrayList<CartModel>> getCartItems(){
+        return CartItems;
+    }
+    public LiveData<String> getMenuID(){
+        return MenuID;
+    }
     public void additem() {
             cartitems.postValue(counter++);
 
