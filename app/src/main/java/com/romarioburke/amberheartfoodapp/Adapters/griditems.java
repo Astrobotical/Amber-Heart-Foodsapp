@@ -225,7 +225,7 @@ public class griditems extends BaseAdapter {
             Glide.with(views.getContext()).load(Imagealtered).apply(RequestOptions.circleCropTransform()).placeholder(R.drawable.loadingplaceholder).into(img);
             cards.setCardBackgroundColor(45322);
             itemname.setText(FoodName.get(i));
-            ratingBar.setRating(FoodRating.get(i));
+          //  ratingBar.setRating(FoodRating.get(i));
             Toast.makeText(context.getApplicationContext(),Imagealtered,Toast.LENGTH_SHORT);
             CategoryElement.setText(FoodCategory.get(i));
             counter++;
@@ -290,9 +290,10 @@ public class griditems extends BaseAdapter {
                     if(Message.equals("Success"))
                     {
                         String MenuID = result.getString("ActiveMenu");
-                        SharedPreferences precheck = main.getActivity().getSharedPreferences("Cart", Context.MODE_PRIVATE);
-                        //ProductsModel Viewmodel = new ViewModelProvider(main).get(ProductsModel.class);
-                        //Viewmodel.setMenuID(MenuID);
+                        SharedPreferences logs = main.getActivity().getSharedPreferences("Cart", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor myEdit = logs.edit();
+                        myEdit.putString("MenuID", MenuID);
+                        myEdit.apply();
                        CurrentMenuID = MenuID;
                     }
                     else

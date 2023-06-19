@@ -14,10 +14,19 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.romarioburke.amberheartfoodapp.Dataclasses.CartModel;
 import com.romarioburke.amberheartfoodapp.Dataclasses.Contenttest;
+import com.romarioburke.amberheartfoodapp.Dataclasses.Helpers.DatabaseHelper;
 import com.romarioburke.amberheartfoodapp.Dataclasses.Repositories.Repository;
 import com.romarioburke.amberheartfoodapp.studentviews.Main;
 import com.romarioburke.amberheartfoodapp.studentviews.Products;
@@ -25,8 +34,15 @@ import com.romarioburke.amberheartfoodapp.studentviews.logout;
 import com.romarioburke.amberheartfoodapp.studentviews.studentcart;
 import com.romarioburke.amberheartfoodapp.viewmodels.ProductsModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+// TODO: 17/06/2023 Fix item counter for the navagation bar based on the items in storage vs the items recently clicked  
 public class   MainActivity extends AppCompatActivity {
     ProductsModel Productsmodel;
+    DatabaseHelper helper;
     int cartitem = 0;
     Contenttest Carti;
     @Override
@@ -44,8 +60,26 @@ public class   MainActivity extends AppCompatActivity {
         SharedPreferences logs = getSharedPreferences("Carttotal", Context.MODE_PRIVATE);
         int Carttotal = logs.getInt("Carttotal", 0);
         if(Carttotal > 0){
-            badge.setVisible(true);
-            badge.setNumber(Carttotal);
+            helper = DatabaseHelper.getInstance(this);
+            SharedPreferences precheck = getSharedPreferences("Cart", Context.MODE_PRIVATE);
+            Integer CartID = precheck.getInt("CartID", 0);
+            String MenuID = precheck.getString("MenuID", "");
+            ArrayList<CartModel> seting = (ArrayList<CartModel>)helper.cartDAO().getCartItems(MenuID, CartID.toString());
+            int total = 0;
+            for(int i = 0; i < seting.size(); i++){
+                total ++;
+            }
+            if(total == 0){
+                badge.setVisible(false);
+            }
+            else if(total > Carttotal){
+                badge.setVisible(true);
+                badge.setNumber(seting.size());
+            }
+            else{
+                badge.setVisible(true);
+                badge.setNumber(Carttotal);
+            }
         }else{
             badge.setVisible(false);
         }
@@ -95,15 +129,6 @@ public class   MainActivity extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
-        BottomNavigationView navbar = findViewById(R.id.Navbar);
-        Productsmodel = new ViewModelProvider(this).get(ProductsModel.class);
-        Productsmodel.getCartitems().observe(this, cartitems -> {
-            navbar.getOrCreateBadge(R.id.cart).setNumber(cartitems);
-            getSupportFragmentManager().notifyAll();
-            navbar.notify();
-            navbar.refreshDrawableState();
-        });
-        registerReceiver(Carti, IntentFilter.create("CartUpdate", "text/plain"));
     }
 
     @Override

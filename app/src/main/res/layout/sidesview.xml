@@ -45,9 +45,8 @@
 
         <TextView
             android:id="@+id/sidename"
-            android:layout_width="144dp"
-            android:layout_height="37dp"
-            android:layout_marginStart="30sp"
+            android:layout_width="193dp"
+            android:layout_height="39dp"
             android:layout_marginTop="155dp"
             android:text="TextView"
             android:textSize="18sp" />

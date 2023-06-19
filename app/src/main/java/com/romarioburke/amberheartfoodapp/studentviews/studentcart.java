@@ -123,7 +123,6 @@ public class studentcart extends Fragment {
                             FoodUID.add(seting.get(i).getFoodID());
                             SideUID.add(seting.get(i).getSideID());
                             SideName.add(seting.get(i).getSideName());
-
                         }
                         GridView GridLayout = getActivity().findViewById(R.id.cartgrid);
                         if(FoodName.size() == 0)

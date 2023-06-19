@@ -1,7 +1,9 @@
 package com.romarioburke.amberheartfoodapp.studentviews;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -33,9 +35,11 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.badge.BadgeUtils;
 import com.google.android.material.badge.ExperimentalBadgeUtils;
+import com.romarioburke.amberheartfoodapp.Adapters.Alreadyincart;
 import com.romarioburke.amberheartfoodapp.Adapters.emptyadapter;
 import com.romarioburke.amberheartfoodapp.Adapters.griditems;
 import com.romarioburke.amberheartfoodapp.AsyncTasks.GetProducts;
+import com.romarioburke.amberheartfoodapp.Dataclasses.Helpers.DatabaseHelper;
 import com.romarioburke.amberheartfoodapp.R;
 import com.romarioburke.amberheartfoodapp.SavedData;
 import com.romarioburke.amberheartfoodapp.viewmodels.ProductsModel;
@@ -116,6 +120,7 @@ public class Products extends Fragment {
     Button PreviouslyClicked,currentbtn;
     String CurrentClicked;
     ProductsModel Datathatwassaved;
+    DatabaseHelper helper;
 
     public Products() {
         // Required empty public constructor
@@ -238,6 +243,10 @@ public class Products extends Fragment {
     void pulldata(String RequestType) {
         GridView gridView = this.getActivity().findViewById(R.id.grids);
         emptyadapter emptygrid =new emptyadapter(this,getContext());
+        Alreadyincart incart = new Alreadyincart(this,getContext());
+        helper =  DatabaseHelper.getInstance(getContext());
+        SharedPreferences precheck = getActivity().getSharedPreferences("Cart", Context.MODE_PRIVATE);
+        Integer CartID = precheck.getInt("CartID", 0);
         if (RequestType.equals("All")) {
             griditems Grid = new griditems(this.getActivity().getApplicationContext(), Defaultname, DefaultImg, Defaultdesc, Defaultcategory, DefaultFoodUID, bundler, Selecteditems,DefaultTarget, DRating,this,Sname,SImg,SFoodUID,Scategory);
             if(Defaultname.size()== 0)
@@ -252,7 +261,11 @@ public class Products extends Fragment {
             {
                 gridView.setAdapter(emptygrid);
             }else {
-                gridView.setAdapter(Grid);
+               if(helper.cartDAO().checkCartItem("Breakfast",CartID.toString()))
+               {gridView.setAdapter(incart);
+               }else{
+                     gridView.setAdapter(Grid);
+               }
             }
         } else if (RequestType.equals("Lunch")) {
             griditems Grid = new griditems(this.getActivity().getApplicationContext(), Lname, LImg, Ldesc, Lcategory, LFoodUID, bundler, Selecteditems,LTarget,LRating, this,LSname,LSImg,LSFoodUID,LSCategory);
@@ -260,7 +273,11 @@ public class Products extends Fragment {
             {
                 gridView.setAdapter(emptygrid);
             }else {
-                gridView.setAdapter(Grid);
+                if(helper.cartDAO().checkCartItem("Lunch",CartID.toString()))
+                {gridView.setAdapter(incart);
+                }else{
+                    gridView.setAdapter(Grid);
+                }
             }
         } else if (RequestType.equals("Dinner")) {
             griditems Grid = new griditems(this.getActivity().getApplicationContext(), Dname, DImg, Ddesc, Dcategory, DFoodUID, bundler, Selecteditems,DTarget,DRating,this,DSname,DSImg,DSFoodUID,DSCategory);
@@ -268,7 +285,11 @@ public class Products extends Fragment {
             {
                 gridView.setAdapter(emptygrid);
             }else {
-                gridView.setAdapter(Grid);
+                if(helper.cartDAO().checkCartItem("Dinner",CartID.toString()))
+                {gridView.setAdapter(incart);
+                }else{
+                    gridView.setAdapter(Grid);
+                }
             }
         }
     }
