@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="Active Menu have been found! "
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/go"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="240dp"
+            android:layout_marginTop="150dp"
+            android:text="Go To" />
+
+        <Button
+            android:id="@+id/cancelbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="150dp"
+            android:text="Cancel " />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp">
+
+            <RadioButton
+                android:id="@+id/radio_Option1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Navagate to the active menu" />
+
+            <RadioButton
+                android:id="@+id/radio_Option2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Configure current menu setting" />
+        </RadioGroup>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

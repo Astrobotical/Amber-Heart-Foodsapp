@@ -102,7 +102,7 @@ public class Sides_add extends Fragment {
         Spinner FoodCategory = getActivity().findViewById(R.id.FCategory);
         Button Addside = getActivity().findViewById(R.id.addside);
         Button photoupload = getActivity().findViewById(R.id.photoupload);
-        imagesaved = getActivity().findViewById(R.id.Img);
+        imagesaved = getActivity().findViewById(R.id.foodimg);
         FoodCategory.setAdapter(spinnerArrayAdapter);
         photoupload.setOnClickListener((view)->{
             Intent select = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

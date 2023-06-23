@@ -197,6 +197,7 @@ public class griditems extends BaseAdapter {
                                     main.getActivity().sendBroadcast(intent);
                                     AddtoCart(FoodUID.get(i), FoodName.get(i),FoodCategory.get(i),"https://api.romarioburke.com/"+FoodImage.get(i),"123",SFoodUID.get(i),Sname.get(i),"https://api.romarioburke.com/"+SImg.get(i),SidesCategory.get(i));
                                     alertDialog.onBackPressed();
+                                    main.getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.body, new Products()).commit();
                                 }
                             });
                             ModalBtnAdd.setText("Choose " + FoodCategory.get(i) + " item");

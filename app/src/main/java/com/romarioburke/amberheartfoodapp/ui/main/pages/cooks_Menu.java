@@ -35,10 +35,14 @@ import java.util.ArrayList;
 
 public class cooks_Menu extends Fragment {
     Fragment Frag = null;
+    private boolean isMenuActive = false;
     public cooks_Menu() {
         // Required empty public constructor
     }
+    public void onAttach(Context context) {
+        super.onAttach(context);
 
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,9 +69,6 @@ public class cooks_Menu extends Fragment {
             Button Confirmbtn = alertDialog.findViewById(R.id.forwardbtn);
             RadioButton AddRegularItem = alertDialog.findViewById(R.id.option1);
             RadioButton AddSide = alertDialog.findViewById(R.id.option2);
-
-
-
             Backbtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -97,52 +98,83 @@ public class cooks_Menu extends Fragment {
             });
         });
         Menu_create.setOnClickListener((view)->{
-            String RequestURL = "https://api.romarioburke.com/api/v1/cart/getmenu";
-            RequestQueue queue = Volley.newRequestQueue(this.getContext());
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, RequestURL, null, new Response.Listener<JSONObject>() {
+            new Thread(new Runnable() {
                 @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        JSONObject result = new JSONObject(response.toString());
-                        String Message =  result.getString("response");
-                        if(Message.equals("Success"))
-                        {
-                            String MenuID = result.getString("ActiveMenu");
-                            Log.i("RESULTUID", MenuID);
-                            SharedPreferences precheck = getActivity().getSharedPreferences("Cart", Context.MODE_PRIVATE);
+                public void run() {
+                    String RequestURL = "https://api.romarioburke.com/api/v1/cart/getmenu";
+                    RequestQueue queue = Volley.newRequestQueue(getContext());
+                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, RequestURL, null, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                JSONObject result = new JSONObject(response.toString());
+                                String Message =  result.getString("response");
+                                if(Message.equals("Success"))
+                                {
+                                    String MenuID = result.getString("ActiveMenu");
+                                    Log.i("RESULTUID", MenuID);
+                                    SharedPreferences precheck = getActivity().getSharedPreferences("Cart", Context.MODE_PRIVATE);
+                                    AlertDialog.Builder prompt = new AlertDialog.Builder(view.getContext());
+                                    prompt.setView(R.layout.cooks_menu_options);
+                                    AlertDialog alertDialog = prompt.create();
+                                    alertDialog.show();
+                                    Button Backbtn = alertDialog.findViewById(R.id.cancelbtn);
+                                    Button Confirmbtn = alertDialog.findViewById(R.id.go);
+                                    RadioButton AddRegularItem = alertDialog.findViewById(R.id.radio_Option1);
+                                    RadioButton AddSide = alertDialog.findViewById(R.id.radio_Option2);
+                                    Backbtn.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            alertDialog.onBackPressed();
+                                        }
+                                    });
+                                    Confirmbtn.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            if(AddRegularItem.isChecked())
+                                            {
+                                                Frag = new food_add();
+                                            }
+                                            if(AddSide.isChecked())
+                                            {
+                                                Frag = new Sides_add();
+                                            }
+                                            if(Frag == null )
+                                            {
+                                                Toast.makeText(getContext(),"Please select one of the options",Toast.LENGTH_LONG).show();
+                                            }else {
+                                                alertDialog.onBackPressed();
+                                                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.cooks_main, Frag).commit();
+                                            }
+                                        }
+                                    });
 
-                            //cartDB = DatabaseHelper.getInstance(context);
-                            //Log.i("Query",cartDB.cartDAO().getCartItems(MenuID, CartID.toString()).get(0).toString());
-                            //ArrayList<CartModel> seting = (ArrayList<CartModel>) cartDB.cartDAO().getCartItems(MenuID, CartID.toString());
-                          //  Viewmodel.setCartItems(seting);
-                 /*       Viewmodel.getCartItems().observe(main, items -> {
-                            for(CartModel item : items)
-                            {
-                                Log.i("CartItems", item.getFoodName());
+                                }
+                                else if(Message.equals("None Found"))
+                                {
+                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.cooks_main, new cooks_Menu_Creator()).commit();
+                                    //Toast.makeText(context, "No Active Menu", Toast.LENGTH_SHORT).show();
+                                    Log.i("RESULTUID", "No Active Menu");
+                                }
+                            } catch (JSONException EX) {
+                                Log.i("CustomError1", EX.toString());
                             }
-                        }); */
                         }
-                        else
-                        {
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.i("CustomError2", error.toString());
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.cooks_main, new cooks_Menu_Creator()).commit();
                             //Toast.makeText(context, "No Active Menu", Toast.LENGTH_SHORT).show();
                             Log.i("RESULTUID", "No Active Menu");
                         }
-                    } catch (JSONException EX) {
-                        Log.i("CustomError", EX.toString());
-                    }
+                    });
+                    queue.add(request);
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.i("CustomError", error.toString());
-                }
-            });
-            queue.add(request);
+            }).start();
         });
         Alter_Menu_items.setOnClickListener((view)->{
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.cooks_main, new TotalItems()).commit();
         });
     }
-
-
 }

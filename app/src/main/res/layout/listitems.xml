@@ -12,10 +12,15 @@
         android:id="@+id/cards"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="3sp"
+        android:layout_marginRight="3sp"
         android:layout_marginBottom="15dp"
-        app:cardElevation="5dp">
+        app:cardBackgroundColor="#FFC53A"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+        app:cardMaxElevation="2dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="116dp">
 
@@ -23,6 +28,8 @@
                 android:id="@+id/Itemimage"
                 android:layout_width="154dp"
                 android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 app:civ_border_color="#FF000000"
                 app:civ_border_width="2dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +40,8 @@
                 android:id="@+id/Itemname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="107dp"
+                android:layout_marginStart="170dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/dxssemi"
@@ -47,7 +55,8 @@
                 android:id="@+id/Edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginStart="150dp"
+                android:layout_marginTop="56dp"
                 android:layout_weight="1"
                 android:backgroundTint="#2EBC07"
                 android:text="Edit"
@@ -58,16 +67,15 @@
                 android:id="@+id/Delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="47dp"
-                android:layout_marginTop="26dp"
-                android:layout_marginEnd="34dp"
+                android:layout_marginStart="277dp"
+                android:layout_marginTop="56dp"
                 android:layout_weight="1"
                 android:backgroundTint="#F40B0B"
                 android:text="Delete"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/Edit"
                 app:layout_constraintTop_toBottomOf="@+id/Itemname" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 

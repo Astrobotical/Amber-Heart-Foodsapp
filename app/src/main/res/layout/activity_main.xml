@@ -5,6 +5,9 @@
     android:id="@+id/body"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:alwaysDrawnWithCache="false"
+    android:animateLayoutChanges="false"
+    android:animationCache="false"
     tools:context=".MainActivity">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -16,10 +19,18 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="10dp"
+        android:addStatesFromChildren="true"
+        android:animateLayoutChanges="true"
+        android:animationCache="true"
         android:background="@drawable/round_corners"
+        android:fadeScrollbars="false"
+        android:focusable="auto"
+        android:keepScreenOn="false"
+        android:splitMotionEvents="true"
+        android:touchscreenBlocksFocus="false"
         app:itemIconSize="20dp"
         app:itemIconTint="@drawable/item_selector"
-        app:itemRippleColor="@android:color/transparent"
+        app:itemTextColor="#07B5B5"
         app:menu="@menu/item_menu">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>

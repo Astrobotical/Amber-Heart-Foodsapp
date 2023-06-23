@@ -1,56 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.main.pages.cooks_Menu_Creator">
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
+            android:id="@+id/mucHeading"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text="Active Menu have been found! "
+            android:gravity="center"
+            android:text="Menu being created for -"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Breakfast List"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose BreakFast Sides" />
+
+        <ListView
+            android:id="@+id/BreakfastList"
+            android:layout_width="match_parent"
+            android:layout_height="150dp" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lunch List"
+            android:textAlignment="center"
             android:textSize="20sp" />
 
         <Button
             android:id="@+id/button3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="240dp"
-            android:layout_marginTop="150dp"
-            android:text="Button" />
+            android:text="Choose Lunch Sides" />
+
+        <ListView
+            android:id="@+id/LunchList"
+            android:layout_width="match_parent"
+            android:layout_height="150dp" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dinner"
+            android:textAlignment="center"
+            android:textSize="20sp" />
 
         <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="150dp"
-            android:text="Button" />
+            android:text="Choose Dinner Sides" />
 
-        <RadioGroup
+        <ListView
+            android:id="@+id/DinnerList"
+            android:layout_width="match_parent"
+            android:layout_height="150dp" />
+
+        <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp">
+            android:layout_height="50dp"
+            android:layout_marginStart="10sp"
+            android:layout_marginTop="10sp"
+            android:layout_marginBottom="60dp">
 
-            <RadioButton
-                android:id="@+id/radio_Option1"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/Cancel_request"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Navagate to Current Menu View" />
+                android:layout_marginStart="10sp"
+                android:background="#DC0B0B"
+                android:backgroundTint="#DC0B0B"
+                android:text="Cancel request" />
 
-            <RadioButton
-                android:id="@+id/radio_Option2"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/overview"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="RadioButton" />
-        </RadioGroup>
-    </androidx.cardview.widget.CardView>
+                android:layout_marginStart="260sp"
+                android:background="#CCFF90"
+                android:backgroundTint="#CCFF90"
+                android:hapticFeedbackEnabled="false"
+                android:text="Overview" />
+        </androidx.cardview.widget.CardView>
 
-</FrameLayout>
+
+    </LinearLayout>
+</ScrollView>

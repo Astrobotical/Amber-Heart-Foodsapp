@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +22,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
+import com.google.android.play.core.tasks.OnCompleteListener;
+import com.google.android.play.core.tasks.Task;
 import com.romarioburke.amberheartfoodapp.R;
 import com.romarioburke.amberheartfoodapp.ui.main.pages.TotalItems;
 
@@ -38,6 +47,8 @@ public class Main extends Fragment {
 
     private String mParam1;
     private String mParam2;
+    ReviewManager reviewManager;
+    ReviewInfo reviewInfo =null;
 
     public Main() {
         // Required empty public constructor
@@ -58,6 +69,7 @@ public class Main extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        getReviewInfo();
     }
 
     @Override
@@ -67,11 +79,23 @@ public class Main extends Fragment {
     @Override
     public void onStart(){
         super.onStart();
+        reviewManager = ReviewManagerFactory.create(getContext());
         Bundle bundler = getActivity().getIntent().getExtras();
         TextView Username = getActivity().findViewById(R.id.Username);
         Username.setText("Hi "+bundler.getString("Username"));
         EditText Feedback = getActivity().findViewById(R.id.Feedbackinfo);
         Button FeedbackSubmit = getActivity().findViewById(R.id.Submitfeedback);
+        Button Review = getActivity().findViewById(R.id.Send_review);
+        ImageView Featuredimg = getActivity().findViewById(R.id.Featuredimg);
+        TextView Featuredname = getActivity().findViewById(R.id.Featuredtext);
+        RatingBar Featuredrating = getActivity().findViewById(R.id.Featuredrating);
+        String Imagealtered = "https://api.romarioburke.com/"+bundler.getString("Item_img");
+        Glide.with(getContext()).load(Imagealtered).placeholder(R.drawable.loadingplaceholder).into(Featuredimg);
+        Featuredname.setText(bundler.getString("Item_name"));
+        Featuredrating.setRating(bundler.getFloat("Item_rating"));
+        Review.setOnClickListener((v)->{
+            startReviewFlow();
+        });
         Feedback.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -121,5 +145,31 @@ public class Main extends Fragment {
                 queue.add(request);
             }
         });
+    }
+    private void getReviewInfo() {
+        reviewManager = ReviewManagerFactory.create(getContext());
+        Task<ReviewInfo> manager = reviewManager.requestReviewFlow();
+        manager.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                reviewInfo = task.getResult();
+            } else {
+                Toast.makeText(getContext(), "In App ReviewFlow failed to start", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void startReviewFlow() {
+        if (reviewInfo != null) {
+            Task<Void> flow = reviewManager.launchReviewFlow(getActivity(), reviewInfo);
+            flow.addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(Task<Void> task) {
+                    Toast.makeText(getContext(), "In App Rating has already been completed", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+        else {
+            Toast.makeText(getContext(), "In App Rating failed", Toast.LENGTH_LONG).show();
+        }
     }
 }

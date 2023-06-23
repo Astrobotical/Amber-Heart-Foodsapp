@@ -35,6 +35,7 @@ import com.romarioburke.amberheartfoodapp.MainActivity;
 import com.romarioburke.amberheartfoodapp.R;
 import com.romarioburke.amberheartfoodapp.cooks_main;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -178,6 +179,13 @@ public class auth_login extends Fragment {
                                         String Name = obj.optString("Name");
                                         String ID = obj.optString("StudentID");
                                         String Status = obj.optString("Status");
+                                        String convert = obj.optString("Highestrating");
+                                        JSONObject high = new JSONObject(convert);
+                                       String Menu = high.optString("Menu");
+                                       JSONObject Menuobj = new JSONObject(Menu);
+                                        String Item_name = Menuobj.getString("Item_name");
+                                        String Item_img = Menuobj.getString("Item_image");
+                                        float Item_rating = 4.5f;
                                         if (Message.equals("Success")) {
                                             SharedPreferences logs = getActivity().getSharedPreferences("Auth", Context.MODE_PRIVATE);
                                             SharedPreferences.Editor myEdit = logs.edit();
@@ -193,6 +201,9 @@ public class auth_login extends Fragment {
                                                 String Usernamebuilder = total_String[0] + " " + total_String[1].substring(0, 1).toUpperCase() + ".";
                                                 activity.putExtra("Username", Usernamebuilder);
                                                 activity.putExtra("StudentID", ID);
+                                                activity.putExtra("Item_name", Item_name);
+                                                activity.putExtra("Item_img", Item_img);
+                                                activity.putExtra("Item_rating", Item_rating);
                                                 startActivity(activity);
                                             } else {
                                                 Log.i("Queryresult", "Logged in");

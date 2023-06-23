@@ -29,14 +29,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
-import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -50,9 +48,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.romarioburke.amberheartfoodapp.R;
 import com.romarioburke.amberheartfoodapp.SavedData;
-import com.romarioburke.amberheartfoodapp.ui.main.pages.TotalItems;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -60,7 +56,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class itemsadapter extends BaseAdapter {
     Context context;
@@ -207,7 +202,7 @@ public class itemsadapter extends BaseAdapter {
                                 EditText Fooddes = alertDialog.findViewById(R.id.Fdescription);
                                 Spinner FoodCategory = alertDialog.findViewById(R.id.FCategory);
                                 Button Addside = alertDialog.findViewById(R.id.addside);
-                                ImageView image = alertDialog.findViewById(R.id.Img);
+                                ImageView image = alertDialog.findViewById(R.id.foodimg);
                                 ImageView Exit = alertDialog.findViewById(R.id.Exit);
                                 Button photoupload = alertDialog.findViewById(R.id.photoupload);
                                 FoodCategory.setAdapter(spinnerArrayAdapter);
