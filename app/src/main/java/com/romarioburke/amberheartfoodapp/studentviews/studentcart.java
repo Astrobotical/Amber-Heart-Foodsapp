@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -88,6 +89,7 @@ public class studentcart extends Fragment {
     ArrayList<String>FoodUID = new ArrayList<>();
     ArrayList<String>SideUID = new ArrayList<>();
     ArrayList<String>SideName = new ArrayList<>();
+    Fragment main = this;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -96,6 +98,7 @@ public class studentcart extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        Button Checkout = getActivity().findViewById(R.id.Checkout);
         String RequestURL = "https://api.romarioburke.com/api/v1/cart/getmenu";
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, RequestURL, null, new Response.Listener<JSONObject>() {
@@ -109,12 +112,12 @@ public class studentcart extends Fragment {
                         String MenuID = result.getString("ActiveMenu");
                         Log.i("RESULTUID", MenuID);
                         SharedPreferences precheck = getActivity().getSharedPreferences("Cart", Context.MODE_PRIVATE);
-                        Integer CartID = precheck.getInt("CartID", 0);
+                        String CartID = String.valueOf(precheck.getInt("CartID", 0));
                         ProductsModel Viewmodel = new ViewModelProvider(getActivity()).get(ProductsModel.class);
                         Viewmodel.setMenuID(MenuID);
                         cartDB = DatabaseHelper.getInstance(getContext());
                         //Log.i("Query",cartDB.cartDAO().getCartItems(MenuID, CartID.toString()).get(0).toString());
-                        ArrayList<CartModel> seting = (ArrayList<CartModel>) cartDB.cartDAO().getCartItems(MenuID, CartID.toString());
+                        ArrayList<CartModel> seting = (ArrayList<CartModel>) cartDB.cartDAO().getCartItems(MenuID, CartID);
                         for(int i = 0; i < seting.size(); i++)
                         {
                            FoodName.add(seting.get(i).getFoodName());
@@ -132,7 +135,7 @@ public class studentcart extends Fragment {
                         }
                         else
                         {
-                            CartAdapter adapter = new CartAdapter(getContext(), getParentFragment(),FoodName, FoodImage, FoodCategory, FoodUID, SideUID, SideName);
+                            CartAdapter adapter = new CartAdapter(getContext(), main,FoodName, FoodImage, FoodCategory, FoodUID, SideUID, SideName,CartID);
                             GridLayout.setAdapter(adapter);
                         }
                     }

@@ -35,7 +35,6 @@ import com.romarioburke.amberheartfoodapp.MainActivity;
 import com.romarioburke.amberheartfoodapp.R;
 import com.romarioburke.amberheartfoodapp.cooks_main;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -82,7 +81,7 @@ public class auth_login extends Fragment {
         //updateUI(account);
         DisplayModes();
         CheckBox rememberme = this.getActivity().findViewById(R.id.rememberme);
-        TextInputEditText StudentIDElement = this.getActivity().findViewById(R.id.Emailr);
+        TextInputEditText StudentIDElement = this.getActivity().findViewById(R.id.tokenid);
         TextInputEditText PasswordElement = this.getActivity().findViewById(R.id.PasswordL);
         preference = getActivity().getPreferences(0);
         int loadtime = 0;

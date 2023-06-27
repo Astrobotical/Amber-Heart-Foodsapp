@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/artboardcustom"
+    tools:context=".Overview">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="34dp"
+            android:fontFamily="@font/dxssemi"
+            android:text="Heart Academy Lunch App"
+            android:textAlignment="center"
+            android:textSize="34sp" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="match_parent"
+            android:layout_height="280sp"
+            android:layout_marginTop="170dp"
+            android:cropToPadding="false"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/overview" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="110dp"
+            android:fontFamily="@font/dxb"
+            android:text="Done by Romario"
+            android:textAlignment="center"
+            android:textColor="#F4F0F0"
+            android:textSize="27sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/OverviewLoginbtn"
+            style="@style/Widget.Material3.Button.IconButton.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginRight="20dp"
+            android:text="Login"
+            android:textColor="#F1EFEF"
+            android:textColorHint="#EDEDED"
+            android:textSize="20sp"
+            app:rippleColor="#00D7C3"
+            app:strokeColor="#00D7C3"
+            app:strokeWidth="2sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/OverviewSignupbtn"
+            style="@style/Widget.Material3.Button.IconButton.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:text="Sign Up"
+            android:textColor="#F1EFEF"
+            android:textColorHint="#EDEDED"
+            android:textSize="20sp"
+            app:rippleColor="#00D7C3"
+            app:strokeColor="#00D7C3"
+            app:strokeWidth="2sp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

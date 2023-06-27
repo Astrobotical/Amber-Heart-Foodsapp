@@ -13,8 +13,8 @@ android {
         applicationId "com.romarioburke.amberheartfoodapp"
         minSdk 24
         targetSdk 33
-        versionCode 17
-        versionName "1.7"
+        versionCode 19
+        versionName "1.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String","DBPASS", localProperties['DBpass']
         buildConfigField "String","DBuser", localProperties['DBuser']
@@ -42,9 +42,14 @@ android {
         targetCompatibility JavaVersion.VERSION_14
 
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
+    implementation 'androidx.navigation:navigation-fragment:2.5.2'
+    implementation 'androidx.navigation:navigation-ui:2.5.2'
     def room_version = "2.5.1"
 
     implementation "androidx.room:room-runtime:$room_version"

@@ -400,7 +400,7 @@ public class auth_register extends Fragment {
         super.onResume();
         EditText Name = getActivity().findViewById(R.id.Username);
         EditText StudentID = getActivity().findViewById(R.id.STUDID);
-        TextInputEditText Email = getActivity().findViewById(R.id.Emailr);
+        TextInputEditText Email = getActivity().findViewById(R.id.tokenid);
         TextInputEditText Password = getActivity().findViewById(R.id.PasswordL);
         EditText Confirmed_Password = getActivity().findViewById(R.id.ConfirmPassword);
         Name.setText("");

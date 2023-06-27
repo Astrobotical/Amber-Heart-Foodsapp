@@ -8,12 +8,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#46463e">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/MainOuterContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#46463e"
             android:elevation="5dp"
             app:cardCornerRadius="5dp"
             tools:layout_editor_absoluteX="5dp">
@@ -21,7 +23,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/round_corners">
+                android:background="#46463e">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/HeaderContainer"
@@ -34,37 +36,66 @@
                         android:layout_height="match_parent"
                         android:background="#FFC53A">
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.Material3.Button.IconButton.Outlined"
                             android:id="@+id/Breakfast"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="80dp"
                             android:layout_marginTop="10sp"
-                            android:text="Breakfast" />
+                            android:text="Breakfast"
+                            android:textColorHint="#EDEDED"
+                            android:textSize="20sp"
+                            app:iconTint="#E8E8E8"
+                            app:rippleColor="#00D7C3"
+                            app:strokeColor="#00D7C3"
+                            app:strokeWidth="2sp"
+                            />
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.Material3.Button.IconButton.Outlined"
                             android:id="@+id/dinner"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="308dp"
                             android:layout_marginTop="10sp"
-                            android:text="Dinner" />
+                            android:text="Dinner"
+                            android:textColorHint="#EDEDED"
+                            android:textSize="20sp"
+                            app:iconTint="#E8E8E8"
+                            app:rippleColor="#00D7C3"
+                            app:strokeColor="#00D7C3"
+                            app:strokeWidth="2sp"/>
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.Material3.Button.IconButton.Outlined"
                             android:id="@+id/lunch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="209dp"
                             android:layout_marginTop="10sp"
-                            android:text="Lunch" />
+                            android:text="Lunch"
+                            android:textColorHint="#EDEDED"
+                            android:textSize="20sp"
+                            app:iconTint="#E8E8E8"
+                            app:rippleColor="#00D7C3"
+                            app:strokeColor="#00D7C3"
+                            app:strokeWidth="2sp"/>
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.Material3.Button.IconButton.Outlined"
                             android:id="@+id/all"
                             android:layout_width="64dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8sp"
                             android:layout_marginTop="10sp"
-                            android:text="All" />
+                            android:text="All"
+                            android:textColorHint="#EDEDED"
+                            android:textSize="20sp"
+                            app:iconTint="#E8E8E8"
+                            app:rippleColor="#00D7C3"
+                            app:strokeColor="#00D7C3"
+                            app:strokeWidth="2sp"/>
 
                         <ToggleButton
                             android:id="@+id/TOSToggler"
@@ -75,14 +106,6 @@
                             android:text="ToggleButton"
                             android:textOff="Text to Speech OFF"
                             android:textOn="Text to Speech ON" />
-
-                        <ImageView
-                            android:id="@+id/pagecart"
-                            android:layout_width="67dp"
-                            android:layout_height="39dp"
-                            android:layout_marginStart="308dp"
-                            android:layout_marginTop="70sp"
-                            android:src="@drawable/addtocart_foreground" />
 
                     </RelativeLayout>
 

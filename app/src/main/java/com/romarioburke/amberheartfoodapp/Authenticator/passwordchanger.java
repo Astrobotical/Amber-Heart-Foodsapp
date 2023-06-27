@@ -18,6 +18,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
 import com.romarioburke.amberheartfoodapp.R;
+import com.romarioburke.amberheartfoodapp.login;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +41,7 @@ public class passwordchanger extends AppCompatActivity {
        Bundle savedInstanceState = getIntent().getExtras();
         SharedPreferences logs =getSharedPreferences("change", Context.MODE_PRIVATE);
         String StudentID = logs.getString("ID", "");
+
         Log.i("Toroad", StudentID);
         TextInputEditText Password = findViewById(R.id.Password);
         TextInputEditText ConfirmedPassword = findViewById(R.id.ConfirmPassword);
@@ -54,12 +56,13 @@ public class passwordchanger extends AppCompatActivity {
                 ConfirmedPassword.setError("Please that ensure that youve re-entered the correct password to validate this.");
             }
             else{
-                SharedPreferences sharedobj = getPreferences(0);
+               // SharedPreferences sharedobj = getPreferences(0);
                 ResetPassword(Password.getText().toString(),StudentID);
             }
         });
     }
     private void ResetPassword(String NewPassword, String StudentID) {
+        Toast.makeText(getApplicationContext(), "Please wait...", Toast.LENGTH_SHORT).show();
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -71,10 +74,12 @@ public class passwordchanger extends AppCompatActivity {
                         try {
                             JSONObject obj = new JSONObject(response);
                             String Message = obj.optString("message");
-                            if(Message.equals("The password was changed  successfully!")) {
+                            boolean Status = obj.optBoolean("status");
+                            if(Status) {
                                 Toast.makeText(getApplicationContext(), Message, Toast.LENGTH_LONG).show();
-                                Intent Tonextactivity = new Intent(getApplicationContext(), Auth.class);
+                                Intent Tonextactivity = new Intent(getApplicationContext(), login.class);
                                 startActivity(Tonextactivity);
+                                overridePendingTransition(R.anim.sliderigt, R.anim.outleft);
                             }
                         } catch (JSONException e) {
 
@@ -91,7 +96,7 @@ public class passwordchanger extends AppCompatActivity {
                     protected Map<String, String> getParams() {
                         Map<String, String> params = new HashMap<String, String>();
                         params.put("NewPassword", NewPassword);
-                        params.put("StudentID",StudentID);
+                        params.put("StudentID", StudentID);
                         return params;
                     }
                 };

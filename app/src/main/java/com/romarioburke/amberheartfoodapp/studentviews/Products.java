@@ -248,7 +248,7 @@ public class Products extends Fragment {
         SharedPreferences precheck = getActivity().getSharedPreferences("Cart", Context.MODE_PRIVATE);
         Integer CartID = precheck.getInt("CartID", 0);
         if (RequestType.equals("All")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Defaultname, DefaultImg, Defaultdesc, Defaultcategory, DefaultFoodUID, bundler, Selecteditems,DefaultTarget, DRating,this,Sname,SImg,SFoodUID,Scategory);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Defaultname, DefaultImg, Defaultdesc, Defaultcategory, DefaultFoodUID, bundler, Selecteditems,DefaultTarget, DRating,this,Sname,SImg,SFoodUID,Scategory,"A");
             if(Defaultname.size()== 0)
             {
               gridView.setAdapter(emptygrid);
@@ -256,7 +256,7 @@ public class Products extends Fragment {
                 gridView.setAdapter(Grid);
             }
         } else if (RequestType.equals("Breakfast")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Bname, BImg, Bdesc, Bcategory, BFoodUID, bundler, Selecteditems,BTarget, BRating,this,BSname,BSImg,BSFoodUID,BSCategory);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Bname, BImg, Bdesc, Bcategory, BFoodUID, bundler, Selecteditems,BTarget, BRating,this,BSname,BSImg,BSFoodUID,BSCategory,"B");
             if(Bname.size()== 0)
             {
                 gridView.setAdapter(emptygrid);
@@ -268,7 +268,7 @@ public class Products extends Fragment {
                }
             }
         } else if (RequestType.equals("Lunch")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Lname, LImg, Ldesc, Lcategory, LFoodUID, bundler, Selecteditems,LTarget,LRating, this,LSname,LSImg,LSFoodUID,LSCategory);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Lname, LImg, Ldesc, Lcategory, LFoodUID, bundler, Selecteditems,LTarget,LRating, this,LSname,LSImg,LSFoodUID,LSCategory,"L");
             if(Lname.size()== 0)
             {
                 gridView.setAdapter(emptygrid);
@@ -280,7 +280,7 @@ public class Products extends Fragment {
                 }
             }
         } else if (RequestType.equals("Dinner")) {
-            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Dname, DImg, Ddesc, Dcategory, DFoodUID, bundler, Selecteditems,DTarget,DRating,this,DSname,DSImg,DSFoodUID,DSCategory);
+            griditems Grid = new griditems(this.getActivity().getApplicationContext(), Dname, DImg, Ddesc, Dcategory, DFoodUID, bundler, Selecteditems,DTarget,DRating,this,DSname,DSImg,DSFoodUID,DSCategory,"D");
             if(Dname.size()== 0)
             {
                 gridView.setAdapter(emptygrid);
@@ -314,18 +314,12 @@ public class Products extends Fragment {
         OuterContainer = this.getActivity().findViewById(R.id.MainOuterContainer);
         HeadingContainer = this.getActivity().findViewById(R.id.HeaderContainer);
         ToggleButton TOS = this.getActivity().findViewById(R.id.TOSToggler);
-        ImageView cartbtn = this.getActivity().findViewById(R.id.pagecart);
-        BadgeDrawable badgeDrawable = BadgeDrawable.create(getContext());
-        badgeDrawable.setVisible(true);
-        badgeDrawable.setNumber(2);
-        BadgeUtils.attachBadgeDrawable(badgeDrawable,cartbtn);
-
         if(PreviouslyClicked == null) {
-            All.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menubtn)));
+            All.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menuitem)));
             PreviouslyClicked = All;
         }
         else{
-            All.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple_500)));
+            All.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.transparent)));
         }
         Datathatwassaved = new ViewModelProvider(this).get(ProductsModel.class);
 
@@ -369,30 +363,30 @@ public class Products extends Fragment {
         {
 
         }else{
-            PreviouslyClicked.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple_500)));
+            PreviouslyClicked.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.transparent)));
         }
         switch (current.getText().toString())
         {
             case "All":
-                current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menubtn)));
+                current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menuitem)));
                 CurrentClicked = "All";
                 currentbtn = current;
                 PreviouslyClicked = current;
                 break;
             case "Breakfast":
-                current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menubtn)));
+                current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menuitem)));
                 CurrentClicked = "Breakfast";
                 currentbtn = current;
                 PreviouslyClicked = current;
                 break;
             case "Lunch":
-                current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menubtn)));
+                current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menuitem)));
                CurrentClicked = "Lunch";
                 currentbtn = current;
                 PreviouslyClicked = current;
                 break;
             case "Dinner":
-                current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menubtn)));
+                current.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.menuitem)));
                 CurrentClicked = "Dinner";
                 currentbtn = current;
                 PreviouslyClicked = current;

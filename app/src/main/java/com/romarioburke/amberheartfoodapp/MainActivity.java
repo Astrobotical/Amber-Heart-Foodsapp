@@ -28,6 +28,7 @@ import com.romarioburke.amberheartfoodapp.Dataclasses.CartModel;
 import com.romarioburke.amberheartfoodapp.Dataclasses.Contenttest;
 import com.romarioburke.amberheartfoodapp.Dataclasses.Helpers.DatabaseHelper;
 import com.romarioburke.amberheartfoodapp.Dataclasses.Repositories.Repository;
+import com.romarioburke.amberheartfoodapp.studentviews.Category;
 import com.romarioburke.amberheartfoodapp.studentviews.Main;
 import com.romarioburke.amberheartfoodapp.studentviews.Products;
 import com.romarioburke.amberheartfoodapp.studentviews.logout;
@@ -58,6 +59,7 @@ public class   MainActivity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter("CartUpdate");
         registerReceiver(Carti,filter);
         SharedPreferences logs = getSharedPreferences("Carttotal", Context.MODE_PRIVATE);
+        SharedPreferences.Editor myEdit = logs.edit();
         int Carttotal = logs.getInt("Carttotal", 0);
         if(Carttotal > 0){
             helper = DatabaseHelper.getInstance(this);
@@ -65,6 +67,7 @@ public class   MainActivity extends AppCompatActivity {
             Integer CartID = precheck.getInt("CartID", 0);
             String MenuID = precheck.getString("MenuID", "");
             ArrayList<CartModel> seting = (ArrayList<CartModel>)helper.cartDAO().getCartItems(MenuID, CartID.toString());
+            Log.i("Cart", "onCreate: " + seting.size());
             int total = 0;
             for(int i = 0; i < seting.size(); i++){
                 total ++;
@@ -76,9 +79,11 @@ public class   MainActivity extends AppCompatActivity {
                 badge.setVisible(true);
                 badge.setNumber(seting.size());
             }
-            else{
+            else if(total < Carttotal){
+                myEdit.putInt("Carttotal", total);
+                myEdit.apply();
                 badge.setVisible(true);
-                badge.setNumber(Carttotal);
+                badge.setNumber(total);
             }
         }else{
             badge.setVisible(false);
@@ -91,8 +96,6 @@ public class   MainActivity extends AppCompatActivity {
 
             case Configuration.UI_MODE_NIGHT_UNDEFINED-> Day();
         }
-       // navbar.getOrCreateBadge(R.id.cart).setNumber(90);
-
         navbar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -106,12 +109,13 @@ public class   MainActivity extends AppCompatActivity {
                         frag = new Products();
                         break;
                     case R.id.Logout:
-                      //  navbar.getOrCreateBadge(R.id.cart).setNumber(2);
                         frag = new logout();
                         break;
                     case R.id.cart:
-                       // navbar.getOrCreateBadge(R.id.cart).setNumber(3);
                         frag = new studentcart();
+                        break;
+                    case R.id.Catalog:
+                        frag =  new Category();
                         break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.body, frag).commit();

@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -67,7 +68,9 @@ public class griditems extends BaseAdapter {
     Context context;
     private Products product;
     int counter;
-    public griditems(Context context, ArrayList<String> FoodName, ArrayList<String> FoodImage, ArrayList<String> Description, ArrayList<String> Category,ArrayList<String>FoodUID, Bundle bundler,   HashMap<String, String> Selecteditem,ArrayList<String>Target,ArrayList<Float> rating,Fragment trying,ArrayList<String>Sname,ArrayList<String>Simage,ArrayList<String>SUID,ArrayList<String> SideCat) {
+    String Currenttype;
+
+    public griditems(Context context, ArrayList<String> FoodName, ArrayList<String> FoodImage, ArrayList<String> Description, ArrayList<String> Category,ArrayList<String>FoodUID, Bundle bundler,   HashMap<String, String> Selecteditem,ArrayList<String>Target,ArrayList<Float> rating,Fragment trying,ArrayList<String>Sname,ArrayList<String>Simage,ArrayList<String>SUID,ArrayList<String> SideCat, String Place) {
         this.context = context;
         this.FoodName = FoodName;
         this.FoodDescription = Description;
@@ -84,6 +87,7 @@ public class griditems extends BaseAdapter {
         this.SidesCategory = SideCat;
         this.FoodRating = rating;
         this.CurrentMenuID = getCart();
+        this.Currenttype = Place;
     }
     ArrayList<Float>FoodRating = new ArrayList<>();
     ArrayList<String> SidesCategory = new ArrayList<>();
@@ -143,85 +147,88 @@ public class griditems extends BaseAdapter {
             TextView CategoryElement = views.findViewById(R.id.category);
             RelativeLayout Container = views.findViewById(R.id.itemscontainer);
             RatingBar ratingBar = views.findViewById(R.id.Bars);
-            Container.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    main.getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+            if(Currenttype.equals("A"))
+            {
+                ratingBar.setRating(3);
+                ratingBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#FFC53A")));
+                Container.setBackgroundColor(Color.parseColor("#00D7C3"));
+                cards.setCardBackgroundColor(Color.parseColor("#00D7C3"));
+                Container.setEnabled(false);
+            }
+            {
+                Container.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        main.getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
 
-                            Modelviewer.getTOSTOGGLE().observe(main, item ->{
-                                if(item == true)
-                                {
-                                    tts.speak(FoodName.get(i),TextToSpeech.SUCCESS,null);
+                                Modelviewer.getTOSTOGGLE().observe(main, item -> {
+                                    if (item == true) {
+                                        tts.speak(FoodName.get(i), TextToSpeech.SUCCESS, null);
+                                    } else {
+                                        tts.stop();
+                                    }
+                                });
+                                AlertDialog.Builder prompt = new AlertDialog.Builder(view.getContext());
+                                prompt.setView(R.layout.item_selector_order);
+                                AlertDialog alertDialog = prompt.create();
+                                alertDialog.show();
+                                RecyclerView miniview = alertDialog.findViewById(R.id.miniview);
+                                ImageButton Exitbutton = alertDialog.findViewById(R.id.Exitbutton);
+                                TextView Modalproductname = alertDialog.findViewById(R.id.modalname);
+                                TextView ModalDiscription = alertDialog.findViewById(R.id.modaldescription);
+                                RatingBar ratingBar = alertDialog.findViewById(R.id.modalrating);
+                                ImageView Modalproductimage = alertDialog.findViewById(R.id.Itemimage);
+                                Button ModalBtnAdd = alertDialog.findViewById(R.id.additembtn);
+                                LinearLayoutManager layoutManager = new LinearLayoutManager(alertDialog.getContext(), LinearLayoutManager.HORIZONTAL, false);
+                                emptysidesAdapter emptyadapt = new emptysidesAdapter();
+                                RecyclerAdapter adapter;
+                                miniview.setLayoutManager(layoutManager);
+                                for (int counter = 0; counter < SidesCategory.size(); counter++) {
+                                    if (SidesCategory.get(counter).equals(FoodCategory.get(i))) {
+                                        adapter = new RecyclerAdapter(alertDialog.getContext(), Sname, SImg, SFoodUID, main, Sname, SImg, SFoodUID);
+                                        miniview.setAdapter(adapter);
+                                    } else {
+                                    }
                                 }
-                                else
-                                {
-                                    tts.stop();
+                                ModalBtnAdd.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        JSONArray arraybuilder = new JSONArray();
+                                        arraybuilder.put("Name");
+                                        Intent intent = new Intent("CartUpdate");
+                                        intent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+                                        intent.putExtra("Action", "Add");
+                                        main.getActivity().sendBroadcast(intent);
+                                        AddtoCart(FoodUID.get(i), FoodName.get(i), FoodCategory.get(i), "https://api.romarioburke.com/" + FoodImage.get(i), "123", SFoodUID.get(i), Sname.get(i), "https://api.romarioburke.com/" + SImg.get(i), SidesCategory.get(i));
+                                        alertDialog.onBackPressed();
+                                        main.getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.body, new Products()).commit();
+                                    }
+                                });
+                                ModalBtnAdd.setText("Choose " + FoodCategory.get(i) + " item");
+                                Modalproductname.setText(FoodName.get(i));
+                                ModalDiscription.setText(FoodDescription.get(i) + "\n" + "Food Base Type -" + FoodTarget.get(i));
+                                String Imagealtered = "https://api.romarioburke.com/" + FoodImage.get(i);
+                                Glide.with(views.getContext()).load(Imagealtered).apply(RequestOptions.circleCropTransform()).placeholder(R.drawable.loadingplaceholder).into(Modalproductimage);
+                                ratingBar.setRating(FoodRating.get(i));
+                                Exitbutton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        alertDialog.onBackPressed();
+                                    }
+                                });
+                                alertDialog.getWindow().setBackgroundDrawable(getDrawableWithRadius());
+                                // alertDialog.getWindow().setLayout(1000, 1900);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                    alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                                 }
-                            });
-                            AlertDialog.Builder prompt = new AlertDialog.Builder(view.getContext());
-                            prompt.setView(R.layout.item_selector_order);
-                            AlertDialog alertDialog = prompt.create();
-                            alertDialog.show();
-                            RecyclerView miniview = alertDialog.findViewById(R.id.miniview);
-                            ImageButton Exitbutton = alertDialog.findViewById(R.id.Exitbutton);
-                            TextView Modalproductname = alertDialog.findViewById(R.id.modalname);
-                            TextView ModalDiscription = alertDialog.findViewById(R.id.modaldescription);
-                            RatingBar ratingBar = alertDialog.findViewById(R.id.modalrating);
-                            ImageView Modalproductimage = alertDialog.findViewById(R.id.Itemimage);
-                            Button ModalBtnAdd = alertDialog.findViewById(R.id.additembtn);
-                            LinearLayoutManager layoutManager = new LinearLayoutManager(alertDialog.getContext(), LinearLayoutManager.HORIZONTAL, false);
-                            emptysidesAdapter emptyadapt =  new emptysidesAdapter();
-                            RecyclerAdapter adapter;
-                            miniview.setLayoutManager(layoutManager);
-                            for(int counter=0; counter < SidesCategory.size();counter++)
-                            {
-                                if(SidesCategory.get(counter).equals(FoodCategory.get(i)))
-                                {
-                                    adapter = new RecyclerAdapter(alertDialog.getContext(), Sname, SImg, SFoodUID, main, Sname, SImg, SFoodUID);
-                                    miniview.setAdapter(adapter);
-                                }else{}
+                                //   Toast.makeText(context.getApplicationContext(), FoodName.get(i) + "- was clicked", Toast.LENGTH_SHORT).show();
                             }
-                            ModalBtnAdd.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    JSONArray arraybuilder = new JSONArray();
-                                    arraybuilder.put("Name");
-                                    Modelviewer.additem();
-                                    Repository rep = new Repository();
-                                    rep.addDataSource(Modelviewer.getData());
-                                    Intent intent = new Intent("CartUpdate");
-                                    intent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-                                    intent.putExtra("Action", "Add");
-                                    main.getActivity().sendBroadcast(intent);
-                                    AddtoCart(FoodUID.get(i), FoodName.get(i),FoodCategory.get(i),"https://api.romarioburke.com/"+FoodImage.get(i),"123",SFoodUID.get(i),Sname.get(i),"https://api.romarioburke.com/"+SImg.get(i),SidesCategory.get(i));
-                                    alertDialog.onBackPressed();
-                                    main.getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.body, new Products()).commit();
-                                }
-                            });
-                            ModalBtnAdd.setText("Choose " + FoodCategory.get(i) + " item");
-                            Modalproductname.setText(FoodName.get(i));
-                            ModalDiscription.setText(FoodDescription.get(i)+"\n"+"Food Base Type -"+FoodTarget.get(i));
-                            String Imagealtered = "https://api.romarioburke.com/"+FoodImage.get(i);
-                            Glide.with(views.getContext()).load(Imagealtered).apply(RequestOptions.circleCropTransform()).placeholder(R.drawable.loadingplaceholder).into(Modalproductimage);
-                            ratingBar.setRating(FoodRating.get(i));
-                            Exitbutton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    alertDialog.onBackPressed();
-                                }
-                            });
-                            alertDialog.getWindow().setBackgroundDrawable(getDrawableWithRadius());
-                           // alertDialog.getWindow().setLayout(1000, 1900);
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                            }
-                            //   Toast.makeText(context.getApplicationContext(), FoodName.get(i) + "- was clicked", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            });
+                        });
+                    }
+                });
+            }
             String Imagealtered = "https://api.romarioburke.com/"+FoodImage.get(i);
             Glide.with(views.getContext()).load(Imagealtered).apply(RequestOptions.circleCropTransform()).placeholder(R.drawable.loadingplaceholder).into(img);
             cards.setCardBackgroundColor(45322);
@@ -234,9 +241,6 @@ public class griditems extends BaseAdapter {
             return views;
         }
 
-    }
-    private boolean isPresent(ArrayList<String> array, String targetValue) {
-        return Arrays.asList(array).contains(targetValue);
     }
     private Drawable getDrawableWithRadius() {
         GradientDrawable gradientDrawable = new GradientDrawable();
@@ -291,7 +295,7 @@ public class griditems extends BaseAdapter {
                     if(Message.equals("Success"))
                     {
                         String MenuID = result.getString("ActiveMenu");
-                        SharedPreferences logs = main.getActivity().getSharedPreferences("Cart", Context.MODE_PRIVATE);
+                        SharedPreferences logs = context.getSharedPreferences                                                                                                                                                 ("Cart", Context.MODE_PRIVATE);
                         SharedPreferences.Editor myEdit = logs.edit();
                         myEdit.putString("MenuID", MenuID);
                         myEdit.apply();

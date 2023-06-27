@@ -29,23 +29,33 @@ public class Contenttest extends BroadcastReceiver {
         BottomNavigationView navbar = CurrentActivity.findViewById(R.id.Navbar);
         SharedPreferences logs = CurrentActivity.getSharedPreferences("Carttotal", Context.MODE_PRIVATE);
         SharedPreferences.Editor myEdit = logs.edit();
-        SharedPreferences previous = CurrentActivity.getSharedPreferences("Carttotal", Context.MODE_PRIVATE);
-        int Carttotal = previous.getInt("Carttotal", 0);
+       // SharedPreferences previous = CurrentActivity.getSharedPreferences("Carttotal", Context.MODE_PRIVATE);
+        int Carttotal = logs.getInt("Carttotal",0);
         Bundle bundler = intent.getExtras();
         String Action = bundler.getString("Action");
         BadgeDrawable badge = navbar.getOrCreateBadge(R.id.cart);
-
         switch(Action){
             case "Add":
-                myEdit.putInt("Carttotal",Carttotal+1);
-                badge.setVisible(true);
-                badge.setNumber(Carttotal+1);
+                if (Carttotal == 0) {
+                   myEdit.putInt("Carttotal",1);
+                   badge.setVisible(true);
+                    badge.setNumber(1);
+                }else {
+                    myEdit.putInt("Carttotal", Carttotal + 1);
+                    badge.setVisible(true);
+                    badge.setNumber(Carttotal + 1);
+                }
                 myEdit.apply();
                 break;
             case "Remove":
-                myEdit.putInt("Carttotal",Carttotal-1);
-                badge.setVisible(true);
-                badge.setNumber(Carttotal-1);
+                int update = Carttotal - 1;
+                myEdit.putInt("Carttotal",update);
+                if(update == 0){
+                    badge.setVisible(false);
+                }else {
+                    badge.setVisible(true);
+                    badge.setNumber(update);
+                }
                 myEdit.apply();
                 break;
             case "Clear":

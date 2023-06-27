@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#46463e"
     tools:context=".studentviews.Main">
 
     <androidx.cardview.widget.CardView
@@ -13,7 +14,9 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
+        android:background="#46463e"
         android:elevation="5dp"
+        app:cardBackgroundColor="#46463e"
         app:cardCornerRadius="5dp">
 
         <LinearLayout
@@ -32,7 +35,8 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:outlineProvider="none">
+                android:outlineProvider="none"
+                app:cardBackgroundColor="#46463e">
 
                 <TextView
                     android:id="@+id/Username"
@@ -41,6 +45,7 @@
                     android:layout_marginLeft="15sp"
                     android:layout_marginTop="30sp"
                     android:text="Welcome- {Username}"
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
 
                 <TextView
@@ -49,6 +54,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="55dp"
                     android:text="Welcome Back!"
+                    android:textColor="@color/white"
                     android:textSize="34sp"
                     android:textStyle="bold" />
 
@@ -58,6 +64,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="105dp"
                     android:text="Most Popular Menu item"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </androidx.cardview.widget.CardView>

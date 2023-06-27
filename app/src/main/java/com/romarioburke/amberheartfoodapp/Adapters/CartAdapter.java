@@ -48,8 +48,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.romarioburke.amberheartfoodapp.AsyncTasks.GetCart;
 import com.romarioburke.amberheartfoodapp.Dataclasses.CartModel;
+import com.romarioburke.amberheartfoodapp.Dataclasses.Helpers.DatabaseHelper;
 import com.romarioburke.amberheartfoodapp.R;
 import com.romarioburke.amberheartfoodapp.SavedData;
+import com.romarioburke.amberheartfoodapp.studentviews.Products;
+import com.romarioburke.amberheartfoodapp.studentviews.studentcart;
 import com.romarioburke.amberheartfoodapp.viewmodels.ProductsModel;
 
 import org.json.JSONException;
@@ -65,8 +68,9 @@ import java.util.Map;
 public class CartAdapter extends BaseAdapter {
     Context context;
     ArrayList<CartModel> CartItems;
+   String CartID;
     Integer Counter = 0;
-    public CartAdapter(Context context,Fragment trying, ArrayList<String> FoodName, ArrayList<String> FoodImage,  ArrayList<String> Category, ArrayList<String>FoodUID,ArrayList<String>sideuid,ArrayList<String>sidename) {
+    public CartAdapter(Context context,Fragment trying, ArrayList<String> FoodName, ArrayList<String> FoodImage,  ArrayList<String> Category, ArrayList<String>FoodUID,ArrayList<String>sideuid,ArrayList<String>sidename,String cartID) {
         this.context = context;
         this.main = trying;
         this.FoodName = FoodName;
@@ -75,6 +79,7 @@ public class CartAdapter extends BaseAdapter {
         this.FoodUID = FoodUID;
         this.SideUID = sideuid;
         this.SideName = sidename;
+        this.CartID = cartID;
         }
     Bitmap CurrentImage;
     String CurrentDescription;
@@ -120,8 +125,24 @@ public class CartAdapter extends BaseAdapter {
         TextView Sidename = views.findViewById(R.id.Side_name);
         Sidename.setText(SideName.get(i));
         Glide.with(views.getContext()).load(FoodImage.get(i)).placeholder(R.drawable.loadingplaceholder).into(img);
-        Button Updatebtn = views.findViewById(R.id.Update_item);
+      //  Button Updatebtn = views.findViewById(R.id.Update_item);
         Button Deletebtn = views.findViewById(R.id.Delete_item);
+
+
+
+        Deletebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseHelper  DBhelper = DatabaseHelper.getInstance(main.getContext());
+                DBhelper.cartDAO().deleteCartItem(FoodUID.get(i), CartID);
+                Intent intent = new Intent("CartUpdate");
+                intent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+                intent.putExtra("Action", "Remove");
+                main.getActivity().sendBroadcast(intent);
+                main.getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.body, new studentcart()).commit();
+                Toast.makeText(main.getContext(),"Item removed", Toast.LENGTH_LONG).show();
+            }
+        });
         /*
         Deletebtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,5 +1,7 @@
 package com.romarioburke.amberheartfoodapp.studentviews;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
@@ -81,18 +83,19 @@ public class Main extends Fragment {
         super.onStart();
         reviewManager = ReviewManagerFactory.create(getContext());
         Bundle bundler = getActivity().getIntent().getExtras();
+        SharedPreferences preferences = getActivity().getSharedPreferences("Featured", Context.MODE_PRIVATE);
         TextView Username = getActivity().findViewById(R.id.Username);
-        Username.setText("Hi "+bundler.getString("Username"));
+        Username.setText("Hi "+preferences.getString("Username","")+"!");
         EditText Feedback = getActivity().findViewById(R.id.Feedbackinfo);
         Button FeedbackSubmit = getActivity().findViewById(R.id.Submitfeedback);
         Button Review = getActivity().findViewById(R.id.Send_review);
         ImageView Featuredimg = getActivity().findViewById(R.id.Featuredimg);
         TextView Featuredname = getActivity().findViewById(R.id.Featuredtext);
         RatingBar Featuredrating = getActivity().findViewById(R.id.Featuredrating);
-        String Imagealtered = "https://api.romarioburke.com/"+bundler.getString("Item_img");
+        String Imagealtered = "https://api.romarioburke.com/"+preferences.getString("Item_img","");
         Glide.with(getContext()).load(Imagealtered).placeholder(R.drawable.loadingplaceholder).into(Featuredimg);
-        Featuredname.setText(bundler.getString("Item_name"));
-        Featuredrating.setRating(bundler.getFloat("Item_rating"));
+        Featuredname.setText(preferences.getString("Item_name",""));
+        Featuredrating.setRating(preferences.getFloat("Item_rating",0));
         Review.setOnClickListener((v)->{
             startReviewFlow();
         });

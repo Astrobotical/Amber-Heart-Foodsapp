@@ -7,9 +7,10 @@
         android:id="@+id/textView10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center|center_horizontal|center_vertical"
         android:gravity="center|center_horizontal|center_vertical"
         android:text="An item from this Category is already in the cart"
         android:textAlignment="center"
+        android:textColor="@color/white"
         android:textSize="20sp" />
 </FrameLayout>

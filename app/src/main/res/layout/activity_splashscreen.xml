@@ -41,7 +41,8 @@
                 android:id="@+id/Foodname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Amber Heart Food App"
+                android:fontFamily="@font/dxssemi"
+                android:text="Heart Academy Lunch App"
                 android:textAlignment="center"
                 android:textSize="34sp"
                 android:textStyle="bold" />

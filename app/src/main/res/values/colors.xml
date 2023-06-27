@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_white">#D2D2D2</color>
     <color name="menubtn">#F5DEB3</color>
+    <color name ="transparent">#00000000</color>
+    <color name="menuitem">#00D7C3</color>
 </resources>

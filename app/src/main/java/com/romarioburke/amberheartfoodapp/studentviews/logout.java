@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.romarioburke.amberheartfoodapp.Authenticator.Auth;
 import com.romarioburke.amberheartfoodapp.R;
+import com.romarioburke.amberheartfoodapp.login;
 
 public class logout extends Fragment {
 
@@ -21,8 +22,9 @@ public class logout extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent nextactivity = new Intent(getContext(), Auth.class);
+        Intent nextactivity = new Intent(getContext(), login.class);
         startActivity(nextactivity);
+       getActivity().overridePendingTransition(R.anim.sliderigt, R.anim.outleft);
     }
 /*
     @Override

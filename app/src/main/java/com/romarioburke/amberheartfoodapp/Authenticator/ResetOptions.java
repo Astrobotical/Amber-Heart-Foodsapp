@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.romarioburke.amberheartfoodapp.R;
+import com.romarioburke.amberheartfoodapp.login;
 
 public class ResetOptions extends AppCompatActivity {
 
@@ -25,17 +26,20 @@ public class ResetOptions extends AppCompatActivity {
         Button resetEmail = findViewById(R.id.ResetByEmail);
         Button resetStudentID = findViewById(R.id.ResetByStudentID);
         BackButton.setOnClickListener((view)->{
-            Intent switchbackactivity = new Intent(this, Auth.class);
+            Intent switchbackactivity = new Intent(this, login.class);
             startActivity(switchbackactivity);
+            overridePendingTransition(R.anim.sliderigt, R.anim.outleft);
         });
         resetEmail.setOnClickListener((view)->{
             Intent switchbtoreset = new Intent(this, reset_Email.class);
             startActivity(switchbtoreset);
+            overridePendingTransition(R.anim.sliderigt, R.anim.outleft);
         });
         resetStudentID.setOnClickListener((view)->
         {
             Intent switchbtostudentid = new Intent(this, reset_bystudentid.class);
             startActivity(switchbtostudentid);
+            overridePendingTransition(R.anim.sliderigt, R.anim.outleft);
         });
     }
 }

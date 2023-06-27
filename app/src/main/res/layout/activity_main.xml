@@ -8,6 +8,7 @@
     android:alwaysDrawnWithCache="false"
     android:animateLayoutChanges="false"
     android:animationCache="false"
+    android:background="#46463e"
     tools:context=".MainActivity">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -22,7 +23,7 @@
         android:addStatesFromChildren="true"
         android:animateLayoutChanges="true"
         android:animationCache="true"
-        android:background="@drawable/round_corners"
+        android:background="@drawable/navbar"
         android:fadeScrollbars="false"
         android:focusable="auto"
         android:keepScreenOn="false"
@@ -31,6 +32,7 @@
         app:itemIconSize="20dp"
         app:itemIconTint="@drawable/item_selector"
         app:itemTextColor="#07B5B5"
+
         app:menu="@menu/item_menu">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>

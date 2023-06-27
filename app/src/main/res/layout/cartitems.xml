@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
+        app:cardBackgroundColor="#FFC53A"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="195dp">
 
@@ -16,20 +17,22 @@
             android:id="@+id/Item_img"
             android:layout_width="165dp"
             android:layout_height="155dp"
+            android:layout_margin="10dp"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/Item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="170sp"
-            android:text="Name" />
+            android:layout_marginStart="190sp"
+            android:text="Name"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/Item_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="170sp"
+            android:layout_marginStart="190sp"
             android:layout_marginTop="50sp"
             android:text="Category" />
 
@@ -37,31 +40,24 @@
             android:id="@+id/Side_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="170sp"
+            android:layout_marginStart="190sp"
             android:layout_marginTop="80sp"
-            android:text="Side" />
+            android:text="Side"
+            tools:context=".studentcart"/>
 
-        <Button
-            android:id="@+id/Update_item"
-            style="@android:style/Widget.DeviceDefault.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="290sp"
-            android:layout_marginTop="110sp"
-            android:layout_marginBottom="10sp"
-            android:background="#FF80AB"
-            android:backgroundTint="#FF80AB"
-            android:text="Update"
-            app:rippleColor="#27D3B9" />
-
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/Delete_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="180sp"
+            android:layout_marginStart="270dp"
             android:layout_marginTop="110sp"
             android:background="#F60707"
-            android:backgroundTint="#F60707"
-            android:text="Delete" />
+            android:text="Delete"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:cornerRadius="5dp"
+            app:rippleColor="#00D7C3"
+            app:strokeColor="#00D7C3"
+            app:strokeWidth="2sp" />
     </androidx.cardview.widget.CardView>
 </FrameLayout>
